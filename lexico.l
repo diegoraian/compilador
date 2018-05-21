@@ -1,25 +1,27 @@
-%option yylineno
 %{
 #include <stdio.h>
+#include "parser.tab.h"
+void yyerror(char *);
 int contadorErro = 0;
 %}
+%option yylineno
+/* This tells flex to read only one input file */
+%option noyywrap
 
-ESPACAMENTOS	[ \t\n]+
-DIGITO	[0-9]
-LETRAS [a-zA-Z]
-NUM  {DIGITO}{DIGITO}*
-NO_ID	({DIGITO}+({LETRAS}|{DIGITO})*)
-ID	{LETRAS}({LETRAS}|{DIGITO})*
-ESPACAMENTOS_LETRAS_NUMEROS {ID}{ESPACAMENTOS}{NUM}
-KEYWORDS ("else")|("if")|("int")|("return")|("void")|("while")
-SYM ((\<\=)|(\>\=)|(\=\=)|(\!\=))|[(\/)|(\*)|(\+)|(\-)|(\<)|(\>)|(\;)|(\,)|(\[)|(\])|(\{)|(\})|(\=)|(\()|(\))]
-ERROR .
-COMENTARIOS \\\*[^(\*|*\)]*\*\/
+ESPACAMENTOS					[ \t\n]+
+DIGITO							[0-9]
+LETRAS 							[a-zA-Z]
+NUM  							{DIGITO}{DIGITO}*
+
+NO_ID							({DIGITO}+({LETRAS}|{DIGITO})*)
+ID								{LETRAS}({LETRAS}|{DIGITO})*
+ESPACAMENTOS_LETRAS_NUMEROS 	{ID}{ESPACAMENTOS}{NUM}
+
+ERROR 							.
+COMENTARIOS 					\\\*[^(\*|*\)]*\*\/
 %%
 
-{ESPACAMENTOS}	/* DESCONSIDERA ESPACOS EM BRANCO E TABULACOES*/
-
-
+{ESPACAMENTOS}		/* DESCONSIDERA ESPACOS EM BRANCO E TABULACOES*/
 
 "/*"		{
 		int c;
@@ -27,15 +29,13 @@ COMENTARIOS \\\*[^(\*|*\)]*\*\/
 		
 		while((c = input()) != 0) {
 				if( c == EOF){	
-					fprintf(yyout,"(%d,ERROR,\"/*\")\n",inicio);
+					yyerror("LEXICAL ERROR");
 					yyterminate();
 					break;
 				}
 				
 				else if(c == '*') {
 					if((c = input()) == '/'){
-						//fprintf(yyout,"(%d,SYM,\"/*\")\n",inicio);
-						//fprintf(yyout,"(%d,SYM,\"*/\")\n",yylineno);
 						break;
 					} else {
 						unput(c);
@@ -45,40 +45,44 @@ COMENTARIOS \\\*[^(\*|*\)]*\*\/
 		}
 }
 
+{NUM}				{ yylval.numValue = atoi(yytext); return DIGIT; }
 
-{NUM}	fprintf(yyout,"(%d,NUM,\"%s\")\n",yylineno,yytext);
+{NO_ID} 			{	
+						yyerror("LEXICAL ERROR");
+						yyterminate();
+					}
 
-{NO_ID} {	
-		fprintf(yyout,"(%d,ERROR,\"%s\")\n",yylineno,yytext);
-		yyterminate();
-	}
+"int"                       return INT;
+"void"                      return VOID;
+"if"                        return IF;
+"while"                     return WHILE;
+"else"                      return ELSE;
+"return"                    return RETURN;
 
-{KEYWORDS}   fprintf(yyout,"(%d,KEY,\"%s\")\n",yylineno,yytext);
+[(){},;=+*<>-]				return *yytext;
+"/"							return *yytext;
+"["							return *yytext;
+"]"							return *yytext;
+"=="					    return EQUAL;
+"!="					    return NEQUAL;
+"<="					    return LEQUAL;
+">="					    return BEQUAL;
 
-{ID}	fprintf(yyout,"(%d,ID,\"%s\")\n",yylineno,yytext);
+{ID}				{ yylval.stringValue = strdup(yytext); return VARIABLE;}
 
-
-
-
-
-
-
-
-
-{SYM}	fprintf(yyout,"(%d,SYM,\"%s\")\n",yylineno,yytext);
-
-
-{ERROR} {
-		if ( contadorErro < 1){
-			contadorErro++;
-			fprintf(yyout,"(%d,ERROR,\"%s\")\n",yylineno,yytext);
-			yyterminate();
-		}
+{ERROR}         	{
+		            	if ( contadorErro < 1){
+			            	contadorErro++;
+							yyerror("LEXICAL ERROR");
+			            	yyterminate();
+						}
+		            }
 		
-	}
+	            }
 
 %%
 
+//acho que será chamado de outra forma
 int main( int argc , char **argv )
 	{
 	if ( argc == 3) {
