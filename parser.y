@@ -13,14 +13,8 @@ struct node {
     int no;
 };
 
-//nó terminal
-// struct nodeTerminal {
-//     int node;
-//     double number;
-// };
-
 //funções para criar os nós da arvore
-struct node *newnode(int n, struct node *l, struct node *r);
+struct node *newnode(int n, node *l, node *r);
 struct node *newnum(double d);
 
 //declaração das variáveis usadas no lexico
@@ -30,7 +24,7 @@ struct node *newnum(double d);
 }
 
 //onde a gramática vai começar
-%start  START;
+%start  program;
 
 //declaração de tokens usados no lexico.l
 %token                   INT VOID IF WHILE ELSE RETURN
@@ -49,8 +43,6 @@ struct node *newnum(double d);
 // %type <typeString> program
 //--->continuar implementação
 
-START:              program                                             {}
-
 program:            declaration-list                                    {}
 
 declaration-list:   declaration-list declaration                        {}
@@ -59,7 +51,7 @@ declaration-list:   declaration-list declaration                        {}
 declaration:        var-declaration                                     {}
                   | fun-declaration                                     {}
 
-var-declaration:    type-specifier ID ;                                 {newnode($$,$1,$2,$3)}
+var-declaration:    type-specifier ID ;                                 {newnode($$,$1,$2)}
                   | type-specifier ID [ NUM ] ;
 
 type-specifier:     int
@@ -145,4 +137,17 @@ arg-list:           arg-list , expression
 
 void yyerror(const char *s) {
 	fprintf(stdout, "%s\n", s);
+}
+
+struct node *newnode(int n, node *l, node *r){
+    
+    struct node *tree = malloc(sizeof(struct node));
+    if(!tree){
+        yyerror("vazio");
+        exit(0);
+    }
+    tree->no = n;
+    tree->left = l;
+    tree->right = r;
+    return tree;
 }
