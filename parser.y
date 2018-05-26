@@ -6,19 +6,38 @@ void    yyerror(const char *s);
 int     yylex(void);
 %}
 
+//nó que tem 2 filhos
+struct node {
+    struct node *left;
+    struct node *right;
+    int no;
+};
+
+//nó terminal
+// struct nodeTerminal {
+//     int node;
+//     double number;
+// };
+
+//funções para criar os nós da arvore
+struct node *newnode(int n, struct node *l, struct node *r);
+struct node *newnum(double d);
+
 //declaração das variáveis usadas no lexico
 %union{
-int		numValue;
-char	*stringValue;
-char	typeString[2048];
+    int		numValue;
+    char	*stringValue;
 }
+
 //onde a gramática vai começar
 %start  START;
-//declaração de tokens usados no lexico.l
-%token                  INT VOID IF WHILE ELSE RETURN
-%token <numValue>       DIGIT
-%token <stringValue>    VARIABLE
 
+//declaração de tokens usados no lexico.l
+%token                   INT VOID IF WHILE ELSE RETURN
+%token  <numValue>       DIGIT
+%token  <stringValue>    VARIABLE
+
+//associatividade a esquerda, maior precedencia de baixo pra cima
 %left EQUAL
 %left NEQUAL
 %left LEQUAL
@@ -27,5 +46,103 @@ char	typeString[2048];
 %left '*' '/'
 %left '<' '>'
 
-%type <typeString> program
+// %type <typeString> program
 //--->continuar implementação
+
+START:              program                                             {}
+
+program:            declaration-list                                    {}
+
+declaration-list:   declaration-list declaration                        {}
+                  | declaration                                         {}
+
+declaration:        var-declaration                                     {}
+                  | fun-declaration                                     {}
+
+var-declaration:    type-specifier ID ;                                 {newnode($$,$1,$2,$3)}
+                  | type-specifier ID [ NUM ] ;
+
+type-specifier:     int
+                  | void
+
+fun-declaration:    type-specifier ID ( params ) compound-stmt
+
+params:             param-list
+                  | void
+
+param-list:         param-list , param
+                  | param
+
+param:              type-specifier ID
+                  | type-specifier ID [ ]
+
+compound-stmt:      { local-declarations statement-list }
+
+local-declarations: local-declarations var-declaration
+                  | empty
+
+statement-list:     statement-list statement
+                  | empty
+
+statement:          expression-stmt
+                  | compound-stmt
+                  | selection-stmt
+                  | iteration-stmt
+                  | return-stmt
+
+expression-stmt:    expression ;
+                  | ;
+
+selection-stmt:     if ( expression ) statement
+                  | if ( expression ) statement else statement
+
+iteration-stmt:     while ( expression ) statement
+
+return-stmt:        return ;
+                  | return expression ;
+
+expression:         var = expression
+                  | simple-expression
+
+var:                ID
+                  | ID [ expression ]
+
+simple-expression:  additive-expression relop additive-expression
+                  | additive-expression
+
+relop:              <=
+                  | <
+                  | >
+                  | >=
+                  | ==
+                  | !=
+
+additive-expression:   additive-expression addop term
+                     | term
+
+addop:              +
+                  | -
+
+term:               term mulop factor
+                  | factor
+
+mulop:              *
+                  | /
+
+factor:             ( expression )
+                  | var
+                  | call
+                  | NUM
+
+call:               ID ( args )
+
+args:               arg-list
+                  | empty
+
+arg-list:           arg-list , expression
+                  | expression
+
+
+void yyerror(const char *s) {
+	fprintf(stdout, "%s\n", s);
+}

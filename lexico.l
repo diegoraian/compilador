@@ -4,6 +4,7 @@
 void yyerror(char *);
 int contadorErro = 0;
 %}
+
 %option yylineno
 /* This tells flex to read only one input file */
 %option noyywrap
@@ -19,21 +20,22 @@ ESPACAMENTOS_LETRAS_NUMEROS 	{ID}{ESPACAMENTOS}{NUM}
 
 ERROR 							.
 COMENTARIOS 					\\\*[^(\*|*\)]*\*\/
+
 %%
 
 {ESPACAMENTOS}		/* DESCONSIDERA ESPACOS EM BRANCO E TABULACOES*/
 
-"/*"		{
-		int c;
-		int inicio = yylineno;
-		
-		while((c = input()) != 0) {
+"/*"	{
+			int c;
+			int inicio = yylineno;
+			
+			while((c = input()) != 0) {
 				if( c == EOF){	
 					yyerror("LEXICAL ERROR");
 					yyterminate();
 					break;
 				}
-				
+
 				else if(c == '*') {
 					if((c = input()) == '/'){
 						break;
@@ -41,9 +43,9 @@ COMENTARIOS 					\\\*[^(\*|*\)]*\*\/
 						unput(c);
 					}
 				}
-			
+				
+			}
 		}
-}
 
 {NUM}				{ yylval.numValue = atoi(yytext); return DIGIT; }
 
@@ -78,13 +80,10 @@ COMENTARIOS 					\\\*[^(\*|*\)]*\*\/
 						}
 		            }
 		
-	            }
-
 %%
 
 //acho que será chamado de outra forma
-int main( int argc , char **argv )
-	{
+int main( int argc , char **argv ){
 	if ( argc == 3) {
 		yyin = fopen(argv[1],"r");
 		yyout = fopen(argv[2],"w");
