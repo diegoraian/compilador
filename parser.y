@@ -4,7 +4,7 @@
 #include <string.h>
 void    yyerror(const char *s);
 int     yylex(void);
-%}
+char strAst[20480];
 
 //nó que tem 2 filhos
 struct node {
@@ -12,10 +12,14 @@ struct node {
     struct node *right;
     int no;
 };
-
 //funções para criar os nós da arvore
 struct node *newnode(int n, node *l, node *r);
 struct node *newnum(double d);
+
+%}
+
+
+
 
 //declaração das variáveis usadas no lexico
 %union{
@@ -40,31 +44,39 @@ struct node *newnum(double d);
 %left '*' '/'
 %left '<' '>'
 
-// %type <typeString> program
-//--->continuar implementação
+//-----------------------------------------------------------------------------
+%% 
+//-----------------------------------------------------------------------------
 
-program:            declaration-list                                    {}
+program           :            declaration-list                           { strcpy(strAst, "[program "); strcat(strAst, $1); strcat(strAst, "]");}
+                  ;
 
-declaration-list:   declaration-list declaration                        {}
-                  | declaration                                         {}
+declaration-list  :            declaration-list declaration               {}
+                  |            declaration                                {}
+                  ;
 
-declaration:        var-declaration                                     {}
-                  | fun-declaration                                     {}
+declaration       :             var-declaration                           {}
+                  |             fun-declaration                           {}
+                  ;
 
-var-declaration:    type-specifier ID ;                                 {newnode($$,$1,$2)}
-                  | type-specifier ID [ NUM ] ;
+var-declaration   :             type-specifier ID ';'                     {}
+                  |             type-specifier ID [ NUM ]                 {}
+                  ;
 
-type-specifier:     int
-                  | void
+type-specifier    :             int                                        {}
+                  |             void                                       {}
+                  ;
 
-fun-declaration:    type-specifier ID ( params ) compound-stmt
+fun-declaration   :             type-specifier ID ( params ) compound-stmt {}
+                  ;           
 
-params:             param-list
-                  | void
+params            :             param-list                                 {}
+                  |             void                                       {}
+                  ;
 
-param-list:         param-list , param
-                  | param
-
+param-list        :             param-list ',' param                        {}
+                  |             param                                       {}
+                  ;
 param:              type-specifier ID
                   | type-specifier ID [ ]
 
@@ -134,6 +146,9 @@ args:               arg-list
 arg-list:           arg-list , expression
                   | expression
 
+//-----------------------------------------------------------------------------
+%%
+//-----------------------------------------------------------------------------
 
 void yyerror(const char *s) {
 	fprintf(stdout, "%s\n", s);
