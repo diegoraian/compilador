@@ -67,6 +67,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+// #define YYSTYPE int
 void    yyerror(const char *s);
 int     yylex(void);
 
@@ -80,15 +81,8 @@ struct node {
 //funções para criar os nós da arvore
 struct node *newnode(int n, struct node *l, struct node *r);
 
-#define YYSTYPE double
 
-//declaração das variáveis usadas no lexico
-%union{
-    int		numValue;
-    char	*stringValue;
-}
-
-#line 92 "parser.tab.c" /* yacc.c:339  */
+#line 86 "parser.tab.c" /* yacc.c:339  */
 
 # ifndef YY_NULLPTR
 #  if defined __cplusplus && 201103L <= __cplusplus
@@ -139,6 +133,22 @@ extern int yydebug;
 #endif
 
 /* Value type.  */
+#if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
+
+union YYSTYPE
+{
+#line 21 "parser.y" /* yacc.c:355  */
+
+    int		numValue;
+    char	*stringValue;
+
+#line 146 "parser.tab.c" /* yacc.c:355  */
+};
+
+typedef union YYSTYPE YYSTYPE;
+# define YYSTYPE_IS_TRIVIAL 1
+# define YYSTYPE_IS_DECLARED 1
+#endif
 
 
 extern YYSTYPE yylval;
@@ -149,7 +159,7 @@ int yyparse (void);
 
 /* Copy the second part of user declarations.  */
 
-#line 153 "parser.tab.c" /* yacc.c:358  */
+#line 163 "parser.tab.c" /* yacc.c:358  */
 
 #ifdef short
 # undef short
@@ -447,8 +457,8 @@ static const yytype_uint8 yytranslate[] =
   /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_uint8 yyrline[] =
 {
-       0,    56,    56,    57,    58,    60,    61,    63,    64,    66,
-      67,    69
+       0,    53,    53,    54,    55,    57,    58,    60,    61,    63,
+      64,    66
 };
 #endif
 
@@ -1223,55 +1233,55 @@ yyreduce:
   switch (yyn)
     {
         case 2:
-#line 56 "parser.y" /* yacc.c:1646  */
-    {}
-#line 1229 "parser.tab.c" /* yacc.c:1646  */
+#line 53 "parser.y" /* yacc.c:1646  */
+    {printf("inicio\n");}
+#line 1239 "parser.tab.c" /* yacc.c:1646  */
     break;
 
   case 3:
-#line 57 "parser.y" /* yacc.c:1646  */
+#line 54 "parser.y" /* yacc.c:1646  */
     {}
-#line 1235 "parser.tab.c" /* yacc.c:1646  */
+#line 1245 "parser.tab.c" /* yacc.c:1646  */
     break;
 
   case 4:
-#line 58 "parser.y" /* yacc.c:1646  */
+#line 55 "parser.y" /* yacc.c:1646  */
     {}
-#line 1241 "parser.tab.c" /* yacc.c:1646  */
+#line 1251 "parser.tab.c" /* yacc.c:1646  */
     break;
 
   case 5:
-#line 60 "parser.y" /* yacc.c:1646  */
+#line 57 "parser.y" /* yacc.c:1646  */
     {}
-#line 1247 "parser.tab.c" /* yacc.c:1646  */
+#line 1257 "parser.tab.c" /* yacc.c:1646  */
     break;
 
   case 6:
-#line 61 "parser.y" /* yacc.c:1646  */
+#line 58 "parser.y" /* yacc.c:1646  */
     {}
-#line 1253 "parser.tab.c" /* yacc.c:1646  */
+#line 1263 "parser.tab.c" /* yacc.c:1646  */
     break;
 
   case 7:
-#line 63 "parser.y" /* yacc.c:1646  */
+#line 60 "parser.y" /* yacc.c:1646  */
     {}
-#line 1259 "parser.tab.c" /* yacc.c:1646  */
+#line 1269 "parser.tab.c" /* yacc.c:1646  */
     break;
 
   case 8:
-#line 64 "parser.y" /* yacc.c:1646  */
+#line 61 "parser.y" /* yacc.c:1646  */
     {}
-#line 1265 "parser.tab.c" /* yacc.c:1646  */
+#line 1275 "parser.tab.c" /* yacc.c:1646  */
     break;
 
   case 11:
-#line 69 "parser.y" /* yacc.c:1646  */
+#line 66 "parser.y" /* yacc.c:1646  */
     {}
-#line 1271 "parser.tab.c" /* yacc.c:1646  */
+#line 1281 "parser.tab.c" /* yacc.c:1646  */
     break;
 
 
-#line 1275 "parser.tab.c" /* yacc.c:1646  */
+#line 1285 "parser.tab.c" /* yacc.c:1646  */
       default: break;
     }
   /* User semantic actions sometimes alter yychar, and that requires
@@ -1499,22 +1509,76 @@ yyreturn:
 #endif
   return yyresult;
 }
-#line 82 "parser.y" /* yacc.c:1906  */
+#line 79 "parser.y" /* yacc.c:1906  */
 
 
 void yyerror(const char *s) {
 	fprintf(stdout, "%s\n", s);
 }
 
-struct node *newnode(char n, struct node *l, struct node *r){
-    
-    struct node *tree = malloc(sizeof(struct node));
-    if(!tree){
-        yyerror("vazio");
-        exit(0);
-    }
-    tree->no = n;
-    tree->left = l;
-    tree->right = r;
-    return tree;
+int main( int argc , char **argv ){
+    extern FILE *yyin;
+if( argc != 3){ 		
+		printf("Quantidade de argumentos invalida!\n");		
+		return 1;
+	}
+	
+	yyin = fopen(argv[1], "r");
+	
+	if (yyin == NULL){	
+		printf("Erro ao abrir o arquivo: %s \n", argv[1]);
+		return 1;
+	}
+	
+	FILE *fp;
+	fp = fopen(argv[2], "w+");
+	if (fp == NULL){			
+		printf("Erro ao abrir o arquivo: %s \n", argv[2]);			
+		return 1;
+	}
+	
+    int retorno = yyparse();
+	
+	if(retorno !=0){
+		exit(EXIT_FAILURE);	
+	}
+	
+	
+	// char *cmp = "[main";
+	
+	// if (strstr(strAst, cmp) == NULL){		
+	// 	fclose(yyin);
+	// 	fclose(fp);
+	// 	yyerror("syntax error\n");
+	// 	return 1;
+	// }
+
+	// fprintf(fp, "%s", strAst);
+	
+    fclose(yyin);
+	
+	fclose(fp);	
+	
+	return 0;
+	// if ( argc == 3) {
+	// 	yyin = fopen(argv[1],"r");
+	// 	yyout = fopen(argv[2],"w");
+	//  	yylex();
+		
+  	// 	return 0;
+	// } else {
+	// 	return (-1);
+	// }
 }
+
+// struct node *newnode(char n, struct node *l, struct node *r){
+//     struct node *tree = malloc(sizeof(struct node));
+//     if(!tree){
+//         yyerror("vazio");
+//         exit(0);
+//     }
+//     tree->no = n;
+//     tree->left = l;
+//     tree->right = r;
+//     return tree;
+// }

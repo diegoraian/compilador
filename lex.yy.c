@@ -1972,15 +1972,14 @@ void yyfree (void * ptr )
 
 
 //acho que será chamado de outra forma
-int main( int argc , char **argv ){
-	if ( argc == 3) {
-		yyin = fopen(argv[1],"r");
-		yyout = fopen(argv[2],"w");
-	 	yylex();
+//int main( int argc , char **argv ){
+//	if ( argc == 3) {
+//		yyin = fopen(argv[1],"r");
+//		yyout = fopen(argv[2],"w");
+//	 	yylex();
 		
-  		return 0;
-	} else {
-		return (-1);
-	}
-}
-
+//  		return 0;
+//	} else {
+//		return (-1);
+//	}
+//}
