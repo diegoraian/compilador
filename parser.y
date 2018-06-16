@@ -7,14 +7,14 @@ int     yylex(void);
 char strAst[20480];
 
 //nó que tem 2 filhos
-struct node {
+typedef struct node {
     struct node *left;
     struct node *right;
     int no;
-};
+}tNode ;
 //funções para criar os nós da arvore
-struct node *newnode(int n, node *l, node *r);
-struct node *newnum(double d);
+tNode *newnode(int n, tNode *l, tNode *r);
+tNode *newnum(double d);
 
 %}
 
@@ -51,7 +51,7 @@ struct node *newnum(double d);
 %% 
 //-----------------------------------------------------------------------------
 
-program           :            declaration-list                           { strcpy(strAst, "[program "); strcat(strAst, $1); strcat(strAst, "]");}
+program           :            declaration-list                           { strcpy(strAst, "[program "); ; strcat(strAst, "]");}
                   ;
 
 declaration-list  :            declaration-list declaration               {}
@@ -66,15 +66,15 @@ var-declaration   :             type-specifier ID ';'                     {}
                   |             type-specifier ID '[' NUM ']'             {}
                   ;
 
-type-specifier    :             int                                        {}
-                  |             void                                       {}
+type-specifier    :             "int"                                        {}
+                  |             "void"                                       {}
                   ;
 
 fun-declaration   :             type-specifier ID '(' params ')' compound-stmt {}
                   ;           
 
 params            :             param-list                                 {}
-                  |             void                                       {}
+                  |             "void"                                       {}
                   ;
 
 param-list        :             param-list ',' param                        {}
@@ -108,7 +108,7 @@ expression-stmt   :             expression
 selection-stmt    :             "if" '(' expression ')' statement                     {}
                   |             "if" '(' expression ')' statement "else" statement      {}
                   ;
-iteration-stmt    :             while '(' expression ')' statement                   {}
+iteration-stmt    :             "while" '(' expression ')' statement                   {}
                   ;
 
 return-stmt       :             "return" ';'                                        {}
@@ -165,6 +165,9 @@ arg-list            :           arg-list ',' expression                         
                     |           expression                                      {}
                     ;
 
+empty               :       ""          {}
+                    ;
+
 //-----------------------------------------------------------------------------
 %%
 //-----------------------------------------------------------------------------
@@ -173,9 +176,9 @@ void yyerror(const char *s) {
 	fprintf(stdout, "%s\n", s);
 }
 
-struct node *newnode(int n, node *l, node *r){
+tNode *newnode(int n, tNode *l, tNode *r){
     
-    struct node *tree = malloc(sizeof(struct node));
+    tNode *tree = malloc(sizeof(tNode));
     if(!tree){
         yyerror("vazio");
         exit(0);
@@ -185,3 +188,46 @@ struct node *newnode(int n, node *l, node *r){
     tree->right = r;
     return tree;
 }
+
+int main( int argc, char *argv[] ) {
+	extern FILE *yyin;
+
+	if( argc != 3){
+		printf("Quantidade de argumentos invalida!\n");
+		return 1;
+	}
+
+	yyin = fopen(argv[1], "r");
+
+	if (yyin == NULL){
+		printf("Erro ao abrir o arquivo: %s \n", argv[1]);
+		return 1;
+	}
+
+	FILE *fp;
+	fp = fopen(argv[2], "w+");
+	if (fp == NULL){
+		printf("Erro ao abrir o arquivo: %s \n", argv[2]);
+		return 1;
+	}
+
+	yyparse();
+
+	char *cmp = "[main";
+	
+	if (strstr(strAst, cmp) == NULL){		
+		fclose(yyin);
+		fclose(fp);
+		yyerror("syntax error\n");
+		return 1;
+	}
+	
+	fprintf(fp, "%s", strAst);
+
+	fclose(yyin);
+	fclose(fp);
+
+	return 0;
+
+}
+

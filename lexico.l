@@ -83,6 +83,7 @@ COMENTARIOS 					\\\*[^(\*|*\)]*\*\/
 %%
 
 //acho que será chamado de outra forma
+/*
 int main( int argc , char **argv ){
 	if ( argc == 3) {
 		yyin = fopen(argv[1],"r");
@@ -93,4 +94,4 @@ int main( int argc , char **argv ){
 	} else {
 		return (-1);
 	}
-}
+}*/
