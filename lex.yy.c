@@ -528,7 +528,7 @@ char *yytext;
 #line 2 "lexico.l"
 #include <stdio.h>
 #include "parser.tab.h"
-void    yyerror(const char *s);
+void yyerror(const char *s);
 int contadorErro = 0;
 /* This tells flex to read only one input file */
 #line 535 "lex.yy.c"

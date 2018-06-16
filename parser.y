@@ -15,15 +15,14 @@ struct node {
 //funções para criar os nós da arvore
 struct node *newnode(int n, struct node *l, struct node *r);
 
-//declaração das variáveis usadas no lexico
 #define YYSTYPE double
 
+//declaração das variáveis usadas no lexico
 %union{
     int		numValue;
     char	*stringValue;
 }
 %}
-
 
 //onde a gramática vai começar
 %start  program;

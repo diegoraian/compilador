@@ -80,9 +80,9 @@ struct node {
 //funções para criar os nós da arvore
 struct node *newnode(int n, struct node *l, struct node *r);
 
-//declaração das variáveis usadas no lexico
 #define YYSTYPE double
 
+//declaração das variáveis usadas no lexico
 %union{
     int		numValue;
     char	*stringValue;
@@ -447,8 +447,8 @@ static const yytype_uint8 yytranslate[] =
   /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_uint8 yyrline[] =
 {
-       0,    57,    57,    58,    59,    61,    62,    64,    65,    67,
-      68,    70
+       0,    56,    56,    57,    58,    60,    61,    63,    64,    66,
+      67,    69
 };
 #endif
 
@@ -1223,49 +1223,49 @@ yyreduce:
   switch (yyn)
     {
         case 2:
-#line 57 "parser.y" /* yacc.c:1646  */
+#line 56 "parser.y" /* yacc.c:1646  */
     {}
 #line 1229 "parser.tab.c" /* yacc.c:1646  */
     break;
 
   case 3:
-#line 58 "parser.y" /* yacc.c:1646  */
+#line 57 "parser.y" /* yacc.c:1646  */
     {}
 #line 1235 "parser.tab.c" /* yacc.c:1646  */
     break;
 
   case 4:
-#line 59 "parser.y" /* yacc.c:1646  */
+#line 58 "parser.y" /* yacc.c:1646  */
     {}
 #line 1241 "parser.tab.c" /* yacc.c:1646  */
     break;
 
   case 5:
-#line 61 "parser.y" /* yacc.c:1646  */
+#line 60 "parser.y" /* yacc.c:1646  */
     {}
 #line 1247 "parser.tab.c" /* yacc.c:1646  */
     break;
 
   case 6:
-#line 62 "parser.y" /* yacc.c:1646  */
+#line 61 "parser.y" /* yacc.c:1646  */
     {}
 #line 1253 "parser.tab.c" /* yacc.c:1646  */
     break;
 
   case 7:
-#line 64 "parser.y" /* yacc.c:1646  */
+#line 63 "parser.y" /* yacc.c:1646  */
     {}
 #line 1259 "parser.tab.c" /* yacc.c:1646  */
     break;
 
   case 8:
-#line 65 "parser.y" /* yacc.c:1646  */
+#line 64 "parser.y" /* yacc.c:1646  */
     {}
 #line 1265 "parser.tab.c" /* yacc.c:1646  */
     break;
 
   case 11:
-#line 70 "parser.y" /* yacc.c:1646  */
+#line 69 "parser.y" /* yacc.c:1646  */
     {}
 #line 1271 "parser.tab.c" /* yacc.c:1646  */
     break;
@@ -1499,7 +1499,7 @@ yyreturn:
 #endif
   return yyresult;
 }
-#line 83 "parser.y" /* yacc.c:1906  */
+#line 82 "parser.y" /* yacc.c:1906  */
 
 
 void yyerror(const char *s) {

@@ -1,7 +1,7 @@
 %{
 #include <stdio.h>
 #include "parser.tab.h"
-void    yyerror(const char *s);
+void yyerror(const char *s);
 int contadorErro = 0;
 %}
 
