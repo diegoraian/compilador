@@ -14,7 +14,7 @@ struct node {
 };
 
 //funções para criar os nós da arvore
-struct node *newnode(int n, struct node *l, struct node *r);
+// struct node *newnode(int n, struct node *l, struct node *r);
 
 %}
 //declaração das variáveis usadas no lexico
@@ -50,7 +50,8 @@ struct node *newnode(int n, struct node *l, struct node *r);
 // var:                ID
 //                   | ID [ expression ]
 %%
-program            :    additive-expression             {printf("inicio\n");}
+program            :    additive-expression             {$$ = newnodeone($1)}
+
 additive-expression:   additive-expression addop term   {}
                      | term                             {}
                      
@@ -80,6 +81,28 @@ factor:                                                 {}
 
 void yyerror(const char *s) {
 	fprintf(stdout, "%s\n", s);
+}
+struct node *newnodeone(char n, struct node *l, struct node *r){
+    struct node *tree = malloc(sizeof(struct node));
+    if(!tree){
+        yyerror("vazio");
+        exit(0);
+    }
+    tree->no = n;
+    tree->left = l;
+    tree->right = r;
+    return tree;
+}
+struct node *newnode(char n, struct node *l, struct node *r){
+    struct node *tree = malloc(sizeof(struct node));
+    if(!tree){
+        yyerror("vazio");
+        exit(0);
+    }
+    tree->no = n;
+    tree->left = l;
+    tree->right = r;
+    return tree;
 }
 
 int main( int argc , char **argv ){
@@ -137,14 +160,3 @@ if( argc != 3){
 	// }
 }
 
-// struct node *newnode(char n, struct node *l, struct node *r){
-//     struct node *tree = malloc(sizeof(struct node));
-//     if(!tree){
-//         yyerror("vazio");
-//         exit(0);
-//     }
-//     tree->no = n;
-//     tree->left = l;
-//     tree->right = r;
-//     return tree;
-// }

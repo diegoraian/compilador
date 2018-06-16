@@ -79,7 +79,7 @@ struct node {
 };
 
 //funções para criar os nós da arvore
-struct node *newnode(int n, struct node *l, struct node *r);
+// struct node *newnode(int n, struct node *l, struct node *r);
 
 
 #line 86 "parser.tab.c" /* yacc.c:339  */
@@ -1515,7 +1515,17 @@ yyreturn:
 void yyerror(const char *s) {
 	fprintf(stdout, "%s\n", s);
 }
-
+struct node *newnode(char n, struct node *l, struct node *r){
+    struct node *tree = malloc(sizeof(struct node));
+    if(!tree){
+        yyerror("vazio");
+        exit(0);
+    }
+    tree->no = n;
+    tree->left = l;
+    tree->right = r;
+    return tree;
+}
 int main( int argc , char **argv ){
     extern FILE *yyin;
 if( argc != 3){ 		
@@ -1571,14 +1581,3 @@ if( argc != 3){
 	// }
 }
 
-// struct node *newnode(char n, struct node *l, struct node *r){
-//     struct node *tree = malloc(sizeof(struct node));
-//     if(!tree){
-//         yyerror("vazio");
-//         exit(0);
-//     }
-//     tree->no = n;
-//     tree->left = l;
-//     tree->right = r;
-//     return tree;
-// }

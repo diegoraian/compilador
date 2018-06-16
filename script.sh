@@ -1,5 +1,4 @@
-#!bin/bash
-reset;
-lex lexico.l;
 make;
-./compilador entrada.c novasaida.out;
+make clean;
+clear;
+./compilador entrada.c out
