@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+
 void    yyerror(const char *s);
 int     yylex(void);
 char strAst[20480];
@@ -10,10 +11,12 @@ char strAst[20480];
 typedef struct node {
     struct node *left;
     struct node *right;
-    int no;
+    char* no;
 }tNode ;
+
+tNode* raiz;
 //funções para criar os nós da arvore
-tNode *newnode(int n, tNode *l, tNode *r);
+tNode *newnode(char* n, tNode *l, tNode *r);
 tNode *newnum(double d);
 
 %}
@@ -22,13 +25,21 @@ tNode *newnum(double d);
 
 
 //declaração das variáveis usadas no lexico
-%union{
+%union {
     int		numValue;
     char	*stringValue;
+    struct node   *nodeValue;
 }
 
 //onde a gramática vai começar
-%start  program;
+%start  start;
+%type <nodeValue> start
+%type <nodeValue> program
+%type <nodeValue> declaration-list
+%type <nodeValue> declaration
+%type <nodeValue> fun-declaration
+%type <nodeValue> var-declaration
+%type <nodeValue> empty;
 
 //declaração de tokens usados no lexico.l
 %token                   INT VOID IF WHILE ELSE RETURN
@@ -52,15 +63,16 @@ tNode *newnum(double d);
 %% 
 //-----------------------------------------------------------------------------
 
-program           :            declaration-list                           { strcpy(strAst, "[program "); ; strcat(strAst, "]");}
+start             :             program                                 {$$ = newnode("",$1,NULL);raiz = $$;}
+program           :             declaration-list                         {$$ = newnode("[program ",$1,NULL);}
                   ;
 
-declaration-list  :            declaration-list declaration               {}
-                  |            declaration                                {}
+declaration-list  :            declaration-list declaration               {$$ = newnode("[declaration-list ",$1,$2);}
+                  |            declaration                                {$$ = newnode("[declaration ",$1,NULL);}
                   ;
 
-declaration       :             var-declaration                           {}
-                  |             fun-declaration                           {}
+declaration       :             var-declaration                           {$$ = newnode("[var-declaration ",$1,NULL);}
+                  |             fun-declaration                           {$$ = newnode("[fun-declaration ",$1,NULL);}
                   ;
 
 var-declaration   :             type-specifier ID END_LINE                                   {}
@@ -74,18 +86,18 @@ type-specifier    :             INT                                       {}
 fun-declaration   :             type-specifier ID OPEN_PAREN params CLOSE_PAREN compound-stmt {}
                   ;           
 
-params            :             param-list                                 {}
-                  |             VOID                                       {}
+params            :             param-list                                          {}
+                  |             VOID                                                {}
                   ;
 
-param-list        :             param-list COMMA param                        {}
-                  |             param                                       {}
+param-list        :             param-list COMMA param                              {}
+                  |             param                                               {}  
                   ;
-param             :             type-specifier ID
-                  |             type-specifier ID OPEN_BRACKET CLOSE_BRACKET
+param             :             type-specifier ID                                   {}
+                  |             type-specifier ID OPEN_BRACKET CLOSE_BRACKET        {}
                   ;
 
-compound-stmt     :             local-declarations statement-list               {}
+compound-stmt     :            OPEN_KEY local-declarations statement-list CLOSE_KEY      {}
                   ;
 
 local-declarations:             local-declarations var-declaration              {}
@@ -103,7 +115,8 @@ statement         :             expression-stmt                                 
                   |             return-stmt                                     {}
                   ;
 
-expression-stmt   :             expression
+expression-stmt   :             expression  END_LINE                {}
+                  |             END_LINE                        {}
                   ;
 
 selection-stmt    :             IF OPEN_PAREN expression CLOSE_PAREN statement                     {}
@@ -122,8 +135,8 @@ expression        :             var ATTRIB expression                           
 var               :             ID                                                {}
                   |             ID OPEN_BRACKET expression CLOSE_BRACKET                             {}                   
                   ;
-simple-expression :             additive-expression relop additive-expression
-                  |             additive-expression
+simple-expression :             additive-expression relop additive-expression               {}
+                  |             additive-expression                                         {}
                   ;
 
 relop             :                LEQUAL                                           {}
@@ -166,7 +179,7 @@ arg-list            :           arg-list COMMA expression                       
                     |           expression                                      {}
                     ;
 
-empty               :       ""          {}
+empty               :       %empty          {}
                     ;
 
 //-----------------------------------------------------------------------------
@@ -177,21 +190,32 @@ void yyerror(const char *s) {
 	fprintf(stdout, "%s\n", s);
 }
 
-tNode *newnode(int n, tNode *l, tNode *r){
+tNode* newnode(char* no, tNode *left, tNode *right){
     
     tNode *tree = malloc(sizeof(tNode));
     if(!tree){
         yyerror("vazio");
         exit(0);
     }
-    tree->no = n;
-    tree->left = l;
-    tree->right = r;
+    tree->no = no;
+    tree->left = left;
+    tree->right = right;
     return tree;
 }
+
+void imprimirArvore(tNode *no){
+    if(no == NULL){
+        printf("Nó nullo");
+        return;
+    }
+    printf("%s",no->no);
+    imprimirArvore(no->left);
+    imprimirArvore(no->right);
+}
+
 int main( int argc, char *argv[] ) {
 	extern FILE *yyin;
-
+    raiz = newnode("",NULL,NULL);
 	if( argc != 3){
 		printf("Quantidade de argumentos invalida!\n");
 		return 1;
@@ -210,7 +234,7 @@ int main( int argc, char *argv[] ) {
 		printf("Erro ao abrir o arquivo: %s \n", argv[2]);
 		return 1;
 	}
-
+    imprimirArvore(raiz);
 	yyparse();
 
 	char *cmp = "[program";
@@ -221,6 +245,7 @@ int main( int argc, char *argv[] ) {
 		yyerror("syntax error\n");
 		return 1;
 	}
+    
 	
 	fprintf(fp, "%s", strAst);
 
