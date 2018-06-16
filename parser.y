@@ -31,20 +31,21 @@ tNode *newnum(double d);
 %start  program;
 
 //declaração de tokens usados no lexico.l
-%token <char>            ID
-%token  <numValue>       NUM
 %token                   INT VOID IF WHILE ELSE RETURN
+%token                   PLUS MINUS TIMES DIVIDE
+%token                   OPEN_PAREN CLOSE_PAREN COMMA OPEN_KEY CLOSE_KEY END_LINE ATTRIB
+%token                   MINNOR_THEN MAJOR_THEN OPEN_BRACKET CLOSE_BRACKET
 %token  <numValue>       DIGIT
-%token  <stringValue>    VARIABLE
+%token  <stringValue>    ID
 
 //associatividade a esquerda, maior precedencia de baixo pra cima
+%left PLUS MINUS
+%left TIMES DIVIDE
 %left EQUAL
 %left NEQUAL
 %left LEQUAL
 %left BEQUAL
-%left '+' '-'
-%left '*' '/'
-%left '<' '>'
+%left MINNOR_THEN MAJOR_THEN
 
 
 //-----------------------------------------------------------------------------
@@ -62,26 +63,26 @@ declaration       :             var-declaration                           {}
                   |             fun-declaration                           {}
                   ;
 
-var-declaration   :             type-specifier ID ';'                     {}
-                  |             type-specifier ID '[' NUM ']'             {}
+var-declaration   :             type-specifier ID END_LINE                                   {}
+                  |             type-specifier ID OPEN_BRACKET DIGIT CLOSE_BRACKET             {}
                   ;
 
-type-specifier    :             "int"                                        {}
-                  |             "void"                                       {}
+type-specifier    :             INT                                       {}
+                  |             VOID                                       {}
                   ;
 
-fun-declaration   :             type-specifier ID '(' params ')' compound-stmt {}
+fun-declaration   :             type-specifier ID OPEN_PAREN params CLOSE_PAREN compound-stmt {}
                   ;           
 
 params            :             param-list                                 {}
-                  |             "void"                                       {}
+                  |             VOID                                       {}
                   ;
 
-param-list        :             param-list ',' param                        {}
+param-list        :             param-list COMMA param                        {}
                   |             param                                       {}
                   ;
 param             :             type-specifier ID
-                  |             type-specifier ID '[' ']'
+                  |             type-specifier ID OPEN_BRACKET CLOSE_BRACKET
                   ;
 
 compound-stmt     :             local-declarations statement-list               {}
@@ -105,63 +106,63 @@ statement         :             expression-stmt                                 
 expression-stmt   :             expression
                   ;
 
-selection-stmt    :             "if" '(' expression ')' statement                     {}
-                  |             "if" '(' expression ')' statement "else" statement      {}
+selection-stmt    :             IF OPEN_PAREN expression CLOSE_PAREN statement                     {}
+                  |             IF OPEN_PAREN expression CLOSE_PAREN statement ELSE statement      {}
                   ;
-iteration-stmt    :             "while" '(' expression ')' statement                   {}
-                  ;
-
-return-stmt       :             "return" ';'                                        {}
-                  |             "return" expression ';'                             {}
+iteration-stmt    :             WHILE OPEN_PAREN expression CLOSE_PAREN statement                   {}
                   ;
 
-expression        :             var '=' expression                                {}
+return-stmt       :             RETURN END_LINE                                        {}
+                  |             RETURN expression END_LINE                             {}
+                  ;
+
+expression        :             var ATTRIB expression                                {}
                   |             simple-expression                                 {}
                   ;
 var               :             ID                                                {}
-                  |             ID '[' expression ']'                             {}                   
+                  |             ID OPEN_BRACKET expression CLOSE_BRACKET                             {}                   
                   ;
 simple-expression :             additive-expression relop additive-expression
                   |             additive-expression
                   ;
 
-relop             :                '<''='                                           {}
-                  |                '<'                                           {}
-                  |                '>'                                           {}
-                  |                '>''='                                          {}
-                  |                '=''='                                         {}
-                  |                '!''='                                         {}
+relop             :                LEQUAL                                           {}
+                  |                MINNOR_THEN                                           {}
+                  |                MAJOR_THEN                                          {}
+                  |                BEQUAL                                          {}
+                  |                EQUAL                                         {}
+                  |                NEQUAL                                         {}
                   ;
 
 additive-expression :         additive-expression addop term                      {}
                     |         term                                                {}                                
                     ;
 
-addop               :           '+'                                             {}
-                    |           '-'                                             {}
+addop               :           PLUS                                             {}
+                    |           MINUS                                             {}
                     ;
 
 term                :           term mulop factor                               {}
                     |           factor                                          {}
                     ;
-mulop               :          '*'                                              {}
-                    |          '/'                                              {}
+mulop               :          TIMES                                              {}
+                    |          DIVIDE                                              {}
                     ;
 
-factor              :         '(' expression ')'                                {}
+factor              :         OPEN_PAREN expression CLOSE_PAREN                                {}
                     |          var                                              {}
                     |          call                                             {}
-                    |          NUM                                              {}
+                    |          DIGIT                                              {}
                     ;
 
-call                :          ID '(' args ')'                                  {}
+call                :          ID OPEN_PAREN args CLOSE_PAREN                                  {}
                     ;
 
-args                :               arg-list                                    {}
-                    |               empty                                       {}
+args                :          arg-list                                    {}
+                    |          empty                                       {}
                     ;
 
-arg-list            :           arg-list ',' expression                         {}
+arg-list            :           arg-list COMMA expression                         {}
                     |           expression                                      {}
                     ;
 
@@ -213,8 +214,8 @@ int main( int argc, char *argv[] ) {
 
 	yyparse();
 
-	char *cmp = "[main";
-	
+	char *cmp = "[program";
+	printf("%s", strAst);
 	if (strstr(strAst, cmp) == NULL){		
 		fclose(yyin);
 		fclose(fp);

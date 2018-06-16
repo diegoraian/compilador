@@ -60,17 +60,27 @@ COMENTARIOS 					\\\*[^(\*|*\)]*\*\/
 "while"                     return WHILE;
 "else"                      return ELSE;
 "return"                    return RETURN;
-
-[(){},;=+*<>-]				return *yytext;
-"/"							return *yytext;
-"["							return *yytext;
-"]"							return *yytext;
+"("							return OPEN_PAREN;
+")"							return CLOSE_PAREN;
+","							return COMMA;
+"{"							return OPEN_KEY;
+"}"							return CLOSE_KEY;
+";"							return END_LINE;
+"="							return ATTRIB;
+"+"							return PLUS;
+"-"							return MINUS;
+"*"							return TIMES;
+"/"							return DIVIDE;
+"<"							return MINNOR_THEN;
+">"							return MAJOR_THEN;
+"["							return OPEN_BRACKET;
+"]"							return CLOSE_BRACKET;
 "=="					    return EQUAL;
 "!="					    return NEQUAL;
 "<="					    return LEQUAL;
 ">="					    return BEQUAL;
 
-{ID}				{ yylval.stringValue = strdup(yytext); return VARIABLE;}
+{ID}				{ yylval.stringValue = strdup(yytext); return ID;}
 
 {ERROR}         	{
 		            	if ( contadorErro < 1){
