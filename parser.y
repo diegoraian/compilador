@@ -31,6 +31,8 @@ struct node *newnum(double d);
 %start  program;
 
 //declaração de tokens usados no lexico.l
+%token <char>            ID
+%token  <numValue>       NUM
 %token                   INT VOID IF WHILE ELSE RETURN
 %token  <numValue>       DIGIT
 %token  <stringValue>    VARIABLE
@@ -43,6 +45,7 @@ struct node *newnum(double d);
 %left '+' '-'
 %left '*' '/'
 %left '<' '>'
+
 
 //-----------------------------------------------------------------------------
 %% 
@@ -60,14 +63,14 @@ declaration       :             var-declaration                           {}
                   ;
 
 var-declaration   :             type-specifier ID ';'                     {}
-                  |             type-specifier ID [ NUM ]                 {}
+                  |             type-specifier ID '[' NUM ']'             {}
                   ;
 
 type-specifier    :             int                                        {}
                   |             void                                       {}
                   ;
 
-fun-declaration   :             type-specifier ID ( params ) compound-stmt {}
+fun-declaration   :             type-specifier ID '(' params ')' compound-stmt {}
                   ;           
 
 params            :             param-list                                 {}
@@ -77,74 +80,90 @@ params            :             param-list                                 {}
 param-list        :             param-list ',' param                        {}
                   |             param                                       {}
                   ;
-param:              type-specifier ID
-                  | type-specifier ID [ ]
+param             :             type-specifier ID
+                  |             type-specifier ID '[' ']'
+                  ;
 
-compound-stmt:      { local-declarations statement-list }
+compound-stmt     :             local-declarations statement-list               {}
+                  ;
 
-local-declarations: local-declarations var-declaration
-                  | empty
+local-declarations:             local-declarations var-declaration              {}
+                  |             empty                                           {}
+                  ;
 
-statement-list:     statement-list statement
-                  | empty
+statement-list    :             statement-list statement                        {}
+                  |             empty                                           {}
+                  ;
 
-statement:          expression-stmt
-                  | compound-stmt
-                  | selection-stmt
-                  | iteration-stmt
-                  | return-stmt
+statement         :             expression-stmt                                 {}
+                  |             compound-stmt                                   {}
+                  |             selection-stmt                                  {}
+                  |             iteration-stmt                                  {}
+                  |             return-stmt                                     {}
+                  ;
 
-expression-stmt:    expression ;
-                  | ;
+expression-stmt   :             expression
+                  ;
 
-selection-stmt:     if ( expression ) statement
-                  | if ( expression ) statement else statement
+selection-stmt    :             "if" '(' expression ')' statement                     {}
+                  |             "if" '(' expression ')' statement "else" statement      {}
+                  ;
+iteration-stmt    :             while '(' expression ')' statement                   {}
+                  ;
 
-iteration-stmt:     while ( expression ) statement
+return-stmt       :             "return" ';'                                        {}
+                  |             "return" expression ';'                             {}
+                  ;
 
-return-stmt:        return ;
-                  | return expression ;
+expression        :             var '=' expression                                {}
+                  |             simple-expression                                 {}
+                  ;
+var               :             ID                                                {}
+                  |             ID '[' expression ']'                             {}                   
+                  ;
+simple-expression :             additive-expression relop additive-expression
+                  |             additive-expression
+                  ;
 
-expression:         var = expression
-                  | simple-expression
+relop             :                '<''='                                           {}
+                  |                '<'                                           {}
+                  |                '>'                                           {}
+                  |                '>''='                                          {}
+                  |                '=''='                                         {}
+                  |                '!''='                                         {}
+                  ;
 
-var:                ID
-                  | ID [ expression ]
+additive-expression :         additive-expression addop term                      {}
+                    |         term                                                {}                                
+                    ;
 
-simple-expression:  additive-expression relop additive-expression
-                  | additive-expression
+addop               :           '+'                                             {}
+                    |           '-'                                             {}
+                    ;
 
-relop:              <=
-                  | <
-                  | >
-                  | >=
-                  | ==
-                  | !=
+term                :           term mulop factor                               {}
+                    |           factor                                          {}
+                    ;
+mulop               :          '*'                                              {}
+                    |          '/'                                              {}
+                    ;
 
-additive-expression:   additive-expression addop term
-                     | term
+factor              :         '(' expression ')'                                {}
+                    |          var                                              {}
+                    |          call                                             {}
+                    |          NUM                                              {}
+                    ;
 
-addop:              +
-                  | -
+call                :          ID '(' args ')'                                  {}
+                    ;
 
-term:               term mulop factor
-                  | factor
+args                :               arg-list                                    {}
+                    |               empty                                       {}
+                    ;
 
-mulop:              *
-                  | /
-
-factor:             ( expression )
-                  | var
-                  | call
-                  | NUM
-
-call:               ID ( args )
-
-args:               arg-list
-                  | empty
-
-arg-list:           arg-list , expression
-                  | expression
+arg-list            :           arg-list ',' expression                         {}
+                    |           expression                                      {}
+                    ;
 
 //-----------------------------------------------------------------------------
 %%
