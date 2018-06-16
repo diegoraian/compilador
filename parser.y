@@ -39,7 +39,8 @@ tNode *newnum(double d);
 %type <nodeValue> declaration
 %type <nodeValue> fun-declaration
 %type <nodeValue> var-declaration
-%type <nodeValue> empty;
+%type <nodeValue> empty
+%type <nodeValue> type-specifier
 
 //declaração de tokens usados no lexico.l
 %token                   INT VOID IF WHILE ELSE RETURN
@@ -64,10 +65,10 @@ tNode *newnum(double d);
 //-----------------------------------------------------------------------------
 
 start             :             program                                 {$$ = newnode("",$1,NULL);raiz = $$;}
-program           :             declaration-list                         {$$ = newnode("[program ",$1,NULL);}
+program           :             declaration-list                         {$$ = newnode("[program ",$1,NULL);imprimirArvore($$);}
                   ;
 
-declaration-list  :            declaration-list declaration               {$$ = newnode("[declaration-list ",$1,$2);}
+declaration-list  :            declaration-list declaration               {$$ = newnode("[declaration-list declaration ",$1,$2);}
                   |            declaration                                {$$ = newnode("[declaration ",$1,NULL);}
                   ;
 
@@ -75,7 +76,7 @@ declaration       :             var-declaration                           {$$ = 
                   |             fun-declaration                           {$$ = newnode("[fun-declaration ",$1,NULL);}
                   ;
 
-var-declaration   :             type-specifier ID END_LINE                                   {}
+var-declaration   :             type-specifier ID END_LINE                                   {$$ = newnode("ID",$1,NULL);}
                   |             type-specifier ID OPEN_BRACKET DIGIT CLOSE_BRACKET  END_LINE           {}
                   ;
 
@@ -205,7 +206,6 @@ tNode* newnode(char* no, tNode *left, tNode *right){
 
 void imprimirArvore(tNode *no){
     if(no == NULL){
-        printf("Nó nullo");
         return;
     }
     printf("%s",no->no);
@@ -234,18 +234,8 @@ int main( int argc, char *argv[] ) {
 		printf("Erro ao abrir o arquivo: %s \n", argv[2]);
 		return 1;
 	}
-    imprimirArvore(raiz);
-	yyparse();
-
-	char *cmp = "[program";
-	printf("%s", strAst);
-	if (strstr(strAst, cmp) == NULL){		
-		fclose(yyin);
-		fclose(fp);
-		yyerror("syntax error\n");
-		return 1;
-	}
     
+	yyparse();
 	
 	fprintf(fp, "%s", strAst);
 
