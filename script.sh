@@ -1,4 +1,5 @@
+#!bin/bash
+reset;
+lex lexico.l;
 make;
-make clean;
-clear;
-./compilador codigo.c saida.txt
+./compilador entrada.c novasaida.out;
