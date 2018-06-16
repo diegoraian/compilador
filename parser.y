@@ -64,7 +64,7 @@ declaration       :             var-declaration                           {}
                   ;
 
 var-declaration   :             type-specifier ID END_LINE                                   {}
-                  |             type-specifier ID OPEN_BRACKET DIGIT CLOSE_BRACKET             {}
+                  |             type-specifier ID OPEN_BRACKET DIGIT CLOSE_BRACKET  END_LINE           {}
                   ;
 
 type-specifier    :             INT                                       {}
@@ -189,7 +189,6 @@ tNode *newnode(int n, tNode *l, tNode *r){
     tree->right = r;
     return tree;
 }
-
 int main( int argc, char *argv[] ) {
 	extern FILE *yyin;
 
@@ -231,4 +230,3 @@ int main( int argc, char *argv[] ) {
 	return 0;
 
 }
-
