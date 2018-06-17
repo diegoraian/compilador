@@ -19,7 +19,7 @@ typedef struct node {
 
 tNode* raiz;
 //funções para criar os nós da arvore
-tNode *newnode(char* n, tNode *l, tNode *r);
+tNode *newnode(char* n, tNode *nodeA, tNode *nodeB,tNode *nodeC, tNode *nodeD);
 tNode *newnum(double d);
 
 %}
@@ -44,11 +44,16 @@ tNode *newnum(double d);
 %type <nodeValue> var-declaration
 %type <nodeValue> empty
 %type <nodeValue> type-specifier
+%type <nodeValue> compound-stmt
+%type <nodeValue> params
+%type <nodeValue> param
+%type <nodeValue> param-list
+
 //declaração de tokens usados no lexico.l
 %token  <stringValue>    INT VOID IF WHILE ELSE RETURN
-%token   <stringValue>   PLUS MINUS TIMES DIVIDE
-%token   <stringValue>   OPEN_PAREN CLOSE_PAREN COMMA OPEN_KEY CLOSE_KEY END_LINE ATTRIB
-%token                   MINNOR_THEN MAJOR_THEN OPEN_BRACKET CLOSE_BRACKET
+%token  <stringValue>    PLUS MINUS TIMES DIVIDE
+%token  <stringValue>    OPEN_PAREN CLOSE_PAREN COMMA OPEN_KEY CLOSE_KEY END_LINE ATTRIB
+%token  <stringValue>    MINNOR_THEN MAJOR_THEN OPEN_BRACKET CLOSE_BRACKET
 %token  <numValue>       DIGIT
 %token  <stringValue>    ID
 
@@ -78,29 +83,29 @@ declaration       :             var-declaration                           {$$ = 
                   |             fun-declaration                           {$$ = newnode("[fun-declaration ",$1,NULL,NULL,NULL);}
                   ;
 
-var-declaration   :             type-specifier ID END_LINE                                   {$$ = newnode($2,$1,NULL,NULL);}
-                  |             type-specifier ID OPEN_BRACKET DIGIT CLOSE_BRACKET  END_LINE           {$$ = newnode($2,$1,NULL,NULL);}
+var-declaration   :             type-specifier ID END_LINE                                   {$$ = newnode($2,$1,NULL,NULL,NULL);}
+                  |             type-specifier ID OPEN_BRACKET DIGIT CLOSE_BRACKET  END_LINE           {$$ = newnode($2,$1,NULL,NULL,NULL);}
                   ;
 
 type-specifier    :             INT                                       {$$ = newnode("[INT]",NULL,NULL,NULL,NULL);}
                   |             VOID                                       {$$ = newnode("[VOID]",NULL,NULL,NULL,NULL);}
                   ;
 
-fun-declaration   :             type-specifier ID OPEN_PAREN params CLOSE_PAREN compound-stmt {$$ = newnode("",NULL,NULL,NULL,NULL);}
+fun-declaration   :             type-specifier ID OPEN_PAREN params CLOSE_PAREN compound-stmt {$$ = newnode($2,$1,$4,$6,NULL);}
                   ;           
 
-params            :             param-list                                          {}
-                  |             VOID                                                {}
+params            :             param-list                                          {$$ = newnode("",$1,NULL,NULL,NULL);}
+                  |             VOID                                                {$$ = newnode("[VOID]",NULL,NULL,NULL,NULL);}
                   ;
 
-param-list        :             param-list COMMA param                              {}
-                  |             param                                               {}  
+param-list        :             param-list COMMA param                              {$$ = newnode("",$1,$3,NULL,NULL);}
+                  |             param                                               {$$ = newnode("",$1,NULL,NULL,NULL);}  
                   ;
-param             :             type-specifier ID                                   {}
-                  |             type-specifier ID OPEN_BRACKET CLOSE_BRACKET        {}
+param             :             type-specifier ID                                   {$$ = newnode($2,$1,NULL,NULL,NULL);}
+                  |             type-specifier ID OPEN_BRACKET CLOSE_BRACKET        {$$ = newnode($2,$1,NULL,NULL,NULL);}
                   ;
 
-compound-stmt     :            OPEN_KEY local-declarations statement-list CLOSE_KEY      {}
+compound-stmt     :            OPEN_KEY local-declarations statement-list CLOSE_KEY      {$$ = newnode($2,$1,NULL,NULL,NULL);}
                   ;
 
 local-declarations:             local-declarations var-declaration              {}

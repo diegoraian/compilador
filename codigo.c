@@ -1,3 +1,10 @@
-int b;
-int c;
-int d;
+void g;
+
+
+void foo(int x, int y)
+
+{
+
+
+
+}
