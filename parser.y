@@ -33,9 +33,8 @@ tNode *newnode(char* n, tNode *nodeA, tNode *nodeB,tNode *nodeC, char* nodeD);
 } 
  
 //onde a gramática vai começar 
-%start  start; 
- 
-%type <nodeValue> start 
+%start  program; 
+  
 %type <nodeValue> program 
 %type <nodeValue> declaration-list 
 %type <nodeValue> declaration 
@@ -90,9 +89,7 @@ tNode *newnode(char* n, tNode *nodeA, tNode *nodeB,tNode *nodeC, char* nodeD);
 %%  
 //----------------------------------------------------------------------------- 
  
-start             :            program                                    {$$ = newnode("",$1,NULL,NULL,NULL); raiz = $$;} 
- 
-program           :            declaration-list                           {$$ = newnode("program ",$1,NULL,NULL,NULL);} 
+program           :            declaration-list                           {$$ = newnode("program",$1,NULL,NULL,NULL);raiz = $$;} 
                   ; 
  
 declaration-list  :            declaration-list declaration               {$$ = newnode("",$1,$2,NULL,NULL);} 
@@ -103,19 +100,22 @@ declaration       :             var-declaration                           {$$ = 
                   |             fun-declaration                           {$$ = newnode("",$1,NULL,NULL,NULL);} 
                   ; 
  
-var-declaration   :             type-specifier ID END_LINE                                           {$$ = newnode("var-declaration ",$1,NULL,NULL,$2);} 
-                  |             type-specifier ID OPEN_BRACKET DIGIT CLOSE_BRACKET  END_LINE         {$$ = newnode("var-declaration ",$1,NULL,NULL,$2);} 
+var-declaration   :             type-specifier ID END_LINE                                           {  tNode* ideNo = newnode($2,NULL,NULL,NULL,NULL);
+                                                                                                        $$ = newnode("var-declaration ",$1,ideNo,NULL,NULL);
+
+                                                                                                          } 
+                  |             type-specifier ID OPEN_BRACKET DIGIT CLOSE_BRACKET  END_LINE         {$$ = newnode("var-declaration",$1,NULL,NULL,$2);} 
                   ; 
  
-type-specifier    :             INT                                                                  {$$ = newnode("[INT]",NULL,NULL,NULL,NULL);} 
-                  |             VOID                                                                 {$$ = newnode("[VOID]",NULL,NULL,NULL,NULL);} 
+type-specifier    :             INT                                                                  {$$ = newnode("INT",NULL,NULL,NULL,NULL);} 
+                  |             VOID                                                                 {$$ = newnode("VOID",NULL,NULL,NULL,NULL);} 
                   ; 
  
-fun-declaration   :             type-specifier ID OPEN_PAREN params CLOSE_PAREN compound-stmt        {$$ = newnode("[fun-declaration ",$1,$4,$6,$2);} 
+fun-declaration   :             type-specifier ID OPEN_PAREN params CLOSE_PAREN compound-stmt        {$$ = newnode("fun-declaration ",$1,$4,$6,$2);} 
                   ;            
  
 params            :             param-list                                          {$$ = newnode("params ",$1,NULL,NULL,NULL);} 
-                  |             VOID                                                {$$ = newnode("VOID]",NULL,NULL,NULL,NULL);} 
+                  |             VOID                                                {$$ = newnode("VOID",NULL,NULL,NULL,NULL);} 
                   ; 
  
 param-list        :             param-list COMMA param                              {$$ = newnode("",$1,$3,NULL,NULL);} 
@@ -205,11 +205,11 @@ factor              :            OPEN_PAREN expression CLOSE_PAREN              
                                                                                 } 
                     ; 
                          
-call                :            ID OPEN_PAREN args CLOSE_PAREN                 {$$ = newnode("[call ",$3,NULL,NULL,$1);} 
+call                :            ID OPEN_PAREN args CLOSE_PAREN                 {$$ = newnode("call ",$3,NULL,NULL,$1);} 
                     ; 
  
-args                :            arg-list                                       {$$ = newnode("[args ",$1,NULL,NULL,NULL);} 
-                    |            empty                                          {$$ = newnode("[args ",$1,NULL,NULL,NULL);} 
+args                :            arg-list                                       {$$ = newnode("args ",$1,NULL,NULL,NULL);} 
+                    |            empty                                          {$$ = newnode("args ",$1,NULL,NULL,NULL);} 
                     ; 
  
 arg-list            :           arg-list COMMA expression                       {$$ = newnode("",$1,$3,NULL,NULL);}
@@ -234,8 +234,9 @@ tNode* newnode(char* no, tNode *nodeA, tNode *nodeB,tNode *nodeC, char* nodeD){
         yyerror("vazio"); 
         exit(0); 
     } 
-    tree->no = malloc(20);
-    strcpy(tree->no, no); 
+     tree->no = malloc(20);
+     strcpy(tree->no, no); 
+    //tree->no = no;
     //if(tree->no != "")
       //  printf(" %s \n", tree->no);
     tree->nodeA = nodeA; 
@@ -251,27 +252,30 @@ void imprimirArvore(tNode *no){
     if(no == NULL){ 
         return; 
     }
-    
-    if(no->no != "") {
-        printf("[\n");  
-        strcat(strAst,"[\n");
-        printf("%s",no->no); 
-        strcat(strAst,no->no);
+    printf("%s",no->no); 
+    if(strcmp(no->no,"") != 0){
+      strcat(strAst,"[\n");
+      strcat(strAst,no->no);
     }
-        
-        
-    if(no->nodeD != "" && no->nodeD != NULL) {
-        //printf("[\n");  
-        //strcat(strAst,"[\n");
-        printf("%s",no->nodeD); 
+      
+    if(no->nodeD != NULL && strcmp(no->nodeD, "") != 0) {
+        strcat(strAst,"[\n");
         strcat(strAst,no->nodeD);
     }
     imprimirArvore(no->nodeA); 
     imprimirArvore(no->nodeB); 
     imprimirArvore(no->nodeC); 
     //imprimirArvore(no->nodeD); 
-    printf("]\n"); 
-    strcat(strAst,"]\n");
+            if(strcmp(no->no,"") != 0){
+      
+          strcat(strAst,"]\n");
+        }
+        
+        
+    if(no->nodeD != NULL && strcmp(no->nodeD, "") != 0) {
+      strcat(strAst,"]\n");
+    }
+    
 } 
  
 int main( int argc, char *argv[] ) { 
