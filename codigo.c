@@ -1,14 +1,43 @@
-int a;
-/*asdasdaasdasdsd*/
+int g;
 
-int func2(int a){
-    func(a);
-	a = 20;
-    return a;
-}
-/*asdasdasdasdsfaf*/
-void func(int a){
-    while(a == 0){
-        a = func2(a);
+
+int foo(int x, int y, int z[])
+
+{
+
+    z[0] = 0;
+
+    y = x * y + 2;
+
+
+    if(y == 0)
+
+    {
+
+        y = 1;
+
     }
+
+
+    return y;
+
+}
+
+
+void main(void)
+
+{
+
+    int a[10];
+
+    while(g < 10)
+
+    {
+
+        g = foo(g, 2, a);
+
+        ;
+
+    }
+
 }
