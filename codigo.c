@@ -1,6 +1,12 @@
-void g;
+int a;
 
+int func2(int a){
+    func(a);
+    return a;
+}
 
-int func(){
-	return 0;
+void func(int a){
+    while(a == 0){
+        a = func2(a);
+    }
 }
