@@ -1,4 +1,5 @@
 make;
 make clean;
-clear;
-./compilador codigo.c saida.txt
+
+./compilador codigo.c out.txt
+indent out.txt -o out.txt

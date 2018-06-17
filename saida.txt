@@ -1,0 +1,19 @@
+[program
+ [var - declaration
+  [INT]]]]
+[fun - declaration
+[INT]
+[params
+[param
+  [INT]]]]
+[compound - stmt
+[call
+[args
+[var]]]]]]]]]]]]]]]]]
+[return -stmt
+[var]]]]]]]]]]]]]
+[fun - declaration
+[VOID]
+[params
+[param
+[INT]]]][compound - stmt[iteration - stmt[ ==][var]]]]]]]]][compound - stmt[ =[var][call[args[var]]]]]]]]]]]]]]]]]]]]]]]]]]]]]
