@@ -6,7 +6,7 @@
  
 void    yyerror(const char *s); 
 int     yylex(void); 
-char strAst[20480]; 
+char AST[20480]; 
  
 //nó que tem 4 filhos 
 typedef struct node { 
@@ -270,26 +270,26 @@ void imprimirArvore(tNode *no){
     }
     printf("%s",no->no); 
     if(strcmp(no->no,"") != 0){
-      strcat(strAst," [");
-      strcat(strAst,no->no);
-      //strcat(strAst," ");
+      strcat(AST," [");
+      strcat(AST,no->no);
+      //strcat(AST," ");
     }
       
     // if(no->nodeD != NULL && strcmp(no->nodeD, "") != 0) {
-    //     strcat(strAst,"[\n");
-    //     strcat(strAst,no->nodeD);
+    //     strcat(AST,"[\n");
+    //     strcat(AST,no->nodeD);
     // }
     imprimirArvore(no->nodeA); 
     imprimirArvore(no->nodeB); 
     imprimirArvore(no->nodeC); 
     imprimirArvore(no->nodeD); 
     if(strcmp(no->no,"") != 0){  
-        strcat(strAst,"] ");
+        strcat(AST,"] ");
     }
         
         
     // if(no->nodeD != NULL && strcmp(no->nodeD, "") != 0) {
-    //   strcat(strAst,"]\n");
+    //   strcat(AST,"]\n");
     // }
     
 } 
@@ -298,27 +298,27 @@ int main( int argc, char *argv[] ) {
   extern FILE *yyin; 
     raiz = newnode("",NULL,NULL,NULL,NULL); 
   if( argc != 3){ 
-    printf("Quantidade de argumentos invalida!\n"); 
+    printf("Poucos argumentos!\n"); 
     return 1; 
   } 
  
   yyin = fopen(argv[1], "r"); 
  
   if (yyin == NULL){ 
-    printf("Erro ao abrir o arquivo: %s \n", argv[1]); 
+    printf("Arquivo nao pode ser aberto: %s \n", argv[1]); 
     return 1; 
   } 
  
   FILE *fp; 
   fp = fopen(argv[2], "w+"); 
   if (fp == NULL){ 
-    printf("Erro ao abrir o arquivo: %s \n", argv[2]); 
+    printf("Arquivo nao pode ser aberto: %s \n", argv[2]); 
     return 1; 
   } 
      
   yyparse(); 
   imprimirArvore(raiz); 
-  fprintf(fp, "%s", strAst); 
+  fprintf(fp, "%s", AST); 
  
   fclose(yyin); 
   fclose(fp); 
