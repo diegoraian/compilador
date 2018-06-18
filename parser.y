@@ -103,13 +103,17 @@ var-declaration   :             type-specifier ID END_LINE                      
                                                                                                         $$ = newnode("var-declaration",$1,ideNo,NULL,NULL);
                                                                                                      } 
                   |             type-specifier ID OPEN_BRACKET DIGIT CLOSE_BRACKET  END_LINE         {
+                                                                                                      int count = $4;
+                                                                                                      char name[20];
+                                                                                                      sprintf(name, "%d", count); 
+                                                                                                      tNode* nodoDigito = newnode(name,NULL,NULL,NULL,NULL);       
                                                                                                         tNode* ideNo = newnode($2,NULL,NULL,NULL,NULL);
-                                                                                                        $$ = newnode("var-declaration",$1,NULL,NULL,NULL);
+                                                                                                        $$ = newnode("var-declaration",$1,ideNo,nodoDigito,NULL);
                                                                                                      } 
                   ; 
  
-type-specifier    :             INT                                                                  {$$ = newnode("INT",NULL,NULL,NULL,NULL);} 
-                  |             VOID                                                                 {$$ = newnode("VOID",NULL,NULL,NULL,NULL);} 
+type-specifier    :             INT                                                                  {$$ = newnode("int",NULL,NULL,NULL,NULL);} 
+                  |             VOID                                                                 {$$ = newnode("void",NULL,NULL,NULL,NULL);} 
                   ; 
  
 fun-declaration   :             type-specifier ID OPEN_PAREN params CLOSE_PAREN compound-stmt        {
@@ -154,8 +158,9 @@ statement         :             expression-stmt                                 
                   |             return-stmt                                             {$$ = newnode("",$1,NULL,NULL,NULL);} 
                   ; 
  
-expression-stmt   :             expression  END_LINE                                    {$$ = newnode("",$1,NULL,NULL,NULL);} 
-                  |             END_LINE                                                {$$ = NULL;} 
+expression-stmt   :             expression  END_LINE                                    { tNode* node = newnode(";",NULL,NULL,NULL,NULL);
+                                                                                          $$ = newnode("",$1,NULL,NULL,NULL);} 
+                  |             END_LINE                                                {$$ = newnode(";",NULL,NULL,NULL,NULL);} 
                   ; 
  
 selection-stmt    :             IF OPEN_PAREN expression CLOSE_PAREN statement                     {$$ = newnode("selection-stmt ",$3,$5,NULL,NULL);} 
@@ -164,8 +169,8 @@ selection-stmt    :             IF OPEN_PAREN expression CLOSE_PAREN statement  
 iteration-stmt    :             WHILE OPEN_PAREN expression CLOSE_PAREN statement                  {$$ = newnode("iteration-stmt",$3,$5,NULL,NULL);} 
                   ; 
  
-return-stmt       :             RETURN END_LINE                                        {$$ = newnode("return-stmt ",NULL,NULL,NULL,NULL);} 
-                  |             RETURN expression END_LINE                             {$$ = newnode("return-stmt ",$2,NULL,NULL,NULL);} 
+return-stmt       :             RETURN END_LINE                                        {$$ = newnode("return-stmt",NULL,NULL,NULL,NULL);} 
+                  |             RETURN expression END_LINE                             {$$ = newnode("return-stmt",$2,NULL,NULL,NULL);} 
                   ; 
  
 expression        :             var ATTRIB expression                                  {$$ = newnode("=",$1,$3,NULL,NULL);} 
@@ -269,7 +274,7 @@ void imprimirArvore(tNode *no){
     }
     printf("%s",no->no); 
     if(strcmp(no->no,"") != 0){
-      strcat(AST," [");
+      strcat(AST,"[");
       strcat(AST,no->no);
     }
     imprimirArvore(no->nodeA); 
@@ -277,7 +282,7 @@ void imprimirArvore(tNode *no){
     imprimirArvore(no->nodeC); 
     imprimirArvore(no->nodeD); 
     if(strcmp(no->no,"") != 0){  
-        strcat(AST,"] ");
+        strcat(AST,"]");
     }
     
 } 
@@ -307,7 +312,7 @@ int main( int argc, char *argv[] ) {
   yyparse(); 
   imprimirArvore(raiz); 
   fprintf(fp, "%s", AST); 
- 
+  
   fclose(yyin); 
   fclose(fp); 
  
