@@ -21,18 +21,17 @@ tNode* raiz;
  
 //funções para criar os nós da arvore 
 tNode *newnode(char* n, tNode *nodeA, tNode *nodeB,tNode *nodeC, tNode* nodeD); 
-// tNode *newnum(double d); 
  
 %} 
  
-//declaração das variáveis usadas no lexico 
+//VARIÁVEIS USADAS NO LÉXICO
 %union { 
     int    numValue; 
     char  *stringValue; 
     struct node   *nodeValue; 
 } 
  
-//onde a gramática vai começar 
+//INÍCIO DA GRAMÁTICA
 %start  program; 
   
 %type <nodeValue> program 
@@ -272,13 +271,7 @@ void imprimirArvore(tNode *no){
     if(strcmp(no->no,"") != 0){
       strcat(AST," [");
       strcat(AST,no->no);
-      //strcat(AST," ");
     }
-      
-    // if(no->nodeD != NULL && strcmp(no->nodeD, "") != 0) {
-    //     strcat(AST,"[\n");
-    //     strcat(AST,no->nodeD);
-    // }
     imprimirArvore(no->nodeA); 
     imprimirArvore(no->nodeB); 
     imprimirArvore(no->nodeC); 
@@ -286,11 +279,6 @@ void imprimirArvore(tNode *no){
     if(strcmp(no->no,"") != 0){  
         strcat(AST,"] ");
     }
-        
-        
-    // if(no->nodeD != NULL && strcmp(no->nodeD, "") != 0) {
-    //   strcat(AST,"]\n");
-    // }
     
 } 
  
