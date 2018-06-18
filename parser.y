@@ -131,8 +131,8 @@ param             :             type-specifier ID                               
                                                                                           $$ = newnode("param",$1,ideNo,NULL,NULL);} 
                   |             type-specifier ID OPEN_BRACKET CLOSE_BRACKET            {     
                                                                                               tNode* ideNo = newnode($2,NULL,NULL,NULL,NULL);
-                                                                                              tNode* noOpenBracket = newnode($3,NULL,NULL,NULL,NULL);
-                                                                                              tNode* noCloseBracket = newnode($4,NULL,NULL,NULL,NULL);
+                                                                                              tNode* noOpenBracket = newnode("\\[",NULL,NULL,NULL,NULL);
+                                                                                              tNode* noCloseBracket = newnode("\\]",NULL,NULL,NULL,NULL);
                                                                                               $$ = newnode("param",$1,ideNo,noOpenBracket,noCloseBracket);
                                                                                         } 
                   ; 
@@ -173,13 +173,16 @@ expression        :             var ATTRIB expression                           
                   |             simple-expression                                      {$$ = newnode("",$1,NULL,NULL,NULL);} 
                   ; 
  
-var               :             ID                                                     { tNode* ideNo = newnode($1,NULL,NULL,NULL,NULL);
+var               :             ID                                                     { 
+                                                                                        tNode* ideNo = newnode($1,NULL,NULL,NULL,NULL);
                                                                                         $$ = newnode("var",ideNo,NULL,NULL,NULL);} 
-                  |             ID OPEN_BRACKET expression CLOSE_BRACKET               {tNode* ideNo = newnode($1,NULL,NULL,NULL,NULL);
-                                                                                        $$ = newnode("var",ideNo,$3,NULL,NULL);}                    
+                  |             ID OPEN_BRACKET expression CLOSE_BRACKET               {
+                                                                                        tNode* ideNo = newnode($1,NULL,NULL,NULL,NULL);
+                                                                                        $$ = newnode("var",ideNo,$3,NULL,NULL);
+                                                                                       }                    
                   ; 
  
-simple-expression :             additive-expression relop additive-expression          {$$ = newnode("",$1,$2,$3,NULL);} 
+simple-expression :             additive-expression relop additive-expression          {$$ = newnode($2->no,$1,$3,NULL,NULL);} 
                   |             additive-expression                                    {$$ = newnode("",$1,NULL,NULL,NULL);} 
                   ; 
  
@@ -191,7 +194,7 @@ relop             :             LEQUAL                                          
                   |             NEQUAL                                                 {$$ = newnode("!=",NULL,NULL,NULL,NULL);} 
                   ; 
  
-additive-expression :         additive-expression addop term                    {$$ = newnode("",$1,$2,$3,NULL);} 
+additive-expression :         additive-expression addop term                    {$$ = newnode($2->no,$1,$3,NULL,NULL);} 
                     |         term                                              {$$ = newnode("",$1,NULL,NULL,NULL);} 
                     ; 
  
@@ -200,7 +203,7 @@ addop               :            PLUS                                           
                     |            MINUS                                          {$$ = newnode("-",NULL,NULL,NULL,NULL);} 
                     ; 
  
-term                :            term mulop factor                              {$$ = newnode("",$1,$2,$3,NULL);} 
+term                :            term mulop factor                              {$$ = newnode($2->no,$1,$3,NULL,NULL);} 
                     |            factor                                         {$$ = newnode("",$1,NULL,NULL,NULL);} 
                     ; 
  
