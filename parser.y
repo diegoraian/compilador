@@ -13,14 +13,14 @@ typedef struct node {
     struct node *nodeA; 
     struct node *nodeB; 
     struct node *nodeC; 
-    char* nodeD; 
+    struct node *nodeD; 
     char* no; 
 }tNode ; 
  
 tNode* raiz; 
  
 //funções para criar os nós da arvore 
-tNode *newnode(char* n, tNode *nodeA, tNode *nodeB,tNode *nodeC, char* nodeD); 
+tNode *newnode(char* n, tNode *nodeA, tNode *nodeB,tNode *nodeC, tNode* nodeD); 
 // tNode *newnum(double d); 
  
 %} 
@@ -101,80 +101,94 @@ declaration       :             var-declaration                           {$$ = 
                   ; 
  
 var-declaration   :             type-specifier ID END_LINE                                           {  tNode* ideNo = newnode($2,NULL,NULL,NULL,NULL);
-                                                                                                        $$ = newnode("var-declaration ",$1,ideNo,NULL,NULL);
-
-                                                                                                          } 
-                  |             type-specifier ID OPEN_BRACKET DIGIT CLOSE_BRACKET  END_LINE         {$$ = newnode("var-declaration",$1,NULL,NULL,$2);} 
+                                                                                                        $$ = newnode("var-declaration",$1,ideNo,NULL,NULL);
+                                                                                                     } 
+                  |             type-specifier ID OPEN_BRACKET DIGIT CLOSE_BRACKET  END_LINE         {
+                                                                                                        tNode* ideNo = newnode($2,NULL,NULL,NULL,NULL);
+                                                                                                        $$ = newnode("var-declaration",$1,NULL,NULL,NULL);
+                                                                                                     } 
                   ; 
  
 type-specifier    :             INT                                                                  {$$ = newnode("INT",NULL,NULL,NULL,NULL);} 
                   |             VOID                                                                 {$$ = newnode("VOID",NULL,NULL,NULL,NULL);} 
                   ; 
  
-fun-declaration   :             type-specifier ID OPEN_PAREN params CLOSE_PAREN compound-stmt        {$$ = newnode("fun-declaration ",$1,$4,$6,$2);} 
+fun-declaration   :             type-specifier ID OPEN_PAREN params CLOSE_PAREN compound-stmt        {
+                                                                                                        tNode* ideNo = newnode($2,NULL,NULL,NULL,NULL);
+                                                                                                        $$ = newnode("fun-declaration",$1,ideNo,$4,$6);
+                                                                                                          
+                                                                                                      } 
                   ;            
  
-params            :             param-list                                          {$$ = newnode("params ",$1,NULL,NULL,NULL);} 
-                  |             VOID                                                {$$ = newnode("VOID",NULL,NULL,NULL,NULL);} 
+params            :             param-list                                              {$$ = newnode("params",$1,NULL,NULL,NULL);} 
+                  |             VOID                                                    {$$ = newnode("params",NULL,NULL,NULL,NULL);} 
                   ; 
  
-param-list        :             param-list COMMA param                              {$$ = newnode("",$1,$3,NULL,NULL);} 
-                  |             param                                               {$$ = newnode("",$1,NULL,NULL,NULL);}   
+param-list        :             param-list COMMA param                                  {$$ = newnode("",$1,$3,NULL,NULL);} 
+                  |             param                                                   {$$ = newnode("",$1,NULL,NULL,NULL);}   
                   ; 
-param             :             type-specifier ID                                   {$$ = newnode("param ",$1,NULL,NULL,$2);} 
-                  |             type-specifier ID OPEN_BRACKET CLOSE_BRACKET        {$$ = newnode("param ",$1,NULL,NULL,$2);} 
+param             :             type-specifier ID                                       { tNode* ideNo = newnode($2,NULL,NULL,NULL,NULL);
+                                                                                          $$ = newnode("param",$1,ideNo,NULL,NULL);} 
+                  |             type-specifier ID OPEN_BRACKET CLOSE_BRACKET            {     
+                                                                                              tNode* ideNo = newnode($2,NULL,NULL,NULL,NULL);
+                                                                                              tNode* noOpenBracket = newnode($3,NULL,NULL,NULL,NULL);
+                                                                                              tNode* noCloseBracket = newnode($4,NULL,NULL,NULL,NULL);
+                                                                                              $$ = newnode("param",$1,ideNo,noOpenBracket,noCloseBracket);
+                                                                                        } 
                   ; 
- 
-compound-stmt     :            OPEN_KEY local-declarations statement-list CLOSE_KEY      {$$ = newnode("compound-stmt ",$2,$3,NULL,NULL);} 
-                  ; 
- 
-local-declarations:             local-declarations var-declaration              {$$ = newnode("",$1,$2,NULL,NULL);} 
-                  |             empty                                           {$$ = NULL;} 
-                  ; 
- 
-statement-list    :             statement-list statement                        {$$ = newnode("",$1,$2,NULL,NULL);} 
-                  |             empty                                           {$$ = NULL;} 
+
+compound-stmt     :            OPEN_KEY local-declarations statement-list CLOSE_KEY     {$$ = newnode("compound-stmt",$2,$3,NULL,NULL);} 
                   ; 
  
-statement         :             expression-stmt                                 {$$ = newnode("",$1,NULL,NULL,NULL);} 
-                  |             compound-stmt                                   {$$ = newnode("",$1,NULL,NULL,NULL);} 
-                  |             selection-stmt                                  {$$ = newnode("",$1,NULL,NULL,NULL);} 
-                  |             iteration-stmt                                  {$$ = newnode("",$1,NULL,NULL,NULL);} 
-                  |             return-stmt                                     {$$ = newnode("",$1,NULL,NULL,NULL);} 
+local-declarations:             local-declarations var-declaration                      {$$ = newnode("",$1,$2,NULL,NULL);} 
+                  |             empty                                                   {} 
                   ; 
  
-expression-stmt   :             expression  END_LINE                            {$$ = newnode("",$1,NULL,NULL,NULL);} 
-                  |             END_LINE                                        {$$ = NULL;} 
+statement-list    :             statement-list statement                                {$$ = newnode("",$1,$2,NULL,NULL);} 
+                  |             empty                                                   {} 
+                  ; 
+ 
+statement         :             expression-stmt                                         {$$ = newnode("",$1,NULL,NULL,NULL);} 
+                  |             compound-stmt                                           {$$ = newnode("",$1,NULL,NULL,NULL);} 
+                  |             selection-stmt                                          {$$ = newnode("",$1,NULL,NULL,NULL);} 
+                  |             iteration-stmt                                          {$$ = newnode("",$1,NULL,NULL,NULL);} 
+                  |             return-stmt                                             {$$ = newnode("",$1,NULL,NULL,NULL);} 
+                  ; 
+ 
+expression-stmt   :             expression  END_LINE                                    {$$ = newnode("",$1,NULL,NULL,NULL);} 
+                  |             END_LINE                                                {$$ = NULL;} 
                   ; 
  
 selection-stmt    :             IF OPEN_PAREN expression CLOSE_PAREN statement                     {$$ = newnode("selection-stmt ",$3,$5,NULL,NULL);} 
                   |             IF OPEN_PAREN expression CLOSE_PAREN statement ELSE statement      {$$ = newnode("selection-stmt ",$3,$5,$7,NULL);} 
                   ; 
-iteration-stmt    :             WHILE OPEN_PAREN expression CLOSE_PAREN statement                  {$$ = newnode("iteration-stmt ",$3,$5,NULL,NULL);} 
+iteration-stmt    :             WHILE OPEN_PAREN expression CLOSE_PAREN statement                  {$$ = newnode("iteration-stmt",$3,$5,NULL,NULL);} 
                   ; 
  
 return-stmt       :             RETURN END_LINE                                        {$$ = newnode("return-stmt ",NULL,NULL,NULL,NULL);} 
                   |             RETURN expression END_LINE                             {$$ = newnode("return-stmt ",$2,NULL,NULL,NULL);} 
                   ; 
  
-expression        :             var ATTRIB expression                                  {$$ = newnode("= ",$1,$3,NULL,NULL);} 
+expression        :             var ATTRIB expression                                  {$$ = newnode("=",$1,$3,NULL,NULL);} 
                   |             simple-expression                                      {$$ = newnode("",$1,NULL,NULL,NULL);} 
                   ; 
  
-var               :             ID                                                     {$$ = newnode("var ",NULL,NULL,NULL,$1);} 
-                  |             ID OPEN_BRACKET expression CLOSE_BRACKET               {$$ = newnode("var ",$3,NULL,NULL,$1);}                    
+var               :             ID                                                     { tNode* ideNo = newnode($1,NULL,NULL,NULL,NULL);
+                                                                                        $$ = newnode("var",ideNo,NULL,NULL,NULL);} 
+                  |             ID OPEN_BRACKET expression CLOSE_BRACKET               {tNode* ideNo = newnode($1,NULL,NULL,NULL,NULL);
+                                                                                        $$ = newnode("var",ideNo,$3,NULL,NULL);}                    
                   ; 
  
-simple-expression :             additive-expression relop additive-expression          {$$ = newnode("",$2,$1,$3,NULL);} 
+simple-expression :             additive-expression relop additive-expression          {$$ = newnode("",$1,$2,$3,NULL);} 
                   |             additive-expression                                    {$$ = newnode("",$1,NULL,NULL,NULL);} 
                   ; 
  
-relop             :             LEQUAL                                                 {$$ = newnode("<= ",NULL,NULL,NULL,NULL);} 
-                  |             MINNOR_THEN                                            {$$ = newnode("< ",NULL,NULL,NULL,NULL);} 
-                  |             MAJOR_THEN                                             {$$ = newnode("> ",NULL,NULL,NULL,NULL);} 
-                  |             BEQUAL                                                 {$$ = newnode(">= ",NULL,NULL,NULL,NULL);} 
-                  |             EQUAL                                                  {$$ = newnode("== ",NULL,NULL,NULL,NULL);} 
-                  |             NEQUAL                                                 {$$ = newnode("!= ",NULL,NULL,NULL,NULL);} 
+relop             :             LEQUAL                                                 {$$ = newnode("<=",NULL,NULL,NULL,NULL);} 
+                  |             MINNOR_THEN                                            {$$ = newnode("<",NULL,NULL,NULL,NULL);} 
+                  |             MAJOR_THEN                                             {$$ = newnode(">",NULL,NULL,NULL,NULL);} 
+                  |             BEQUAL                                                 {$$ = newnode(">=",NULL,NULL,NULL,NULL);} 
+                  |             EQUAL                                                  {$$ = newnode("==",NULL,NULL,NULL,NULL);} 
+                  |             NEQUAL                                                 {$$ = newnode("!=",NULL,NULL,NULL,NULL);} 
                   ; 
  
 additive-expression :         additive-expression addop term                    {$$ = newnode("",$1,$2,$3,NULL);} 
@@ -182,16 +196,16 @@ additive-expression :         additive-expression addop term                    
                     ; 
  
  
-addop               :            PLUS                                           {$$ = newnode("+ ",NULL,NULL,NULL,NULL);} 
-                    |            MINUS                                          {$$ = newnode("- ",NULL,NULL,NULL,NULL);} 
+addop               :            PLUS                                           {$$ = newnode("+",NULL,NULL,NULL,NULL);} 
+                    |            MINUS                                          {$$ = newnode("-",NULL,NULL,NULL,NULL);} 
                     ; 
  
 term                :            term mulop factor                              {$$ = newnode("",$1,$2,$3,NULL);} 
                     |            factor                                         {$$ = newnode("",$1,NULL,NULL,NULL);} 
                     ; 
  
-mulop               :            TIMES                                          {$$ = newnode("* ",NULL,NULL,NULL,NULL);} 
-                    |            DIVIDE                                         {$$ = newnode("/ ",NULL,NULL,NULL,NULL);} 
+mulop               :            TIMES                                          {$$ = newnode("*",NULL,NULL,NULL,NULL);} 
+                    |            DIVIDE                                         {$$ = newnode("/",NULL,NULL,NULL,NULL);} 
                     ; 
  
 factor              :            OPEN_PAREN expression CLOSE_PAREN              {$$ = newnode("",$2,NULL,NULL,NULL);} 
@@ -205,11 +219,14 @@ factor              :            OPEN_PAREN expression CLOSE_PAREN              
                                                                                 } 
                     ; 
                          
-call                :            ID OPEN_PAREN args CLOSE_PAREN                 {$$ = newnode("call ",$3,NULL,NULL,$1);} 
+call                :            ID OPEN_PAREN args CLOSE_PAREN                 {
+                                                                                    tNode* ideNo = newnode($1,NULL,NULL,NULL,NULL);
+                                                                                    $$ = newnode("call",ideNo,$3,NULL,NULL);
+                                                                                } 
                     ; 
  
-args                :            arg-list                                       {$$ = newnode("args ",$1,NULL,NULL,NULL);} 
-                    |            empty                                          {$$ = newnode("args ",$1,NULL,NULL,NULL);} 
+args                :            arg-list                                       {$$ = newnode("args",$1,NULL,NULL,NULL);} 
+                    |            empty                                          {$$ = newnode("args",$1,NULL,NULL,NULL);} 
                     ; 
  
 arg-list            :           arg-list COMMA expression                       {$$ = newnode("",$1,$3,NULL,NULL);}
@@ -227,7 +244,7 @@ void yyerror(const char *s) {
   fprintf(stdout, "%s\n", s); 
 } 
  
-tNode* newnode(char* no, tNode *nodeA, tNode *nodeB,tNode *nodeC, char* nodeD){ 
+tNode* newnode(char* no, tNode *nodeA, tNode *nodeB,tNode *nodeC, tNode* nodeD){ 
 
     tNode *tree = malloc(sizeof(tNode)); 
     if(!tree){ 
@@ -236,15 +253,11 @@ tNode* newnode(char* no, tNode *nodeA, tNode *nodeB,tNode *nodeC, char* nodeD){
     } 
      tree->no = malloc(20);
      strcpy(tree->no, no); 
-    //tree->no = no;
-    //if(tree->no != "")
-      //  printf(" %s \n", tree->no);
+
     tree->nodeA = nodeA; 
     tree->nodeB = nodeB; 
     tree->nodeC = nodeC; 
     tree->nodeD = nodeD;
-    //if(tree->nodeD != "" &&  tree->nodeD != NULL)
-      //  printf(" %s \n", tree->nodeD);
     return tree; 
 } 
  
@@ -258,23 +271,23 @@ void imprimirArvore(tNode *no){
       strcat(strAst,no->no);
     }
       
-    if(no->nodeD != NULL && strcmp(no->nodeD, "") != 0) {
-        strcat(strAst,"[\n");
-        strcat(strAst,no->nodeD);
-    }
+    // if(no->nodeD != NULL && strcmp(no->nodeD, "") != 0) {
+    //     strcat(strAst,"[\n");
+    //     strcat(strAst,no->nodeD);
+    // }
     imprimirArvore(no->nodeA); 
     imprimirArvore(no->nodeB); 
     imprimirArvore(no->nodeC); 
-    //imprimirArvore(no->nodeD); 
+    imprimirArvore(no->nodeD); 
             if(strcmp(no->no,"") != 0){
       
           strcat(strAst,"]\n");
         }
         
         
-    if(no->nodeD != NULL && strcmp(no->nodeD, "") != 0) {
-      strcat(strAst,"]\n");
-    }
+    // if(no->nodeD != NULL && strcmp(no->nodeD, "") != 0) {
+    //   strcat(strAst,"]\n");
+    // }
     
 } 
  
