@@ -247,9 +247,57 @@ empty               :           %empty                                          
 %% 
 //----------------------------------------------------------------------------- 
  
+ void clean(char *var) {
+    int i = 0;
+    while(var[i] != '\0') {
+        var[i] = '\0';
+        i++;
+    }
+}
+
 void yyerror(const char *s) { 
   fprintf(stdout, "%s\n", s); 
 } 
+
+int validaTipo(tNode* no){
+  if(strcmp(no->nodeA->no,"int")!=0 &&  strcmp(no->nodeB->no,"main") !=0 && strcmp(no->nodeC->no,"void")!=0){
+    return 0;
+  }
+  return 1;
+}
+
+int validaMain(tNode* no){
+    if(no == NULL){
+        return 1;
+    }
+    if(strcmp(no->no,"program") == 0){
+      if(strcmp(no->nodeD->no,"fun-declaration") == 0 && validaTipo(no->nodeD) == 0){
+         return  0;
+      }
+      if(strcmp(no->nodeC->no,"fun-declaration") == 0 && validaTipo(no->nodeC) == 0){
+         return  0;
+      }
+      if(strcmp(no->nodeB->no,"fun-declaration") == 0 && validaTipo(no->nodeB) == 0){
+         return  0;
+      }
+      if(strcmp(no->nodeA->no,"fun-declaration") == 0 && validaTipo(no->nodeA) == 0){
+         return  0;
+      }
+      return 1;
+    }
+    return 1;
+    
+}
+
+void analiseSemantica(tNode* no){
+  
+    if(validaMain(no) == 1){
+      clean(AST);
+    }
+
+}
+
+
  
 tNode* newnode(char* no, tNode *nodeA, tNode *nodeB,tNode *nodeC, tNode* nodeD){ 
 
@@ -311,8 +359,8 @@ int main( int argc, char *argv[] ) {
      
   yyparse(); 
   imprimirArvore(raiz); 
+  analiseSemantica(raiz);
   fprintf(fp, "%s", AST); 
-  
   fclose(yyin); 
   fclose(fp); 
  
