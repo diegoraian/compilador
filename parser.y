@@ -131,9 +131,9 @@ param             :             type-specifier ID                               
                                                                                           $$ = newnode("param",$1,ideNo,NULL,NULL);} 
                   |             type-specifier ID OPEN_BRACKET CLOSE_BRACKET            {     
                                                                                               tNode* ideNo = newnode($2,NULL,NULL,NULL,NULL);
-                                                                                              tNode* noOpenBracket = newnode("\\[",NULL,NULL,NULL,NULL);
-                                                                                              tNode* noCloseBracket = newnode("\\]",NULL,NULL,NULL,NULL);
-                                                                                              $$ = newnode("param",$1,ideNo,noOpenBracket,noCloseBracket);
+                                                                                              tNode* noBrackets = newnode("\\[\\]",NULL,NULL,NULL,NULL);
+                                                                                              
+                                                                                              $$ = newnode("param",$1,ideNo,noBrackets,NULL);
                                                                                         } 
                   ; 
 
@@ -270,8 +270,9 @@ void imprimirArvore(tNode *no){
     }
     printf("%s",no->no); 
     if(strcmp(no->no,"") != 0){
-      strcat(strAst,"[\n");
+      strcat(strAst," [");
       strcat(strAst,no->no);
+      //strcat(strAst," ");
     }
       
     // if(no->nodeD != NULL && strcmp(no->nodeD, "") != 0) {
@@ -282,10 +283,9 @@ void imprimirArvore(tNode *no){
     imprimirArvore(no->nodeB); 
     imprimirArvore(no->nodeC); 
     imprimirArvore(no->nodeD); 
-            if(strcmp(no->no,"") != 0){
-      
-          strcat(strAst,"]\n");
-        }
+    if(strcmp(no->no,"") != 0){  
+        strcat(strAst,"] ");
+    }
         
         
     // if(no->nodeD != NULL && strcmp(no->nodeD, "") != 0) {

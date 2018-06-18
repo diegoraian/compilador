@@ -12,3 +12,13 @@ int foo(int x, int y, int z[])
 
     return y;
 }
+
+void main(void)
+{
+    int a[10];
+    while(g < 10)
+    {
+        g = foo(g, 2, a);
+        ;
+    }
+}
