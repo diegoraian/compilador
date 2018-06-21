@@ -1,836 +1,803 @@
-file: /home/diegoraian/Downloads/testCompiladores/casos//0nfUVAKd.c ------ ERROR 
-
- 0a1 > [program[fun-declaration[void][main][params][compound-stmt[var-declaration[int][a][10]][+[var[a]][call[main][args]]][main]]]] \ No newline at end of file 
-
-file: /home/diegoraian/Downloads/testCompiladores/casos//0sikQcVu.c test passed ------ OK 
+file: /home/shay/Documents/UFBA/2018.1/Compiladores/TrabalhoOficial/git/compilador/testCompiladores/casos/0nfUVAKd.c test passed ------ OK 
 
 
-file: /home/diegoraian/Downloads/testCompiladores/casos//0wgC0dL9.c test passed ------ OK 
+file: /home/shay/Documents/UFBA/2018.1/Compiladores/TrabalhoOficial/git/compilador/testCompiladores/casos/0sikQcVu.c test passed ------ OK 
 
 
-file: /home/diegoraian/Downloads/testCompiladores/casos//0xQbglL4.c ------ ERROR 
-
- 0a1 > [program[fun-declaration[void][main][params][compound-stmt[return-stmt[1]]]]] \ No newline at end of file 
-
-file: /home/diegoraian/Downloads/testCompiladores/casos//0ZBOaE0z.c ------ ERROR 
-
- 1c1 < [program[fun-declaration[void][foo][params[param [int][p][\[\]]]][compound-stmt]][fun-declaration[void][main][params][compound-stmt[var-declaration[int][a][10]][call [foo][args [var [a]]]]]]] --- > [program[fun-declaration[void][foo][params[param[int][p][\[\]]]][compound-stmt]][fun-declaration[void][main][params][compound-stmt[var-declaration[int][a][10]][call[foo][args[var[a]]]][a]]]] \ No newline at end of file 
-
-file: /home/diegoraian/Downloads/testCompiladores/casos//1lxly5vK.c ------ ERROR 
-
- 0a1 > [program[fun-declaration[void][main][params][compound-stmt[var-declaration[int][a][10]][var[a]][a]]]] \ No newline at end of file 
-
-file: /home/diegoraian/Downloads/testCompiladores/casos//1RGZTOGB.c test passed ------ OK 
+file: /home/shay/Documents/UFBA/2018.1/Compiladores/TrabalhoOficial/git/compilador/testCompiladores/casos/0wgC0dL9.c test passed ------ OK 
 
 
-file: /home/diegoraian/Downloads/testCompiladores/casos//1wqfoOi3.c ------ ERROR 
+file: /home/shay/Documents/UFBA/2018.1/Compiladores/TrabalhoOficial/git/compilador/testCompiladores/casos/0xQbglL4.c test passed ------ OK 
+
+
+file: /home/shay/Documents/UFBA/2018.1/Compiladores/TrabalhoOficial/git/compilador/testCompiladores/casos/0ZBOaE0z.c ------ ERROR 
+
+ 1d0 < [program[fun-declaration[void][foo][params[param [int][p][\[\]]]][compound-stmt]][fun-declaration[void][main][params][compound-stmt[var-declaration[int][a][10]][call [foo][args [var [a]]]]]]] 
+
+file: /home/shay/Documents/UFBA/2018.1/Compiladores/TrabalhoOficial/git/compilador/testCompiladores/casos/1lxly5vK.c test passed ------ OK 
+
+
+file: /home/shay/Documents/UFBA/2018.1/Compiladores/TrabalhoOficial/git/compilador/testCompiladores/casos/1RGZTOGB.c test passed ------ OK 
+
+
+file: /home/shay/Documents/UFBA/2018.1/Compiladores/TrabalhoOficial/git/compilador/testCompiladores/casos/1wqfoOi3.c ------ ERROR 
 
  1d0 < [program[var-declaration[int][g]][fun-declaration[int][foo][params[param [int][x]][param [int][y]][param [int][z][\[\]]]][compound-stmt[=[var [z][0]][0]][=[var [y]][+[*[var [x]][var [y]]][2]]][selection-stmt [==[var [y]][0]][compound-stmt[=[var [y]][1]]]][return-stmt [var [y]]]]][fun-declaration[void][main][params][compound-stmt[var-declaration[int][a][10]][iteration-stmt [<[var [g]][10]][compound-stmt[=[var [g]][call [foo][args [var [g]][2][var [a]]]]][;]]]]]] 
 
-file: /home/diegoraian/Downloads/testCompiladores/casos//1ZhUqnVz.c ------ ERROR 
-
- 0a1 > [program[fun-declaration[int][foo][params][compound-stmt[return-stmt[1]]]][fun-declaration[void][main][params][compound-stmt[iteration-stmt[var[foo]][compound-stmt]]]]] \ No newline at end of file 
-
-file: /home/diegoraian/Downloads/testCompiladores/casos//21I2PErV.c test passed ------ OK 
+file: /home/shay/Documents/UFBA/2018.1/Compiladores/TrabalhoOficial/git/compilador/testCompiladores/casos/1ZhUqnVz.c test passed ------ OK 
 
 
-file: /home/diegoraian/Downloads/testCompiladores/casos//227ZTiKl.c ------ ERROR 
+file: /home/shay/Documents/UFBA/2018.1/Compiladores/TrabalhoOficial/git/compilador/testCompiladores/casos/21I2PErV.c test passed ------ OK 
 
- 1c1 < [program[fun-declaration[void][foo][params[param [int][p]]][compound-stmt]][fun-declaration[void][main][params][compound-stmt[var-declaration[int][a][10]][call [foo][args [var [a]]]]]]] --- > [program[fun-declaration[void][foo][params[param[int][p]]][compound-stmt]][fun-declaration[void][main][params][compound-stmt[var-declaration[int][a][10]][call[foo][args[var[a]]]][a]]]] \ No newline at end of file 
 
-file: /home/diegoraian/Downloads/testCompiladores/casos//2SS3TSma.c ------ ERROR 
+file: /home/shay/Documents/UFBA/2018.1/Compiladores/TrabalhoOficial/git/compilador/testCompiladores/casos/227ZTiKl.c ------ ERROR 
+
+ 1d0 < [program[fun-declaration[void][foo][params[param [int][p]]][compound-stmt]][fun-declaration[void][main][params][compound-stmt[var-declaration[int][a][10]][call [foo][args [var [a]]]]]]] 
+
+file: /home/shay/Documents/UFBA/2018.1/Compiladores/TrabalhoOficial/git/compilador/testCompiladores/casos/2SS3TSma.c ------ ERROR 
 
  1d0 < [program[fun-declaration[void][foo][params[param [int][p][\[\]]]][compound-stmt]][fun-declaration[void][main][params][compound-stmt[var-declaration[int][a][10]][call [foo][args [var [a][0]]]]]]] 
 
-file: /home/diegoraian/Downloads/testCompiladores/casos//39wWN6GB.c test passed ------ OK 
+file: /home/shay/Documents/UFBA/2018.1/Compiladores/TrabalhoOficial/git/compilador/testCompiladores/casos/39wWN6GB.c test passed ------ OK 
 
 
-file: /home/diegoraian/Downloads/testCompiladores/casos//3EvFvyMc.c ------ ERROR 
+file: /home/shay/Documents/UFBA/2018.1/Compiladores/TrabalhoOficial/git/compilador/testCompiladores/casos/3EvFvyMc.c test passed ------ OK 
 
- 0a1 > [program[fun-declaration[void][foo][params[param[int][p][\[\]]]][compound-stmt]][fun-declaration[void][main][params][compound-stmt[call[foo][args[call[main][args]]]][main]]]] \ No newline at end of file 
 
-file: /home/diegoraian/Downloads/testCompiladores/casos//3IqVq7Ly.c ------ ERROR 
+file: /home/shay/Documents/UFBA/2018.1/Compiladores/TrabalhoOficial/git/compilador/testCompiladores/casos/3IqVq7Ly.c ------ ERROR 
 
  1d0 < [program[fun-declaration[void][foo][params][compound-stmt]][fun-declaration[void][baz][params[param [int][x]]][compound-stmt]][fun-declaration[void][bar][params[param [int][x]][param [int][y]]][compound-stmt]][fun-declaration[void][main][params][compound-stmt[call [foo][args ]][call [baz][args [1]]][call [bar][args [1][2]]]]]] 
 
-file: /home/diegoraian/Downloads/testCompiladores/casos//3qfbSDSe.c ------ ERROR 
-
- 0a1 > [program[fun-declaration[void][main][params][compound-stmt[+[1][call[main][args]]][main]]]] \ No newline at end of file 
-
-file: /home/diegoraian/Downloads/testCompiladores/casos//3SsLbblj.c test passed ------ OK 
+file: /home/shay/Documents/UFBA/2018.1/Compiladores/TrabalhoOficial/git/compilador/testCompiladores/casos/3qfbSDSe.c test passed ------ OK 
 
 
-file: /home/diegoraian/Downloads/testCompiladores/casos//3Vuj1cnz.c test passed ------ OK 
+file: /home/shay/Documents/UFBA/2018.1/Compiladores/TrabalhoOficial/git/compilador/testCompiladores/casos/3SsLbblj.c test passed ------ OK 
 
 
-file: /home/diegoraian/Downloads/testCompiladores/casos//3zS8rmU1.c test passed ------ OK 
+file: /home/shay/Documents/UFBA/2018.1/Compiladores/TrabalhoOficial/git/compilador/testCompiladores/casos/3Vuj1cnz.c test passed ------ OK 
 
 
-file: /home/diegoraian/Downloads/testCompiladores/casos//4qsa4edm.c test passed ------ OK 
+file: /home/shay/Documents/UFBA/2018.1/Compiladores/TrabalhoOficial/git/compilador/testCompiladores/casos/3zS8rmU1.c test passed ------ OK 
 
 
-file: /home/diegoraian/Downloads/testCompiladores/casos//4Xfxn7N2.c test passed ------ OK 
+file: /home/shay/Documents/UFBA/2018.1/Compiladores/TrabalhoOficial/git/compilador/testCompiladores/casos/4qsa4edm.c test passed ------ OK 
 
 
-file: /home/diegoraian/Downloads/testCompiladores/casos//5i59VxDy.c test passed ------ OK 
+file: /home/shay/Documents/UFBA/2018.1/Compiladores/TrabalhoOficial/git/compilador/testCompiladores/casos/4Xfxn7N2.c test passed ------ OK 
 
 
-file: /home/diegoraian/Downloads/testCompiladores/casos//5iSnFsEl.c ------ ERROR 
-
- 0a1 > [program[fun-declaration[void][main][params][compound-stmt[var-declaration[int][x]][=[var[x]][call[main][args]]][main]]]] \ No newline at end of file 
-
-file: /home/diegoraian/Downloads/testCompiladores/casos//5phSUFop.c test passed ------ OK 
+file: /home/shay/Documents/UFBA/2018.1/Compiladores/TrabalhoOficial/git/compilador/testCompiladores/casos/5i59VxDy.c test passed ------ OK 
 
 
-file: /home/diegoraian/Downloads/testCompiladores/casos//5QdmMmXF.c ------ ERROR 
+file: /home/shay/Documents/UFBA/2018.1/Compiladores/TrabalhoOficial/git/compilador/testCompiladores/casos/5iSnFsEl.c test passed ------ OK 
 
- 0a1 > [program[fun-declaration[void][main][params][compound-stmt[var[main]][main]]]] \ No newline at end of file 
 
-file: /home/diegoraian/Downloads/testCompiladores/casos//5UBMJd0X.c ------ ERROR 
+file: /home/shay/Documents/UFBA/2018.1/Compiladores/TrabalhoOficial/git/compilador/testCompiladores/casos/5phSUFop.c test passed ------ OK 
+
+
+file: /home/shay/Documents/UFBA/2018.1/Compiladores/TrabalhoOficial/git/compilador/testCompiladores/casos/5QdmMmXF.c test passed ------ OK 
+
+
+file: /home/shay/Documents/UFBA/2018.1/Compiladores/TrabalhoOficial/git/compilador/testCompiladores/casos/5UBMJd0X.c ------ ERROR 
 
  1d0 < [program[fun-declaration[void][main][params][compound-stmt[var-declaration[int][x]][iteration-stmt [==[1][1]][+[var [x]][1]]][iteration-stmt [==[1][1]][1]][iteration-stmt [==[1][1]][2]][iteration-stmt [==[1][1]][;]][iteration-stmt [==[1][1]][compound-stmt]][iteration-stmt [==[1][1]][selection-stmt [==[2][2]][;]]][iteration-stmt [==[1][1]][iteration-stmt [==[3][3]][;]]][iteration-stmt [==[1][1]][return-stmt]]]]] 
 
-file: /home/diegoraian/Downloads/testCompiladores/casos//60bD7HSU.c test passed ------ OK 
+file: /home/shay/Documents/UFBA/2018.1/Compiladores/TrabalhoOficial/git/compilador/testCompiladores/casos/60bD7HSU.c ------ ERROR 
+
+ 1d0 < [program[fun-declaration[void][foo][params[param [int][x]]][compound-stmt[compound-stmt[var-declaration[int][x]]]]][fun-declaration[void][main][params][compound-stmt]]] 
+
+file: /home/shay/Documents/UFBA/2018.1/Compiladores/TrabalhoOficial/git/compilador/testCompiladores/casos/63GiH13z.c test passed ------ OK 
 
 
-file: /home/diegoraian/Downloads/testCompiladores/casos//63GiH13z.c test passed ------ OK 
+file: /home/shay/Documents/UFBA/2018.1/Compiladores/TrabalhoOficial/git/compilador/testCompiladores/casos/6cvwa9gS.c test passed ------ OK 
 
 
-file: /home/diegoraian/Downloads/testCompiladores/casos//6cvwa9gS.c ------ ERROR 
-
- 0a1 > [program[var-declaration[int][foo]][var-declaration[int][foo]][fun-declaration[void][main][params][compound-stmt]]] \ No newline at end of file 
-
-file: /home/diegoraian/Downloads/testCompiladores/casos//6dc4elKa.c test passed ------ OK 
+file: /home/shay/Documents/UFBA/2018.1/Compiladores/TrabalhoOficial/git/compilador/testCompiladores/casos/6dc4elKa.c test passed ------ OK 
 
 
-file: /home/diegoraian/Downloads/testCompiladores/casos//6qm5NBj1.c ------ ERROR 
+file: /home/shay/Documents/UFBA/2018.1/Compiladores/TrabalhoOficial/git/compilador/testCompiladores/casos/6qm5NBj1.c test passed ------ OK 
 
- 0a1 > [program[fun-declaration[void][foo][params[param[int][x]]][compound-stmt[var-declaration[int][x]]]][fun-declaration[void][main][params][compound-stmt]]] \ No newline at end of file 
 
-file: /home/diegoraian/Downloads/testCompiladores/casos//778yuUzg.c ------ ERROR 
+file: /home/shay/Documents/UFBA/2018.1/Compiladores/TrabalhoOficial/git/compilador/testCompiladores/casos/778yuUzg.c ------ ERROR 
 
  1d0 < [program[fun-declaration[void][foo][params[param [int][x]][param [int][y]]][compound-stmt]][fun-declaration[void][main][params][compound-stmt[call [foo][args [1][2][3]]]]]] 
 
-file: /home/diegoraian/Downloads/testCompiladores/casos//7XySLVnf.c test passed ------ OK 
+file: /home/shay/Documents/UFBA/2018.1/Compiladores/TrabalhoOficial/git/compilador/testCompiladores/casos/7XySLVnf.c test passed ------ OK 
 
 
-file: /home/diegoraian/Downloads/testCompiladores/casos//7zRuknw6.c ------ ERROR 
+file: /home/shay/Documents/UFBA/2018.1/Compiladores/TrabalhoOficial/git/compilador/testCompiladores/casos/7zRuknw6.c ------ ERROR 
 
- 1c1 < [program[fun-declaration[void][main][params][compound-stmt[var-declaration[int][a][10]][call [println][args [var [a]]]]]]] --- > [program[fun-declaration[void][main][params][compound-stmt[var-declaration[int][a][10]][call[println][args[var[a]]]][a]]]] \ No newline at end of file 
+ 1d0 < [program[fun-declaration[void][main][params][compound-stmt[var-declaration[int][a][10]][call [println][args [var [a]]]]]]] 
 
-file: /home/diegoraian/Downloads/testCompiladores/casos//87a5XvcT.c ------ ERROR 
-
- 0a1 > [program[fun-declaration[void][main][params][compound-stmt[return-stmt[call[main][args]]]]]] \ No newline at end of file 
-
-file: /home/diegoraian/Downloads/testCompiladores/casos//89CTmfDo.c ------ ERROR 
-
- 0a1 > [program[var-declaration[int][x]][fun-declaration[void][foo][params][compound-stmt]][fun-declaration[int][bar][params[param[int][x]][param[int][y]]][compound-stmt]][var-declaration[int][y][10]][fun-declaration[int][baz][params][compound-stmt]][var-declaration[int][z]][var-declaration[int][w]][var-declaration[int][j][9]][var-declaration[int][k]][fun-declaration[void][main][params][compound-stmt]]] \ No newline at end of file 
-
-file: /home/diegoraian/Downloads/testCompiladores/casos//8elLVWuD.c test passed ------ OK 
+file: /home/shay/Documents/UFBA/2018.1/Compiladores/TrabalhoOficial/git/compilador/testCompiladores/casos/87a5XvcT.c test passed ------ OK 
 
 
-file: /home/diegoraian/Downloads/testCompiladores/casos//8mLkR0Qv.c test passed ------ OK 
+file: /home/shay/Documents/UFBA/2018.1/Compiladores/TrabalhoOficial/git/compilador/testCompiladores/casos/89CTmfDo.c test passed ------ OK 
 
 
-file: /home/diegoraian/Downloads/testCompiladores/casos//8PTc2QRk.c ------ ERROR 
-
- 0a1 > [program[fun-declaration[void][foo][params[param[int][x]][param[int][x]]][compound-stmt]][fun-declaration[void][main][params][compound-stmt]]] \ No newline at end of file 
-
-file: /home/diegoraian/Downloads/testCompiladores/casos//8PtTP6NC.c ------ ERROR 
-
- 0a1 > [program[fun-declaration[void][main][params][compound-stmt[selection-stmt [call[main][args]][compound-stmt]]]]] \ No newline at end of file 
-
-file: /home/diegoraian/Downloads/testCompiladores/casos//8SkNbYNs.c ------ ERROR 
-
- 0a1 > [program[fun-declaration[void][main][params][compound-stmt[var-declaration[int][x][10]][var-declaration[int][y][10]][=[var[x]][var[y]]][y]]]] \ No newline at end of file 
-
-file: /home/diegoraian/Downloads/testCompiladores/casos//8zBJWpZs.c ------ ERROR 
-
- 1c1 < [program[fun-declaration[void][main][params][compound-stmt[compound-stmt[var-declaration[int][x]][var-declaration[int][y]][+[var [x]][var [y]]][+[var [y]][var [x]]]]]]] --- > [program[fun-declaration[void][main][params][compound-stmt[compound-stmt[var-declaration[int][x]][var-declaration[int][y]][+[var[x]][var[y]]][y][+[var[y]][var[x]]][x]]]]] \ No newline at end of file 
-
-file: /home/diegoraian/Downloads/testCompiladores/casos//9u2gwnLC.c ------ ERROR 
-
- 0a1 > [program[var-declaration[int][var1]]] \ No newline at end of file 
-
-file: /home/diegoraian/Downloads/testCompiladores/casos//9um794Ar.c test passed ------ OK 
+file: /home/shay/Documents/UFBA/2018.1/Compiladores/TrabalhoOficial/git/compilador/testCompiladores/casos/8elLVWuD.c test passed ------ OK 
 
 
-file: /home/diegoraian/Downloads/testCompiladores/casos//A7BODfOr.c ------ ERROR 
+file: /home/shay/Documents/UFBA/2018.1/Compiladores/TrabalhoOficial/git/compilador/testCompiladores/casos/8mLkR0Qv.c test passed ------ OK 
+
+
+file: /home/shay/Documents/UFBA/2018.1/Compiladores/TrabalhoOficial/git/compilador/testCompiladores/casos/8PTc2QRk.c test passed ------ OK 
+
+
+file: /home/shay/Documents/UFBA/2018.1/Compiladores/TrabalhoOficial/git/compilador/testCompiladores/casos/8PtTP6NC.c test passed ------ OK 
+
+
+file: /home/shay/Documents/UFBA/2018.1/Compiladores/TrabalhoOficial/git/compilador/testCompiladores/casos/8SkNbYNs.c test passed ------ OK 
+
+
+file: /home/shay/Documents/UFBA/2018.1/Compiladores/TrabalhoOficial/git/compilador/testCompiladores/casos/8zBJWpZs.c ------ ERROR 
+
+ 1d0 < [program[fun-declaration[void][main][params][compound-stmt[compound-stmt[var-declaration[int][x]][var-declaration[int][y]][+[var [x]][var [y]]][+[var [y]][var [x]]]]]]] 
+
+file: /home/shay/Documents/UFBA/2018.1/Compiladores/TrabalhoOficial/git/compilador/testCompiladores/casos/9u2gwnLC.c test passed ------ OK 
+
+
+file: /home/shay/Documents/UFBA/2018.1/Compiladores/TrabalhoOficial/git/compilador/testCompiladores/casos/9um794Ar.c test passed ------ OK 
+
+
+file: /home/shay/Documents/UFBA/2018.1/Compiladores/TrabalhoOficial/git/compilador/testCompiladores/casos/A7BODfOr.c ------ ERROR 
 
  1d0 < [program[fun-declaration[void][main][params][compound-stmt[var-declaration[int][x]][selection-stmt [==[1][1]][+[var [x]][1]]][selection-stmt [==[1][1]][1]][selection-stmt [==[1][1]][2]][selection-stmt [==[1][1]][;]][selection-stmt [==[1][1]][compound-stmt]][selection-stmt [==[1][1]][selection-stmt [==[2][2]][;]]][selection-stmt [==[1][1]][iteration-stmt [==[3][3]][;]]][selection-stmt [==[1][1]][return-stmt]][selection-stmt [==[1][1]][;][+[var [x]][1]]][selection-stmt [==[1][1]][;][1]][selection-stmt [==[1][1]][;][2]][selection-stmt [==[1][1]][;][;]][selection-stmt [==[1][1]][;][compound-stmt]][selection-stmt [==[1][1]][;][selection-stmt [==[2][2]][;]]][selection-stmt [==[1][1]][;][iteration-stmt [==[3][3]][;]]][selection-stmt [==[1][1]][;][return-stmt]]]]] 
 
-file: /home/diegoraian/Downloads/testCompiladores/casos//acqrAiv2.c ------ ERROR 
-
- 0a1 > [program[fun-declaration[void][main][params][compound-stmt[var-declaration[int][x]][var-declaration[int][y][10]][=[var[x]][var[y]]][y]]]] \ No newline at end of file 
-
-file: /home/diegoraian/Downloads/testCompiladores/casos//akCAqToo.c test passed ------ OK 
+file: /home/shay/Documents/UFBA/2018.1/Compiladores/TrabalhoOficial/git/compilador/testCompiladores/casos/acqrAiv2.c test passed ------ OK 
 
 
-file: /home/diegoraian/Downloads/testCompiladores/casos//aqiois20.c test passed ------ OK 
+file: /home/shay/Documents/UFBA/2018.1/Compiladores/TrabalhoOficial/git/compilador/testCompiladores/casos/akCAqToo.c test passed ------ OK 
 
 
-file: /home/diegoraian/Downloads/testCompiladores/casos//AwJbxdsH.c test passed ------ OK 
+file: /home/shay/Documents/UFBA/2018.1/Compiladores/TrabalhoOficial/git/compilador/testCompiladores/casos/aqiois20.c ------ ERROR 
+
+ 1d0 < [program[fun-declaration[void][foo][params[param [int][a]]][compound-stmt]][fun-declaration[void][main][params][compound-stmt]]] 
+
+file: /home/shay/Documents/UFBA/2018.1/Compiladores/TrabalhoOficial/git/compilador/testCompiladores/casos/AwJbxdsH.c test passed ------ OK 
 
 
-file: /home/diegoraian/Downloads/testCompiladores/casos//AXwOK7m5.c ------ ERROR 
-
- 0a1 > [program[fun-declaration[void][main][params][compound-stmt]]] \ No newline at end of file 
-
-file: /home/diegoraian/Downloads/testCompiladores/casos//ayfLJGCE.c ------ ERROR 
-
- 0a1 > [program[fun-declaration[void][main][params[param[int][x]]][compound-stmt]]] \ No newline at end of file 
-
-file: /home/diegoraian/Downloads/testCompiladores/casos//B0b6nLxt.c test passed ------ OK 
+file: /home/shay/Documents/UFBA/2018.1/Compiladores/TrabalhoOficial/git/compilador/testCompiladores/casos/AXwOK7m5.c test passed ------ OK 
 
 
-file: /home/diegoraian/Downloads/testCompiladores/casos//b1NN7TtF.c test passed ------ OK 
+file: /home/shay/Documents/UFBA/2018.1/Compiladores/TrabalhoOficial/git/compilador/testCompiladores/casos/ayfLJGCE.c test passed ------ OK 
 
 
-file: /home/diegoraian/Downloads/testCompiladores/casos//B7FdY003.c test passed ------ OK 
+file: /home/shay/Documents/UFBA/2018.1/Compiladores/TrabalhoOficial/git/compilador/testCompiladores/casos/B0b6nLxt.c test passed ------ OK 
 
 
-file: /home/diegoraian/Downloads/testCompiladores/casos//b980RNaU.c ------ ERROR 
-
- 0a1 > [program[fun-declaration[void][foo][params[param[int][x]]][compound-stmt]][fun-declaration[void][main][params][compound-stmt[call[foo][args[call[main][args]]]][main]]]] \ No newline at end of file 
-
-file: /home/diegoraian/Downloads/testCompiladores/casos//BAV0cLgb.c test passed ------ OK 
+file: /home/shay/Documents/UFBA/2018.1/Compiladores/TrabalhoOficial/git/compilador/testCompiladores/casos/b1NN7TtF.c test passed ------ OK 
 
 
-file: /home/diegoraian/Downloads/testCompiladores/casos//BkZakdru.c test passed ------ OK 
+file: /home/shay/Documents/UFBA/2018.1/Compiladores/TrabalhoOficial/git/compilador/testCompiladores/casos/B7FdY003.c test passed ------ OK 
 
 
-file: /home/diegoraian/Downloads/testCompiladores/casos//BmXpYOet.c ------ ERROR 
+file: /home/shay/Documents/UFBA/2018.1/Compiladores/TrabalhoOficial/git/compilador/testCompiladores/casos/b980RNaU.c test passed ------ OK 
 
- 0a1 > [program[fun-declaration[void][main][params][compound-stmt]]] \ No newline at end of file 
 
-file: /home/diegoraian/Downloads/testCompiladores/casos//BojV20Rl.c ------ ERROR 
+file: /home/shay/Documents/UFBA/2018.1/Compiladores/TrabalhoOficial/git/compilador/testCompiladores/casos/BAV0cLgb.c test passed ------ OK 
+
+
+file: /home/shay/Documents/UFBA/2018.1/Compiladores/TrabalhoOficial/git/compilador/testCompiladores/casos/BkZakdru.c ------ ERROR 
+
+ 1d0 < [program[var-declaration[int][var1]][fun-declaration[void][main][params][compound-stmt]]] 
+
+file: /home/shay/Documents/UFBA/2018.1/Compiladores/TrabalhoOficial/git/compilador/testCompiladores/casos/BmXpYOet.c test passed ------ OK 
+
+
+file: /home/shay/Documents/UFBA/2018.1/Compiladores/TrabalhoOficial/git/compilador/testCompiladores/casos/BojV20Rl.c ------ ERROR 
 
  1d0 < [program[fun-declaration[void][foo][params[param [int][x]][param [int][y]]][compound-stmt]][fun-declaration[void][main][params][compound-stmt[call [foo][args [1]]]]]] 
 
-file: /home/diegoraian/Downloads/testCompiladores/casos//BsEEdkSc.c test passed ------ OK 
+file: /home/shay/Documents/UFBA/2018.1/Compiladores/TrabalhoOficial/git/compilador/testCompiladores/casos/BsEEdkSc.c test passed ------ OK 
 
 
-file: /home/diegoraian/Downloads/testCompiladores/casos//bTB9Yba4.c ------ ERROR 
-
- 0a1 > [program[fun-declaration[void][foo][params[param[void][stuff]]][compound-stmt]][fun-declaration[void][main][params][compound-stmt]]] \ No newline at end of file 
-
-file: /home/diegoraian/Downloads/testCompiladores/casos//ByEo8dSi.c test passed ------ OK 
+file: /home/shay/Documents/UFBA/2018.1/Compiladores/TrabalhoOficial/git/compilador/testCompiladores/casos/bTB9Yba4.c test passed ------ OK 
 
 
-file: /home/diegoraian/Downloads/testCompiladores/casos//C31nBoAw.c test passed ------ OK 
+file: /home/shay/Documents/UFBA/2018.1/Compiladores/TrabalhoOficial/git/compilador/testCompiladores/casos/ByEo8dSi.c test passed ------ OK 
 
 
-file: /home/diegoraian/Downloads/testCompiladores/casos//cBJYZqp0.c test passed ------ OK 
+file: /home/shay/Documents/UFBA/2018.1/Compiladores/TrabalhoOficial/git/compilador/testCompiladores/casos/C31nBoAw.c ------ ERROR 
+
+ 1d0 < [program[fun-declaration[void][foo][params][compound-stmt]][fun-declaration[void][bar][params[param [int][foo]]][compound-stmt]][fun-declaration[void][main][params][compound-stmt]]] 
+
+file: /home/shay/Documents/UFBA/2018.1/Compiladores/TrabalhoOficial/git/compilador/testCompiladores/casos/cBJYZqp0.c test passed ------ OK 
 
 
-file: /home/diegoraian/Downloads/testCompiladores/casos//CDHS28y7.c ------ ERROR 
-
- 0a1 > [program[fun-declaration[void][main][params][compound-stmt[var-declaration[int][x][10]][var[x][call[main][args]]][main]]]] \ No newline at end of file 
-
-file: /home/diegoraian/Downloads/testCompiladores/casos//CGfrsNSm.c test passed ------ OK 
+file: /home/shay/Documents/UFBA/2018.1/Compiladores/TrabalhoOficial/git/compilador/testCompiladores/casos/CDHS28y7.c test passed ------ OK 
 
 
-file: /home/diegoraian/Downloads/testCompiladores/casos//CnpA8qhh.c test passed ------ OK 
+file: /home/shay/Documents/UFBA/2018.1/Compiladores/TrabalhoOficial/git/compilador/testCompiladores/casos/CGfrsNSm.c test passed ------ OK 
 
 
-file: /home/diegoraian/Downloads/testCompiladores/casos//CVXdOi8M.c ------ ERROR 
-
- 0a1 > [program[fun-declaration[void][main][params][compound-stmt[var-declaration[int][a][10]][+[1][var[a]]][a]]]] \ No newline at end of file 
-
-file: /home/diegoraian/Downloads/testCompiladores/casos//CW1qHU6T.c test passed ------ OK 
+file: /home/shay/Documents/UFBA/2018.1/Compiladores/TrabalhoOficial/git/compilador/testCompiladores/casos/CnpA8qhh.c test passed ------ OK 
 
 
-file: /home/diegoraian/Downloads/testCompiladores/casos//CwoSqMfn.c ------ ERROR 
-
- 0a1 > [program[fun-declaration[void][main][params][compound-stmt[var-declaration[int][a][10]][+[call[main][args]][var[a]]][a]]]] \ No newline at end of file 
-
-file: /home/diegoraian/Downloads/testCompiladores/casos//dQjIxHqB.c test passed ------ OK 
+file: /home/shay/Documents/UFBA/2018.1/Compiladores/TrabalhoOficial/git/compilador/testCompiladores/casos/CVXdOi8M.c test passed ------ OK 
 
 
-file: /home/diegoraian/Downloads/testCompiladores/casos//DQkRrw18.c ------ ERROR 
-
- 1c1 < [program[fun-declaration[void][foo][params[param [int][p][\[\]]]][compound-stmt]][fun-declaration[void][main][params][compound-stmt[var-declaration[int][x]][call [foo][args [var [x]]]]]]] --- > [program[fun-declaration[void][foo][params[param[int][p][\[\]]]][compound-stmt]][fun-declaration[void][main][params][compound-stmt[var-declaration[int][x]][call[foo][args[var[x]]]][x]]]] \ No newline at end of file 
-
-file: /home/diegoraian/Downloads/testCompiladores/casos//DTnduiMl.c ------ ERROR 
-
- 0a1 > [program[fun-declaration[void][foo][params[param[int][a][\[\]]]][compound-stmt[var[a]][a]]][fun-declaration[void][main][params][compound-stmt]]] \ No newline at end of file 
-
-file: /home/diegoraian/Downloads/testCompiladores/casos//dWr7Y39D.c test passed ------ OK 
+file: /home/shay/Documents/UFBA/2018.1/Compiladores/TrabalhoOficial/git/compilador/testCompiladores/casos/CW1qHU6T.c test passed ------ OK 
 
 
-file: /home/diegoraian/Downloads/testCompiladores/casos//DXD3tME3.c ------ ERROR 
-
- 0a1 > [program[fun-declaration[void][foo][params][compound-stmt]][fun-declaration[void][foo][params[param[int][x]]][compound-stmt]][fun-declaration[void][main][params][compound-stmt]]] \ No newline at end of file 
-
-file: /home/diegoraian/Downloads/testCompiladores/casos//e02NwFBp.c test passed ------ OK 
+file: /home/shay/Documents/UFBA/2018.1/Compiladores/TrabalhoOficial/git/compilador/testCompiladores/casos/CwoSqMfn.c test passed ------ OK 
 
 
-file: /home/diegoraian/Downloads/testCompiladores/casos//e88pa4QJ.c ------ ERROR 
+file: /home/shay/Documents/UFBA/2018.1/Compiladores/TrabalhoOficial/git/compilador/testCompiladores/casos/dQjIxHqB.c test passed ------ OK 
+
+
+file: /home/shay/Documents/UFBA/2018.1/Compiladores/TrabalhoOficial/git/compilador/testCompiladores/casos/DQkRrw18.c ------ ERROR 
+
+ 1d0 < [program[fun-declaration[void][foo][params[param [int][p][\[\]]]][compound-stmt]][fun-declaration[void][main][params][compound-stmt[var-declaration[int][x]][call [foo][args [var [x]]]]]]] 
+
+file: /home/shay/Documents/UFBA/2018.1/Compiladores/TrabalhoOficial/git/compilador/testCompiladores/casos/DTnduiMl.c test passed ------ OK 
+
+
+file: /home/shay/Documents/UFBA/2018.1/Compiladores/TrabalhoOficial/git/compilador/testCompiladores/casos/dWr7Y39D.c test passed ------ OK 
+
+
+file: /home/shay/Documents/UFBA/2018.1/Compiladores/TrabalhoOficial/git/compilador/testCompiladores/casos/DXD3tME3.c test passed ------ OK 
+
+
+file: /home/shay/Documents/UFBA/2018.1/Compiladores/TrabalhoOficial/git/compilador/testCompiladores/casos/e02NwFBp.c test passed ------ OK 
+
+
+file: /home/shay/Documents/UFBA/2018.1/Compiladores/TrabalhoOficial/git/compilador/testCompiladores/casos/e88pa4QJ.c ------ ERROR 
 
  1d0 < [program[fun-declaration[void][foo][params][compound-stmt[+[1][1]][*[2][2]]]][fun-declaration[void][main][params][compound-stmt]]] 
 
-file: /home/diegoraian/Downloads/testCompiladores/casos//ecGpey42.c test passed ------ OK 
+file: /home/shay/Documents/UFBA/2018.1/Compiladores/TrabalhoOficial/git/compilador/testCompiladores/casos/ecGpey42.c test passed ------ OK 
 
 
-file: /home/diegoraian/Downloads/testCompiladores/casos//EEEzw977.c test passed ------ OK 
+file: /home/shay/Documents/UFBA/2018.1/Compiladores/TrabalhoOficial/git/compilador/testCompiladores/casos/EEEzw977.c test passed ------ OK 
 
 
-file: /home/diegoraian/Downloads/testCompiladores/casos//eGR8QLT3.c test passed ------ OK 
+file: /home/shay/Documents/UFBA/2018.1/Compiladores/TrabalhoOficial/git/compilador/testCompiladores/casos/eGR8QLT3.c test passed ------ OK 
 
 
-file: /home/diegoraian/Downloads/testCompiladores/casos//eKyMHSne.c ------ ERROR 
+file: /home/shay/Documents/UFBA/2018.1/Compiladores/TrabalhoOficial/git/compilador/testCompiladores/casos/eKyMHSne.c ------ ERROR 
 
  1d0 < [program[fun-declaration[void][foo][params[param [int][p]]][compound-stmt]][fun-declaration[void][main][params][compound-stmt[var-declaration[int][a][10]][call [foo][args [var [a][0]]]]]]] 
 
-file: /home/diegoraian/Downloads/testCompiladores/casos//eM08Sy8x.c test passed ------ OK 
+file: /home/shay/Documents/UFBA/2018.1/Compiladores/TrabalhoOficial/git/compilador/testCompiladores/casos/eM08Sy8x.c test passed ------ OK 
 
 
-file: /home/diegoraian/Downloads/testCompiladores/casos//ENw83M7D.c ------ ERROR 
+file: /home/shay/Documents/UFBA/2018.1/Compiladores/TrabalhoOficial/git/compilador/testCompiladores/casos/ENw83M7D.c ------ ERROR 
 
  1d0 < [program[fun-declaration[void][main][params][compound-stmt[var-declaration[int][x]][=[var [x]][1]]]]] 
 
-file: /home/diegoraian/Downloads/testCompiladores/casos//EVuejBHX.c test passed ------ OK 
+file: /home/shay/Documents/UFBA/2018.1/Compiladores/TrabalhoOficial/git/compilador/testCompiladores/casos/EVuejBHX.c test passed ------ OK 
 
 
-file: /home/diegoraian/Downloads/testCompiladores/casos//FDmP8WZ6.c test passed ------ OK 
+file: /home/shay/Documents/UFBA/2018.1/Compiladores/TrabalhoOficial/git/compilador/testCompiladores/casos/FDmP8WZ6.c test passed ------ OK 
 
 
-file: /home/diegoraian/Downloads/testCompiladores/casos//FffrWTRz.c test passed ------ OK 
+file: /home/shay/Documents/UFBA/2018.1/Compiladores/TrabalhoOficial/git/compilador/testCompiladores/casos/FffrWTRz.c test passed ------ OK 
 
 
-file: /home/diegoraian/Downloads/testCompiladores/casos//fm5howhV.c ------ ERROR 
-
- 0a1 > [program[fun-declaration[int][foo][params][compound-stmt[return-stmt]]][fun-declaration[void][main][params][compound-stmt]]] \ No newline at end of file 
-
-file: /home/diegoraian/Downloads/testCompiladores/casos//G51YF1tT.c test passed ------ OK 
+file: /home/shay/Documents/UFBA/2018.1/Compiladores/TrabalhoOficial/git/compilador/testCompiladores/casos/fm5howhV.c test passed ------ OK 
 
 
-file: /home/diegoraian/Downloads/testCompiladores/casos//gcivxisk.c ------ ERROR 
-
- 0a1 > [program[fun-declaration[void][main][params][compound-stmt[var-declaration[void][x]]]]] \ No newline at end of file 
-
-file: /home/diegoraian/Downloads/testCompiladores/casos//GdyTBXtu.c test passed ------ OK 
+file: /home/shay/Documents/UFBA/2018.1/Compiladores/TrabalhoOficial/git/compilador/testCompiladores/casos/G51YF1tT.c test passed ------ OK 
 
 
-file: /home/diegoraian/Downloads/testCompiladores/casos//GPIvlzQ6.c test passed ------ OK 
+file: /home/shay/Documents/UFBA/2018.1/Compiladores/TrabalhoOficial/git/compilador/testCompiladores/casos/gcivxisk.c test passed ------ OK 
 
 
-file: /home/diegoraian/Downloads/testCompiladores/casos//gwImo9dC.c ------ ERROR 
+file: /home/shay/Documents/UFBA/2018.1/Compiladores/TrabalhoOficial/git/compilador/testCompiladores/casos/GdyTBXtu.c test passed ------ OK 
+
+
+file: /home/shay/Documents/UFBA/2018.1/Compiladores/TrabalhoOficial/git/compilador/testCompiladores/casos/GPIvlzQ6.c test passed ------ OK 
+
+
+file: /home/shay/Documents/UFBA/2018.1/Compiladores/TrabalhoOficial/git/compilador/testCompiladores/casos/gwImo9dC.c ------ ERROR 
 
  1d0 < [program[fun-declaration[void][foo][params[param [int][a][\[\]]]][compound-stmt[=[var [a][0]][1]]]][fun-declaration[void][main][params][compound-stmt]]] 
 
-file: /home/diegoraian/Downloads/testCompiladores/casos//gWXibdBj.c ------ ERROR 
-
- 0a1 > [program[fun-declaration[void][main][params][compound-stmt[var-declaration[int][x]][var-declaration[int][x]]]]] \ No newline at end of file 
-
-file: /home/diegoraian/Downloads/testCompiladores/casos//h0qa3TbL.c test passed ------ OK 
+file: /home/shay/Documents/UFBA/2018.1/Compiladores/TrabalhoOficial/git/compilador/testCompiladores/casos/gWXibdBj.c test passed ------ OK 
 
 
-file: /home/diegoraian/Downloads/testCompiladores/casos//h6XjYVX7.c ------ ERROR 
-
- 0a1 > [program[fun-declaration[void][main][params][compound-stmt[var-declaration[int][a][10]][selection-stmt [var[a]][compound-stmt]]]]] \ No newline at end of file 
-
-file: /home/diegoraian/Downloads/testCompiladores/casos//H7piZpVy.c ------ ERROR 
-
- 0a1 > [program[fun-declaration[void][foo][params][compound-stmt]]] \ No newline at end of file 
-
-file: /home/diegoraian/Downloads/testCompiladores/casos//hLPsN25A.c test passed ------ OK 
+file: /home/shay/Documents/UFBA/2018.1/Compiladores/TrabalhoOficial/git/compilador/testCompiladores/casos/h0qa3TbL.c test passed ------ OK 
 
 
-file: /home/diegoraian/Downloads/testCompiladores/casos//HOGeItXp.c test passed ------ OK 
+file: /home/shay/Documents/UFBA/2018.1/Compiladores/TrabalhoOficial/git/compilador/testCompiladores/casos/h6XjYVX7.c test passed ------ OK 
 
 
-file: /home/diegoraian/Downloads/testCompiladores/casos//HSqk9kAa.c ------ ERROR 
-
- 0a1 > [program[fun-declaration[int][main][params][compound-stmt[return-stmt[1]]]]] \ No newline at end of file 
-
-file: /home/diegoraian/Downloads/testCompiladores/casos//hYU48WWf.c test passed ------ OK 
+file: /home/shay/Documents/UFBA/2018.1/Compiladores/TrabalhoOficial/git/compilador/testCompiladores/casos/H7piZpVy.c test passed ------ OK 
 
 
-file: /home/diegoraian/Downloads/testCompiladores/casos//i09lEkz5.c test passed ------ OK 
+file: /home/shay/Documents/UFBA/2018.1/Compiladores/TrabalhoOficial/git/compilador/testCompiladores/casos/hLPsN25A.c test passed ------ OK 
 
 
-file: /home/diegoraian/Downloads/testCompiladores/casos//i3QcGYyl.c test passed ------ OK 
+file: /home/shay/Documents/UFBA/2018.1/Compiladores/TrabalhoOficial/git/compilador/testCompiladores/casos/HOGeItXp.c test passed ------ OK 
 
 
-file: /home/diegoraian/Downloads/testCompiladores/casos//iD4WoI6o.c ------ ERROR 
+file: /home/shay/Documents/UFBA/2018.1/Compiladores/TrabalhoOficial/git/compilador/testCompiladores/casos/HSqk9kAa.c test passed ------ OK 
+
+
+file: /home/shay/Documents/UFBA/2018.1/Compiladores/TrabalhoOficial/git/compilador/testCompiladores/casos/hYU48WWf.c test passed ------ OK 
+
+
+file: /home/shay/Documents/UFBA/2018.1/Compiladores/TrabalhoOficial/git/compilador/testCompiladores/casos/i09lEkz5.c test passed ------ OK 
+
+
+file: /home/shay/Documents/UFBA/2018.1/Compiladores/TrabalhoOficial/git/compilador/testCompiladores/casos/i3QcGYyl.c test passed ------ OK 
+
+
+file: /home/shay/Documents/UFBA/2018.1/Compiladores/TrabalhoOficial/git/compilador/testCompiladores/casos/iD4WoI6o.c ------ ERROR 
 
  1d0 < [program[fun-declaration[void][main][params][compound-stmt[var-declaration[int][a]][=[var [a]][+[4][5]]]]]] 
 
-file: /home/diegoraian/Downloads/testCompiladores/casos//IDFkslIX.c test passed ------ OK 
+file: /home/shay/Documents/UFBA/2018.1/Compiladores/TrabalhoOficial/git/compilador/testCompiladores/casos/IDFkslIX.c test passed ------ OK 
 
 
-file: /home/diegoraian/Downloads/testCompiladores/casos//IrIFxRGt.c ------ ERROR 
-
- 0a1 > [program[fun-declaration[void][main][params][compound-stmt[iteration-stmt[call[main][args]][compound-stmt]]]]] \ No newline at end of file 
-
-file: /home/diegoraian/Downloads/testCompiladores/casos//j4xls0M4.c test passed ------ OK 
+file: /home/shay/Documents/UFBA/2018.1/Compiladores/TrabalhoOficial/git/compilador/testCompiladores/casos/IrIFxRGt.c test passed ------ OK 
 
 
-file: /home/diegoraian/Downloads/testCompiladores/casos//jAlkQj0M.c test passed ------ OK 
+file: /home/shay/Documents/UFBA/2018.1/Compiladores/TrabalhoOficial/git/compilador/testCompiladores/casos/j4xls0M4.c test passed ------ OK 
 
 
-file: /home/diegoraian/Downloads/testCompiladores/casos//JBwTVB9P.c test passed ------ OK 
+file: /home/shay/Documents/UFBA/2018.1/Compiladores/TrabalhoOficial/git/compilador/testCompiladores/casos/jAlkQj0M.c test passed ------ OK 
 
 
-file: /home/diegoraian/Downloads/testCompiladores/casos//JCB5yVNO.c ------ ERROR 
-
- 0a1 > [program[fun-declaration[void][main][params][compound-stmt[;]]]] \ No newline at end of file 
-
-file: /home/diegoraian/Downloads/testCompiladores/casos//JKKbR0pn.c test passed ------ OK 
+file: /home/shay/Documents/UFBA/2018.1/Compiladores/TrabalhoOficial/git/compilador/testCompiladores/casos/JBwTVB9P.c test passed ------ OK 
 
 
-file: /home/diegoraian/Downloads/testCompiladores/casos//joLOwLB4.c test passed ------ OK 
+file: /home/shay/Documents/UFBA/2018.1/Compiladores/TrabalhoOficial/git/compilador/testCompiladores/casos/JCB5yVNO.c test passed ------ OK 
 
 
-file: /home/diegoraian/Downloads/testCompiladores/casos//K7NeYLsC.c test passed ------ OK 
+file: /home/shay/Documents/UFBA/2018.1/Compiladores/TrabalhoOficial/git/compilador/testCompiladores/casos/JKKbR0pn.c test passed ------ OK 
 
 
-file: /home/diegoraian/Downloads/testCompiladores/casos//KEOqr7qr.c test passed ------ OK 
+file: /home/shay/Documents/UFBA/2018.1/Compiladores/TrabalhoOficial/git/compilador/testCompiladores/casos/joLOwLB4.c ------ ERROR 
+
+ 1d0 < [program[fun-declaration[void][foo][params][compound-stmt]][fun-declaration[int][bar][params][compound-stmt[return-stmt [1]]]][fun-declaration[void][main][params][compound-stmt]]] 
+
+file: /home/shay/Documents/UFBA/2018.1/Compiladores/TrabalhoOficial/git/compilador/testCompiladores/casos/K7NeYLsC.c test passed ------ OK 
 
 
-file: /home/diegoraian/Downloads/testCompiladores/casos//kfyIjqYR.c ------ ERROR 
-
- 0a1 > [program[fun-declaration[void][main][params][compound-stmt[return-stmt]]]] \ No newline at end of file 
-
-file: /home/diegoraian/Downloads/testCompiladores/casos//KR5UM65t.c test passed ------ OK 
+file: /home/shay/Documents/UFBA/2018.1/Compiladores/TrabalhoOficial/git/compilador/testCompiladores/casos/KEOqr7qr.c test passed ------ OK 
 
 
-file: /home/diegoraian/Downloads/testCompiladores/casos//kst1W8n4.c test passed ------ OK 
+file: /home/shay/Documents/UFBA/2018.1/Compiladores/TrabalhoOficial/git/compilador/testCompiladores/casos/kfyIjqYR.c test passed ------ OK 
 
 
-file: /home/diegoraian/Downloads/testCompiladores/casos//laWAHAWy.c test passed ------ OK 
+file: /home/shay/Documents/UFBA/2018.1/Compiladores/TrabalhoOficial/git/compilador/testCompiladores/casos/KR5UM65t.c ------ ERROR 
+
+ 1d0 < [program[fun-declaration[void][main][params][compound-stmt[compound-stmt[var-declaration[int][x]][var-declaration[int][y]][var-declaration[int][z]]]]]] 
+
+file: /home/shay/Documents/UFBA/2018.1/Compiladores/TrabalhoOficial/git/compilador/testCompiladores/casos/kst1W8n4.c ------ ERROR 
+
+ 1d0 < [program[fun-declaration[void][foo][params][compound-stmt]][fun-declaration[void][main][params][compound-stmt]]] 
+
+file: /home/shay/Documents/UFBA/2018.1/Compiladores/TrabalhoOficial/git/compilador/testCompiladores/casos/laWAHAWy.c test passed ------ OK 
 
 
-file: /home/diegoraian/Downloads/testCompiladores/casos//LJt3NInK.c test passed ------ OK 
+file: /home/shay/Documents/UFBA/2018.1/Compiladores/TrabalhoOficial/git/compilador/testCompiladores/casos/LJt3NInK.c test passed ------ OK 
 
 
-file: /home/diegoraian/Downloads/testCompiladores/casos//lRPByyb5.c test passed ------ OK 
+file: /home/shay/Documents/UFBA/2018.1/Compiladores/TrabalhoOficial/git/compilador/testCompiladores/casos/lRPByyb5.c test passed ------ OK 
 
 
-file: /home/diegoraian/Downloads/testCompiladores/casos//lubcnPLe.c test passed ------ OK 
+file: /home/shay/Documents/UFBA/2018.1/Compiladores/TrabalhoOficial/git/compilador/testCompiladores/casos/lubcnPLe.c test passed ------ OK 
 
 
-file: /home/diegoraian/Downloads/testCompiladores/casos//LuFSoHdY.c test passed ------ OK 
+file: /home/shay/Documents/UFBA/2018.1/Compiladores/TrabalhoOficial/git/compilador/testCompiladores/casos/LuFSoHdY.c ------ ERROR 
 
+ 1d0 < [program[fun-declaration[int][foo][params][compound-stmt[return-stmt [1]]]][fun-declaration[void][main][params][compound-stmt[return-stmt]]]] 
 
-file: /home/diegoraian/Downloads/testCompiladores/casos//LVP3lvWU.c ------ ERROR 
+file: /home/shay/Documents/UFBA/2018.1/Compiladores/TrabalhoOficial/git/compilador/testCompiladores/casos/LVP3lvWU.c ------ ERROR 
 
  1d0 < [program[fun-declaration[void][main][params][compound-stmt[var-declaration[int][x]][var-declaration[int][y]][var-declaration[int][arr][10]][var [x]][var [y]][var [arr][1]][var [arr][var [x]]][var [arr][+[var [x]][2]]]]]] 
 
-file: /home/diegoraian/Downloads/testCompiladores/casos//M4JykWTl.c test passed ------ OK 
+file: /home/shay/Documents/UFBA/2018.1/Compiladores/TrabalhoOficial/git/compilador/testCompiladores/casos/M4JykWTl.c ------ ERROR 
 
+ 1d0 < [program[var-declaration[int][foo]][fun-declaration[void][bar][params[param [int][foo]]][compound-stmt]][fun-declaration[void][main][params][compound-stmt]]] 
 
-file: /home/diegoraian/Downloads/testCompiladores/casos//mbxzDv40.c ------ ERROR 
+file: /home/shay/Documents/UFBA/2018.1/Compiladores/TrabalhoOficial/git/compilador/testCompiladores/casos/mbxzDv40.c ------ ERROR 
 
  1d0 < [program[fun-declaration[void][f0][params][compound-stmt]][fun-declaration[void][f1][params][compound-stmt[1][2][3]]][fun-declaration[void][f2][params][compound-stmt[1]]][fun-declaration[void][main][params][compound-stmt]]] 
 
-file: /home/diegoraian/Downloads/testCompiladores/casos//mdtq8KNX.c test passed ------ OK 
+file: /home/shay/Documents/UFBA/2018.1/Compiladores/TrabalhoOficial/git/compilador/testCompiladores/casos/mdtq8KNX.c test passed ------ OK 
 
 
-file: /home/diegoraian/Downloads/testCompiladores/casos//MHs8Avy8.c test passed ------ OK 
+file: /home/shay/Documents/UFBA/2018.1/Compiladores/TrabalhoOficial/git/compilador/testCompiladores/casos/MHs8Avy8.c test passed ------ OK 
 
 
-file: /home/diegoraian/Downloads/testCompiladores/casos//MJxMwS6L.c ------ ERROR 
-
- 0a1 > [program[var-declaration[int][main]]] \ No newline at end of file 
-
-file: /home/diegoraian/Downloads/testCompiladores/casos//mLJFoqYl.c test passed ------ OK 
+file: /home/shay/Documents/UFBA/2018.1/Compiladores/TrabalhoOficial/git/compilador/testCompiladores/casos/MJxMwS6L.c test passed ------ OK 
 
 
-file: /home/diegoraian/Downloads/testCompiladores/casos//Mqe6VmYI.c test passed ------ OK 
+file: /home/shay/Documents/UFBA/2018.1/Compiladores/TrabalhoOficial/git/compilador/testCompiladores/casos/mLJFoqYl.c test passed ------ OK 
 
 
-file: /home/diegoraian/Downloads/testCompiladores/casos//MWKMdw1F.c test passed ------ OK 
+file: /home/shay/Documents/UFBA/2018.1/Compiladores/TrabalhoOficial/git/compilador/testCompiladores/casos/Mqe6VmYI.c test passed ------ OK 
 
 
-file: /home/diegoraian/Downloads/testCompiladores/casos//MWldYvhy.c test passed ------ OK 
+file: /home/shay/Documents/UFBA/2018.1/Compiladores/TrabalhoOficial/git/compilador/testCompiladores/casos/MWKMdw1F.c test passed ------ OK 
 
 
-file: /home/diegoraian/Downloads/testCompiladores/casos//MztI5F3x.c test passed ------ OK 
+file: /home/shay/Documents/UFBA/2018.1/Compiladores/TrabalhoOficial/git/compilador/testCompiladores/casos/MWldYvhy.c test passed ------ OK 
 
 
-file: /home/diegoraian/Downloads/testCompiladores/casos//n00pIK0I.c test passed ------ OK 
+file: /home/shay/Documents/UFBA/2018.1/Compiladores/TrabalhoOficial/git/compilador/testCompiladores/casos/MztI5F3x.c ------ ERROR 
+
+ 1d0 < [program[fun-declaration[void][main][params][compound-stmt[compound-stmt]]]] 
+
+file: /home/shay/Documents/UFBA/2018.1/Compiladores/TrabalhoOficial/git/compilador/testCompiladores/casos/n00pIK0I.c test passed ------ OK 
 
 
-file: /home/diegoraian/Downloads/testCompiladores/casos//n19Z6Qhe.c test passed ------ OK 
+file: /home/shay/Documents/UFBA/2018.1/Compiladores/TrabalhoOficial/git/compilador/testCompiladores/casos/n19Z6Qhe.c test passed ------ OK 
 
 
-file: /home/diegoraian/Downloads/testCompiladores/casos//N57D3CcF.c test passed ------ OK 
+file: /home/shay/Documents/UFBA/2018.1/Compiladores/TrabalhoOficial/git/compilador/testCompiladores/casos/N57D3CcF.c test passed ------ OK 
 
 
-file: /home/diegoraian/Downloads/testCompiladores/casos//nG9Fyxb5.c test passed ------ OK 
+file: /home/shay/Documents/UFBA/2018.1/Compiladores/TrabalhoOficial/git/compilador/testCompiladores/casos/nG9Fyxb5.c test passed ------ OK 
 
 
-file: /home/diegoraian/Downloads/testCompiladores/casos//NkGGsyYV.c ------ ERROR 
-
- 0a1 > [program[fun-declaration[void][main][params][compound-stmt[var-declaration[int][x]][=[var[x]][call[println][args[var[x]]]]][x]]]] \ No newline at end of file 
-
-file: /home/diegoraian/Downloads/testCompiladores/casos//NKuGwAH0.c ------ ERROR 
-
- 0a1 > [program[fun-declaration[int][foo][params][compound-stmt[return-stmt[var[bar]]]]][var-declaration[int][bar]][fun-declaration[void][main][params][compound-stmt]]] \ No newline at end of file 
-
-file: /home/diegoraian/Downloads/testCompiladores/casos//nO1X6K2P.c test passed ------ OK 
+file: /home/shay/Documents/UFBA/2018.1/Compiladores/TrabalhoOficial/git/compilador/testCompiladores/casos/NkGGsyYV.c test passed ------ OK 
 
 
-file: /home/diegoraian/Downloads/testCompiladores/casos//o6qhoXtc.c test passed ------ OK 
+file: /home/shay/Documents/UFBA/2018.1/Compiladores/TrabalhoOficial/git/compilador/testCompiladores/casos/NKuGwAH0.c test passed ------ OK 
 
 
-file: /home/diegoraian/Downloads/testCompiladores/casos//Och9nxSm.c test passed ------ OK 
+file: /home/shay/Documents/UFBA/2018.1/Compiladores/TrabalhoOficial/git/compilador/testCompiladores/casos/nO1X6K2P.c test passed ------ OK 
 
 
-file: /home/diegoraian/Downloads/testCompiladores/casos//OctNyO7w.c test passed ------ OK 
+file: /home/shay/Documents/UFBA/2018.1/Compiladores/TrabalhoOficial/git/compilador/testCompiladores/casos/o6qhoXtc.c test passed ------ OK 
 
 
-file: /home/diegoraian/Downloads/testCompiladores/casos//Oe1DYtJ1.c test passed ------ OK 
+file: /home/shay/Documents/UFBA/2018.1/Compiladores/TrabalhoOficial/git/compilador/testCompiladores/casos/Och9nxSm.c test passed ------ OK 
 
 
-file: /home/diegoraian/Downloads/testCompiladores/casos//OEDOQ7RR.c test passed ------ OK 
+file: /home/shay/Documents/UFBA/2018.1/Compiladores/TrabalhoOficial/git/compilador/testCompiladores/casos/OctNyO7w.c test passed ------ OK 
 
 
-file: /home/diegoraian/Downloads/testCompiladores/casos//Oh3m2Au0.c test passed ------ OK 
+file: /home/shay/Documents/UFBA/2018.1/Compiladores/TrabalhoOficial/git/compilador/testCompiladores/casos/Oe1DYtJ1.c ------ ERROR 
+
+ 1d0 < [program[fun-declaration[void][f0][params][compound-stmt[var-declaration[int][x]]]][fun-declaration[void][f1][params][compound-stmt[var-declaration[int][x]][var-declaration[int][y]][var-declaration[int][z][10]]]][fun-declaration[void][f2][params][compound-stmt]][fun-declaration[void][main][params][compound-stmt]]] 
+
+file: /home/shay/Documents/UFBA/2018.1/Compiladores/TrabalhoOficial/git/compilador/testCompiladores/casos/OEDOQ7RR.c test passed ------ OK 
 
 
-file: /home/diegoraian/Downloads/testCompiladores/casos//OjGF1vzK.c test passed ------ OK 
+file: /home/shay/Documents/UFBA/2018.1/Compiladores/TrabalhoOficial/git/compilador/testCompiladores/casos/Oh3m2Au0.c test passed ------ OK 
 
 
-file: /home/diegoraian/Downloads/testCompiladores/casos//oLb2AFDl.c test passed ------ OK 
+file: /home/shay/Documents/UFBA/2018.1/Compiladores/TrabalhoOficial/git/compilador/testCompiladores/casos/OjGF1vzK.c test passed ------ OK 
 
 
-file: /home/diegoraian/Downloads/testCompiladores/casos//oMFuMfw6.c test passed ------ OK 
+file: /home/shay/Documents/UFBA/2018.1/Compiladores/TrabalhoOficial/git/compilador/testCompiladores/casos/oLb2AFDl.c test passed ------ OK 
 
 
-file: /home/diegoraian/Downloads/testCompiladores/casos//Oq9iuSb4.c test passed ------ OK 
+file: /home/shay/Documents/UFBA/2018.1/Compiladores/TrabalhoOficial/git/compilador/testCompiladores/casos/oMFuMfw6.c test passed ------ OK 
 
 
-file: /home/diegoraian/Downloads/testCompiladores/casos//orEv2MOp.c ------ ERROR 
+file: /home/shay/Documents/UFBA/2018.1/Compiladores/TrabalhoOficial/git/compilador/testCompiladores/casos/Oq9iuSb4.c test passed ------ OK 
+
+
+file: /home/shay/Documents/UFBA/2018.1/Compiladores/TrabalhoOficial/git/compilador/testCompiladores/casos/orEv2MOp.c ------ ERROR 
 
  1d0 < [program[fun-declaration[void][main][params][compound-stmt[var-declaration[int][x][100]][var-declaration[int][y]][var-declaration[int][z]][var-declaration[int][w]][var [x][0]][var [x][1]][var [x][99]][var [x][var [y]]][var [x][+[1][*[var [y]][-[var [z]][var [w]]]]]]]]] 
 
-file: /home/diegoraian/Downloads/testCompiladores/casos//OTBPMk4N.c test passed ------ OK 
+file: /home/shay/Documents/UFBA/2018.1/Compiladores/TrabalhoOficial/git/compilador/testCompiladores/casos/OTBPMk4N.c ------ ERROR 
+
+ 1d0 < [program[var-declaration[int][var1][10]][fun-declaration[void][main][params][compound-stmt]]] 
+
+file: /home/shay/Documents/UFBA/2018.1/Compiladores/TrabalhoOficial/git/compilador/testCompiladores/casos/ouwcGqxR.c test passed ------ OK 
 
 
-file: /home/diegoraian/Downloads/testCompiladores/casos//ouwcGqxR.c test passed ------ OK 
-
-
-file: /home/diegoraian/Downloads/testCompiladores/casos//p0h0ZlCA.c ------ ERROR 
+file: /home/shay/Documents/UFBA/2018.1/Compiladores/TrabalhoOficial/git/compilador/testCompiladores/casos/p0h0ZlCA.c ------ ERROR 
 
  1d0 < [program[fun-declaration[void][foo][params[param [int][p]]][compound-stmt]][fun-declaration[void][main][params][compound-stmt[call [foo][args [5]]]]]] 
 
-file: /home/diegoraian/Downloads/testCompiladores/casos//p1JskbCy.c test passed ------ OK 
+file: /home/shay/Documents/UFBA/2018.1/Compiladores/TrabalhoOficial/git/compilador/testCompiladores/casos/p1JskbCy.c test passed ------ OK 
 
 
-file: /home/diegoraian/Downloads/testCompiladores/casos//PatIixse.c test passed ------ OK 
+file: /home/shay/Documents/UFBA/2018.1/Compiladores/TrabalhoOficial/git/compilador/testCompiladores/casos/PatIixse.c test passed ------ OK 
 
 
-file: /home/diegoraian/Downloads/testCompiladores/casos//pdIqoyYm.c ------ ERROR 
+file: /home/shay/Documents/UFBA/2018.1/Compiladores/TrabalhoOficial/git/compilador/testCompiladores/casos/pdIqoyYm.c test passed ------ OK 
 
- 0a1 > [program[fun-declaration[void][main][params][compound-stmt[var-declaration[int][x][10]][=[var[x]][call[main][args]]][main]]]] \ No newline at end of file 
 
-file: /home/diegoraian/Downloads/testCompiladores/casos//PDLwM81o.c test passed ------ OK 
+file: /home/shay/Documents/UFBA/2018.1/Compiladores/TrabalhoOficial/git/compilador/testCompiladores/casos/PDLwM81o.c test passed ------ OK 
 
 
-file: /home/diegoraian/Downloads/testCompiladores/casos//PEjyZu8l.c test passed ------ OK 
+file: /home/shay/Documents/UFBA/2018.1/Compiladores/TrabalhoOficial/git/compilador/testCompiladores/casos/PEjyZu8l.c test passed ------ OK 
 
 
-file: /home/diegoraian/Downloads/testCompiladores/casos//PGizYJl6.c test passed ------ OK 
+file: /home/shay/Documents/UFBA/2018.1/Compiladores/TrabalhoOficial/git/compilador/testCompiladores/casos/PGizYJl6.c ------ ERROR 
 
+ 1d0 < [program[fun-declaration[void][foo][params[param [int][a]][param [int][b][\[\]]][param [int][c]][param [int][d]][param [int][e][\[\]]]][compound-stmt]][fun-declaration[void][main][params][compound-stmt]]] 
 
-file: /home/diegoraian/Downloads/testCompiladores/casos//pKqdiKud.c ------ ERROR 
+file: /home/shay/Documents/UFBA/2018.1/Compiladores/TrabalhoOficial/git/compilador/testCompiladores/casos/pKqdiKud.c test passed ------ OK 
 
- 0a1 > [program[fun-declaration[void][main][params][compound-stmt[var-declaration[int][a][10]][iteration-stmt[var[a]][compound-stmt]]]]] \ No newline at end of file 
 
-file: /home/diegoraian/Downloads/testCompiladores/casos//q6ijoqIJ.c test passed ------ OK 
+file: /home/shay/Documents/UFBA/2018.1/Compiladores/TrabalhoOficial/git/compilador/testCompiladores/casos/q6ijoqIJ.c test passed ------ OK 
 
 
-file: /home/diegoraian/Downloads/testCompiladores/casos//QFeOORVw.c test passed ------ OK 
+file: /home/shay/Documents/UFBA/2018.1/Compiladores/TrabalhoOficial/git/compilador/testCompiladores/casos/QFeOORVw.c ------ ERROR 
 
+ 1d0 < [program[fun-declaration[void][main][params][compound-stmt[selection-stmt [1][compound-stmt]]]]] 
 
-file: /home/diegoraian/Downloads/testCompiladores/casos//QFPxzK0s.c test passed ------ OK 
+file: /home/shay/Documents/UFBA/2018.1/Compiladores/TrabalhoOficial/git/compilador/testCompiladores/casos/QFPxzK0s.c ------ ERROR 
 
+ 1d0 < [program[fun-declaration[void][foo][params[param [int][arr][\[\]]]][compound-stmt]][fun-declaration[void][main][params][compound-stmt]]] 
 
-file: /home/diegoraian/Downloads/testCompiladores/casos//qh7NvYl7.c test passed ------ OK 
+file: /home/shay/Documents/UFBA/2018.1/Compiladores/TrabalhoOficial/git/compilador/testCompiladores/casos/qh7NvYl7.c test passed ------ OK 
 
 
-file: /home/diegoraian/Downloads/testCompiladores/casos//qHgaExt4.c test passed ------ OK 
+file: /home/shay/Documents/UFBA/2018.1/Compiladores/TrabalhoOficial/git/compilador/testCompiladores/casos/qHgaExt4.c test passed ------ OK 
 
 
-file: /home/diegoraian/Downloads/testCompiladores/casos//QJ8NGoy0.c ------ ERROR 
+file: /home/shay/Documents/UFBA/2018.1/Compiladores/TrabalhoOficial/git/compilador/testCompiladores/casos/QJ8NGoy0.c test passed ------ OK 
 
- 0a1 > [program[fun-declaration[void][main][params][compound-stmt[var-declaration[int][a][10]][return-stmt[var[a]]]]]] \ No newline at end of file 
 
-file: /home/diegoraian/Downloads/testCompiladores/casos//qlAcjOSv.c test passed ------ OK 
+file: /home/shay/Documents/UFBA/2018.1/Compiladores/TrabalhoOficial/git/compilador/testCompiladores/casos/qlAcjOSv.c test passed ------ OK 
 
 
-file: /home/diegoraian/Downloads/testCompiladores/casos//qrRwaajq.c test passed ------ OK 
+file: /home/shay/Documents/UFBA/2018.1/Compiladores/TrabalhoOficial/git/compilador/testCompiladores/casos/qrRwaajq.c test passed ------ OK 
 
 
-file: /home/diegoraian/Downloads/testCompiladores/casos//qud4pU4v.c test passed ------ OK 
+file: /home/shay/Documents/UFBA/2018.1/Compiladores/TrabalhoOficial/git/compilador/testCompiladores/casos/qud4pU4v.c test passed ------ OK 
 
 
-file: /home/diegoraian/Downloads/testCompiladores/casos//Qyp0EXMx.c test passed ------ OK 
+file: /home/shay/Documents/UFBA/2018.1/Compiladores/TrabalhoOficial/git/compilador/testCompiladores/casos/Qyp0EXMx.c test passed ------ OK 
 
 
-file: /home/diegoraian/Downloads/testCompiladores/casos//r0fbNL7f.c ------ ERROR 
+file: /home/shay/Documents/UFBA/2018.1/Compiladores/TrabalhoOficial/git/compilador/testCompiladores/casos/r0fbNL7f.c test passed ------ OK 
 
- 0a1 > [program[fun-declaration[void][foo][params][compound-stmt]][var-declaration[int][foo]][fun-declaration[void][main][params][compound-stmt]]] \ No newline at end of file 
 
-file: /home/diegoraian/Downloads/testCompiladores/casos//R9HiEwyc.c ------ ERROR 
+file: /home/shay/Documents/UFBA/2018.1/Compiladores/TrabalhoOficial/git/compilador/testCompiladores/casos/R9HiEwyc.c test passed ------ OK 
 
- 0a1 > [program[fun-declaration[void][main][params][compound-stmt[iteration-stmt[==[1][1]][;]]]]] \ No newline at end of file 
 
-file: /home/diegoraian/Downloads/testCompiladores/casos//RANnfXlN.c test passed ------ OK 
+file: /home/shay/Documents/UFBA/2018.1/Compiladores/TrabalhoOficial/git/compilador/testCompiladores/casos/RANnfXlN.c test passed ------ OK 
 
 
-file: /home/diegoraian/Downloads/testCompiladores/casos//rkgBMiUH.c test passed ------ OK 
+file: /home/shay/Documents/UFBA/2018.1/Compiladores/TrabalhoOficial/git/compilador/testCompiladores/casos/rkgBMiUH.c ------ ERROR 
 
+ 1d0 < [program[var-declaration[int][foo]][fun-declaration[void][bar][params][compound-stmt[var-declaration[int][foo]]]][fun-declaration[void][main][params][compound-stmt]]] 
 
-file: /home/diegoraian/Downloads/testCompiladores/casos//rp4oohlv.c ------ ERROR 
+file: /home/shay/Documents/UFBA/2018.1/Compiladores/TrabalhoOficial/git/compilador/testCompiladores/casos/rp4oohlv.c test passed ------ OK 
 
- 0a1 > [program[var-declaration[int][foo]][fun-declaration[void][main][params][compound-stmt[call[foo][args]][foo]]]] \ No newline at end of file 
 
-file: /home/diegoraian/Downloads/testCompiladores/casos//RtqgGbui.c ------ ERROR 
+file: /home/shay/Documents/UFBA/2018.1/Compiladores/TrabalhoOficial/git/compilador/testCompiladores/casos/RtqgGbui.c test passed ------ OK 
 
- 0a1 > [program[fun-declaration[void][foo][params[param[int][p]]][compound-stmt]][fun-declaration[void][main][params][compound-stmt[call[foo][args[call[main][args]]]][main]]]] \ No newline at end of file 
 
-file: /home/diegoraian/Downloads/testCompiladores/casos//s1fdFDoE.c test passed ------ OK 
+file: /home/shay/Documents/UFBA/2018.1/Compiladores/TrabalhoOficial/git/compilador/testCompiladores/casos/s1fdFDoE.c test passed ------ OK 
 
 
-file: /home/diegoraian/Downloads/testCompiladores/casos//S4fsaEyk.c test passed ------ OK 
+file: /home/shay/Documents/UFBA/2018.1/Compiladores/TrabalhoOficial/git/compilador/testCompiladores/casos/S4fsaEyk.c test passed ------ OK 
 
 
-file: /home/diegoraian/Downloads/testCompiladores/casos//s8RiMTOk.c test passed ------ OK 
+file: /home/shay/Documents/UFBA/2018.1/Compiladores/TrabalhoOficial/git/compilador/testCompiladores/casos/s8RiMTOk.c ------ ERROR 
 
+ 1d0 < [program[fun-declaration[int][foo][params][compound-stmt[return-stmt [1]]]][fun-declaration[void][main][params][compound-stmt]]] 
 
-file: /home/diegoraian/Downloads/testCompiladores/casos//SAhOYigt.c ------ ERROR 
+file: /home/shay/Documents/UFBA/2018.1/Compiladores/TrabalhoOficial/git/compilador/testCompiladores/casos/SAhOYigt.c test passed ------ OK 
 
- 0a1 > [program[fun-declaration[int][foo][params][compound-stmt[return-stmt[call[bar][args]]]]][fun-declaration[int][bar][params][compound-stmt[return-stmt[0]]]][fun-declaration[void][main][params][compound-stmt]]] \ No newline at end of file 
 
-file: /home/diegoraian/Downloads/testCompiladores/casos//SD5NSz5S.c ------ ERROR 
+file: /home/shay/Documents/UFBA/2018.1/Compiladores/TrabalhoOficial/git/compilador/testCompiladores/casos/SD5NSz5S.c test passed ------ OK 
 
- 0a1 > [program[fun-declaration[void][main][params][compound-stmt[var-declaration[int][a][10]][+[var[a]][var[a]]][a]]]] \ No newline at end of file 
 
-file: /home/diegoraian/Downloads/testCompiladores/casos//sFdzKnko.c test passed ------ OK 
+file: /home/shay/Documents/UFBA/2018.1/Compiladores/TrabalhoOficial/git/compilador/testCompiladores/casos/sFdzKnko.c test passed ------ OK 
 
 
-file: /home/diegoraian/Downloads/testCompiladores/casos//sms4KSZm.c ------ ERROR 
+file: /home/shay/Documents/UFBA/2018.1/Compiladores/TrabalhoOficial/git/compilador/testCompiladores/casos/sms4KSZm.c test passed ------ OK 
 
- 0a1 > [program[var-declaration[int][foo]][fun-declaration[void][foo][params][compound-stmt]][fun-declaration[void][main][params][compound-stmt]]] \ No newline at end of file 
 
-file: /home/diegoraian/Downloads/testCompiladores/casos//sTOFHmOf.c test passed ------ OK 
+file: /home/shay/Documents/UFBA/2018.1/Compiladores/TrabalhoOficial/git/compilador/testCompiladores/casos/sTOFHmOf.c test passed ------ OK 
 
 
-file: /home/diegoraian/Downloads/testCompiladores/casos//swzH9JWp.c test passed ------ OK 
+file: /home/shay/Documents/UFBA/2018.1/Compiladores/TrabalhoOficial/git/compilador/testCompiladores/casos/swzH9JWp.c test passed ------ OK 
 
 
-file: /home/diegoraian/Downloads/testCompiladores/casos//szzk0zyY.c test passed ------ OK 
+file: /home/shay/Documents/UFBA/2018.1/Compiladores/TrabalhoOficial/git/compilador/testCompiladores/casos/szzk0zyY.c test passed ------ OK 
 
 
-file: /home/diegoraian/Downloads/testCompiladores/casos//t0XtHCcj.c test passed ------ OK 
+file: /home/shay/Documents/UFBA/2018.1/Compiladores/TrabalhoOficial/git/compilador/testCompiladores/casos/t0XtHCcj.c test passed ------ OK 
 
 
-file: /home/diegoraian/Downloads/testCompiladores/casos//t7WmdUpg.c test passed ------ OK 
+file: /home/shay/Documents/UFBA/2018.1/Compiladores/TrabalhoOficial/git/compilador/testCompiladores/casos/t7WmdUpg.c test passed ------ OK 
 
 
-file: /home/diegoraian/Downloads/testCompiladores/casos//tB5G2po0.c test passed ------ OK 
+file: /home/shay/Documents/UFBA/2018.1/Compiladores/TrabalhoOficial/git/compilador/testCompiladores/casos/tB5G2po0.c test passed ------ OK 
 
 
-file: /home/diegoraian/Downloads/testCompiladores/casos//TIQ8tdrs.c ------ ERROR 
+file: /home/shay/Documents/UFBA/2018.1/Compiladores/TrabalhoOficial/git/compilador/testCompiladores/casos/TIQ8tdrs.c test passed ------ OK 
 
- 0a1 > [program[fun-declaration[void][foo][params][compound-stmt]][fun-declaration[void][foo][params][compound-stmt]][fun-declaration[void][main][params][compound-stmt]]] \ No newline at end of file 
 
-file: /home/diegoraian/Downloads/testCompiladores/casos//tktUZQfc.c test passed ------ OK 
+file: /home/shay/Documents/UFBA/2018.1/Compiladores/TrabalhoOficial/git/compilador/testCompiladores/casos/tktUZQfc.c test passed ------ OK 
 
 
-file: /home/diegoraian/Downloads/testCompiladores/casos//TLYxNakX.c ------ ERROR 
+file: /home/shay/Documents/UFBA/2018.1/Compiladores/TrabalhoOficial/git/compilador/testCompiladores/casos/TLYxNakX.c ------ ERROR 
 
  1d0 < [program[fun-declaration[void][foo][params[param [int][x]][param [int][y]]][compound-stmt]][fun-declaration[void][main][params][compound-stmt[call [foo][args [1][2]]]]]] 
 
-file: /home/diegoraian/Downloads/testCompiladores/casos//TN9jEqOP.c test passed ------ OK 
+file: /home/shay/Documents/UFBA/2018.1/Compiladores/TrabalhoOficial/git/compilador/testCompiladores/casos/TN9jEqOP.c test passed ------ OK 
 
 
-file: /home/diegoraian/Downloads/testCompiladores/casos//trjJ6pE1.c test passed ------ OK 
+file: /home/shay/Documents/UFBA/2018.1/Compiladores/TrabalhoOficial/git/compilador/testCompiladores/casos/trjJ6pE1.c ------ ERROR 
+
+ 1d0 < [program[fun-declaration[void][main][params][compound-stmt[iteration-stmt [1][compound-stmt]]]]] 
+
+file: /home/shay/Documents/UFBA/2018.1/Compiladores/TrabalhoOficial/git/compilador/testCompiladores/casos/TS12OwQs.c test passed ------ OK 
 
 
-file: /home/diegoraian/Downloads/testCompiladores/casos//TS12OwQs.c test passed ------ OK 
+file: /home/shay/Documents/UFBA/2018.1/Compiladores/TrabalhoOficial/git/compilador/testCompiladores/casos/U6F3xWtS.c test passed ------ OK 
 
 
-file: /home/diegoraian/Downloads/testCompiladores/casos//U6F3xWtS.c test passed ------ OK 
+file: /home/shay/Documents/UFBA/2018.1/Compiladores/TrabalhoOficial/git/compilador/testCompiladores/casos/u7D3tIgJ.c test passed ------ OK 
 
 
-file: /home/diegoraian/Downloads/testCompiladores/casos//u7D3tIgJ.c test passed ------ OK 
+file: /home/shay/Documents/UFBA/2018.1/Compiladores/TrabalhoOficial/git/compilador/testCompiladores/casos/UFFi3wWb.c test passed ------ OK 
 
 
-file: /home/diegoraian/Downloads/testCompiladores/casos//UFFi3wWb.c test passed ------ OK 
+file: /home/shay/Documents/UFBA/2018.1/Compiladores/TrabalhoOficial/git/compilador/testCompiladores/casos/Uhl5ysMy.c test passed ------ OK 
 
 
-file: /home/diegoraian/Downloads/testCompiladores/casos//Uhl5ysMy.c ------ ERROR 
-
- 0a1 > [program[var-declaration[void][foo]][fun-declaration[void][main][params][compound-stmt]]] \ No newline at end of file 
-
-file: /home/diegoraian/Downloads/testCompiladores/casos//umevCTqD.c test passed ------ OK 
+file: /home/shay/Documents/UFBA/2018.1/Compiladores/TrabalhoOficial/git/compilador/testCompiladores/casos/umevCTqD.c test passed ------ OK 
 
 
-file: /home/diegoraian/Downloads/testCompiladores/casos//uoSX1N3M.c test passed ------ OK 
+file: /home/shay/Documents/UFBA/2018.1/Compiladores/TrabalhoOficial/git/compilador/testCompiladores/casos/uoSX1N3M.c test passed ------ OK 
 
 
-file: /home/diegoraian/Downloads/testCompiladores/casos//UUYt2KAC.c test passed ------ OK 
+file: /home/shay/Documents/UFBA/2018.1/Compiladores/TrabalhoOficial/git/compilador/testCompiladores/casos/UUYt2KAC.c test passed ------ OK 
 
 
-file: /home/diegoraian/Downloads/testCompiladores/casos//uyz5Cc77.c ------ ERROR 
+file: /home/shay/Documents/UFBA/2018.1/Compiladores/TrabalhoOficial/git/compilador/testCompiladores/casos/uyz5Cc77.c ------ ERROR 
 
  1d0 < [program[fun-declaration[void][foo][params[param [int][a][\[\]]]][compound-stmt]][fun-declaration[void][main][params][compound-stmt[var-declaration[int][a][10]][call [foo][args [+[var [a]][1]]]]]]] 
 
-file: /home/diegoraian/Downloads/testCompiladores/casos//v129oScT.c test passed ------ OK 
+file: /home/shay/Documents/UFBA/2018.1/Compiladores/TrabalhoOficial/git/compilador/testCompiladores/casos/v129oScT.c test passed ------ OK 
 
 
-file: /home/diegoraian/Downloads/testCompiladores/casos//vcgrQkC6.c test passed ------ OK 
+file: /home/shay/Documents/UFBA/2018.1/Compiladores/TrabalhoOficial/git/compilador/testCompiladores/casos/vcgrQkC6.c ------ ERROR 
+
+ 1d0 < [program[fun-declaration[void][main][params][compound-stmt[var-declaration[int][x]][compound-stmt[var-declaration[int][x]]]]]] 
+
+file: /home/shay/Documents/UFBA/2018.1/Compiladores/TrabalhoOficial/git/compilador/testCompiladores/casos/vH2tRaYJ.c test passed ------ OK 
 
 
-file: /home/diegoraian/Downloads/testCompiladores/casos//vH2tRaYJ.c ------ ERROR 
-
- 0a1 > [program[fun-declaration[int][foo][params][compound-stmt[var-declaration[int][a][10]][return-stmt[var[a]]]]][fun-declaration[void][main][params][compound-stmt]]] \ No newline at end of file 
-
-file: /home/diegoraian/Downloads/testCompiladores/casos//VHXsbB6q.c test passed ------ OK 
+file: /home/shay/Documents/UFBA/2018.1/Compiladores/TrabalhoOficial/git/compilador/testCompiladores/casos/VHXsbB6q.c test passed ------ OK 
 
 
-file: /home/diegoraian/Downloads/testCompiladores/casos//Vi5TGnFP.c ------ ERROR 
+file: /home/shay/Documents/UFBA/2018.1/Compiladores/TrabalhoOficial/git/compilador/testCompiladores/casos/Vi5TGnFP.c ------ ERROR 
 
  1d0 < [program[fun-declaration[void][main][params][compound-stmt[var-declaration[int][a][10]][var [a][20]]]]] 
 
-file: /home/diegoraian/Downloads/testCompiladores/casos//vL6YHtj1.c test passed ------ OK 
+file: /home/shay/Documents/UFBA/2018.1/Compiladores/TrabalhoOficial/git/compilador/testCompiladores/casos/vL6YHtj1.c test passed ------ OK 
 
 
-file: /home/diegoraian/Downloads/testCompiladores/casos//VQhRxT5L.c test passed ------ OK 
+file: /home/shay/Documents/UFBA/2018.1/Compiladores/TrabalhoOficial/git/compilador/testCompiladores/casos/VQhRxT5L.c test passed ------ OK 
 
 
-file: /home/diegoraian/Downloads/testCompiladores/casos//vt6H5a9g.c test passed ------ OK 
+file: /home/shay/Documents/UFBA/2018.1/Compiladores/TrabalhoOficial/git/compilador/testCompiladores/casos/vt6H5a9g.c test passed ------ OK 
 
 
-file: /home/diegoraian/Downloads/testCompiladores/casos//VtBjsoTQ.c test passed ------ OK 
+file: /home/shay/Documents/UFBA/2018.1/Compiladores/TrabalhoOficial/git/compilador/testCompiladores/casos/VtBjsoTQ.c test passed ------ OK 
 
 
-file: /home/diegoraian/Downloads/testCompiladores/casos//VvOnlGoU.c test passed ------ OK 
+file: /home/shay/Documents/UFBA/2018.1/Compiladores/TrabalhoOficial/git/compilador/testCompiladores/casos/VvOnlGoU.c test passed ------ OK 
 
 
-file: /home/diegoraian/Downloads/testCompiladores/casos//VwbUZ5MQ.c test passed ------ OK 
+file: /home/shay/Documents/UFBA/2018.1/Compiladores/TrabalhoOficial/git/compilador/testCompiladores/casos/VwbUZ5MQ.c test passed ------ OK 
 
 
-file: /home/diegoraian/Downloads/testCompiladores/casos//w0G9GqYM.c test passed ------ OK 
+file: /home/shay/Documents/UFBA/2018.1/Compiladores/TrabalhoOficial/git/compilador/testCompiladores/casos/w0G9GqYM.c test passed ------ OK 
 
 
-file: /home/diegoraian/Downloads/testCompiladores/casos//W6OjxbbM.c test passed ------ OK 
+file: /home/shay/Documents/UFBA/2018.1/Compiladores/TrabalhoOficial/git/compilador/testCompiladores/casos/W6OjxbbM.c test passed ------ OK 
 
 
-file: /home/diegoraian/Downloads/testCompiladores/casos//w8ljRHNE.c ------ ERROR 
+file: /home/shay/Documents/UFBA/2018.1/Compiladores/TrabalhoOficial/git/compilador/testCompiladores/casos/w8ljRHNE.c ------ ERROR 
 
  1d0 < [program[fun-declaration[void][main][params][compound-stmt[compound-stmt[+[1][2]][+[2][3]]]]]] 
 
-file: /home/diegoraian/Downloads/testCompiladores/casos//WDuI0zuH.c ------ ERROR 
+file: /home/shay/Documents/UFBA/2018.1/Compiladores/TrabalhoOficial/git/compilador/testCompiladores/casos/WDuI0zuH.c ------ ERROR 
 
- 1c1 < [program[fun-declaration[void][main][params][compound-stmt[var-declaration[int][x]][=[var [x]][call [input][args ]]][call [println][args [var [x]]]]]]] --- > [program[fun-declaration[void][main][params][compound-stmt[var-declaration[int][x]][=[var[x]][call[input][args]]][input][call[println][args[var[x]]]][x]]]] \ No newline at end of file 
+ 1d0 < [program[fun-declaration[void][main][params][compound-stmt[var-declaration[int][x]][=[var [x]][call [input][args ]]][call [println][args [var [x]]]]]]] 
 
-file: /home/diegoraian/Downloads/testCompiladores/casos//wGS2Iy0H.c test passed ------ OK 
-
-
-file: /home/diegoraian/Downloads/testCompiladores/casos//wI2ogTvs.c ------ ERROR 
-
- 0a1 > [program[fun-declaration[void][main][params][compound-stmt[+[call[main][args]][call[main][args]]][main]]]] \ No newline at end of file 
-
-file: /home/diegoraian/Downloads/testCompiladores/casos//wjK8ppUW.c test passed ------ OK 
+file: /home/shay/Documents/UFBA/2018.1/Compiladores/TrabalhoOficial/git/compilador/testCompiladores/casos/wGS2Iy0H.c test passed ------ OK 
 
 
-file: /home/diegoraian/Downloads/testCompiladores/casos//wMBmQUyo.c test passed ------ OK 
+file: /home/shay/Documents/UFBA/2018.1/Compiladores/TrabalhoOficial/git/compilador/testCompiladores/casos/wI2ogTvs.c test passed ------ OK 
 
 
-file: /home/diegoraian/Downloads/testCompiladores/casos//wQok4Izm.c test passed ------ OK 
+file: /home/shay/Documents/UFBA/2018.1/Compiladores/TrabalhoOficial/git/compilador/testCompiladores/casos/wjK8ppUW.c test passed ------ OK 
 
 
-file: /home/diegoraian/Downloads/testCompiladores/casos//wUJBP1du.c ------ ERROR 
+file: /home/shay/Documents/UFBA/2018.1/Compiladores/TrabalhoOficial/git/compilador/testCompiladores/casos/wMBmQUyo.c test passed ------ OK 
+
+
+file: /home/shay/Documents/UFBA/2018.1/Compiladores/TrabalhoOficial/git/compilador/testCompiladores/casos/wQok4Izm.c test passed ------ OK 
+
+
+file: /home/shay/Documents/UFBA/2018.1/Compiladores/TrabalhoOficial/git/compilador/testCompiladores/casos/wUJBP1du.c ------ ERROR 
 
  1d0 < [program[fun-declaration[int][sum][params[param [int][x]]][compound-stmt[selection-stmt [>[var [x]][0]][return-stmt [+[var [x]][call [sum][args [-[var [x]][1]]]]]]][return-stmt [0]]]][fun-declaration[void][main][params][compound-stmt[call [println][args [call [sum][args [10]]]]]]]] 
 
-file: /home/diegoraian/Downloads/testCompiladores/casos//WVBXycgT.c test passed ------ OK 
+file: /home/shay/Documents/UFBA/2018.1/Compiladores/TrabalhoOficial/git/compilador/testCompiladores/casos/WVBXycgT.c test passed ------ OK 
 
 
-file: /home/diegoraian/Downloads/testCompiladores/casos//x1DIjgMr.c test passed ------ OK 
+file: /home/shay/Documents/UFBA/2018.1/Compiladores/TrabalhoOficial/git/compilador/testCompiladores/casos/x1DIjgMr.c test passed ------ OK 
 
 
-file: /home/diegoraian/Downloads/testCompiladores/casos//xeYajlpB.c test passed ------ OK 
+file: /home/shay/Documents/UFBA/2018.1/Compiladores/TrabalhoOficial/git/compilador/testCompiladores/casos/xeYajlpB.c test passed ------ OK 
 
 
-file: /home/diegoraian/Downloads/testCompiladores/casos//xfVJWBCC.c ------ ERROR 
+file: /home/shay/Documents/UFBA/2018.1/Compiladores/TrabalhoOficial/git/compilador/testCompiladores/casos/xfVJWBCC.c ------ ERROR 
 
- 1c1 < [program[fun-declaration[int][gcd][params[param [int][u]][param [int][v]]][compound-stmt[selection-stmt [==[var [v]][0]][return-stmt [var [u]]][return-stmt [call [gcd][args [var [v]][-[var [u]][*[/[var [u]][var [v]]][var [v]]]]]]]]]][fun-declaration[void][main][params][compound-stmt[var-declaration[int][x]][var-declaration[int][y]][=[var [x]][call [input][args ]]][=[var [y]][call [input][args ]]][call [println][args [call [gcd][args [var [x]][var [y]]]]]]]]] --- > [program[fun-declaration[int][gcd][params[param[int][u]][param[int][v]]][compound-stmt[selection-stmt [==[var[v]][0]][return-stmt[var[u]]][return-stmt[call[gcd][args[var[v]][-[var[u]][*[/[var[u]][var[v]]][var[v]]]]]]]]]][fun-declaration[void][main][params][compound-stmt[var-declaration[int][x]][var-declaration[int][y]][=[var[x]][call[input][args]]][input][=[var[y]][call[input][args]]][input][call[println][args[call[gcd][args[var[x]][var[y]]]]]][y]]]] \ No newline at end of file 
+ 1d0 < [program[fun-declaration[int][gcd][params[param [int][u]][param [int][v]]][compound-stmt[selection-stmt [==[var [v]][0]][return-stmt [var [u]]][return-stmt [call [gcd][args [var [v]][-[var [u]][*[/[var [u]][var [v]]][var [v]]]]]]]]]][fun-declaration[void][main][params][compound-stmt[var-declaration[int][x]][var-declaration[int][y]][=[var [x]][call [input][args ]]][=[var [y]][call [input][args ]]][call [println][args [call [gcd][args [var [x]][var [y]]]]]]]]] 
 
-file: /home/diegoraian/Downloads/testCompiladores/casos//xgw1I9CV.c ------ ERROR 
+file: /home/shay/Documents/UFBA/2018.1/Compiladores/TrabalhoOficial/git/compilador/testCompiladores/casos/xgw1I9CV.c ------ ERROR 
 
  1d0 < [program[fun-declaration[void][main][params][compound-stmt[var-declaration[int][x]][var-declaration[int][y]][=[var [x]][var [y]]][=[var [x]][10]][=[var [x]][*[+[1][2]][var [y]]]]]]] 
 
-file: /home/diegoraian/Downloads/testCompiladores/casos//xJIvSM58.c test passed ------ OK 
+file: /home/shay/Documents/UFBA/2018.1/Compiladores/TrabalhoOficial/git/compilador/testCompiladores/casos/xJIvSM58.c ------ ERROR 
+
+ 1d0 < [program[fun-declaration[int][foo][params][compound-stmt[return-stmt [1]]]][fun-declaration[void][main][params][compound-stmt[iteration-stmt [call [foo][args ]][compound-stmt]]]]] 
+
+file: /home/shay/Documents/UFBA/2018.1/Compiladores/TrabalhoOficial/git/compilador/testCompiladores/casos/xTk7N6mU.c ------ ERROR 
+
+ 1d0 < [program[fun-declaration[int][foo][params[param [int][x]][param [int][y]]][compound-stmt[return-stmt [call [foo][args [+[var [x]][1]][-[var [y]][1]]]]]]][fun-declaration[void][main][params][compound-stmt[call [main][args ]]]]] 
+
+file: /home/shay/Documents/UFBA/2018.1/Compiladores/TrabalhoOficial/git/compilador/testCompiladores/casos/xUGAML5b.c ------ ERROR 
+
+ 1d0 < [program[fun-declaration[void][foo][params[param [int][a]][param [int][b]][param [int][c]]][compound-stmt]][fun-declaration[void][main][params][compound-stmt]]] 
+
+file: /home/shay/Documents/UFBA/2018.1/Compiladores/TrabalhoOficial/git/compilador/testCompiladores/casos/yAoDgv2o.c test passed ------ OK 
 
 
-file: /home/diegoraian/Downloads/testCompiladores/casos//xTk7N6mU.c ------ ERROR 
-
- 1c1 < [program[fun-declaration[int][foo][params[param [int][x]][param [int][y]]][compound-stmt[return-stmt [call [foo][args [+[var [x]][1]][-[var [y]][1]]]]]]][fun-declaration[void][main][params][compound-stmt[call [main][args ]]]]] --- > [program[fun-declaration[int][foo][params[param[int][x]][param[int][y]]][compound-stmt[return-stmt[call[foo][args[+[var[x]][1]][-[var[y]][1]]]]]]][fun-declaration[void][main][params][compound-stmt[call[main][args]][main]]]] \ No newline at end of file 
-
-file: /home/diegoraian/Downloads/testCompiladores/casos//xUGAML5b.c test passed ------ OK 
+file: /home/shay/Documents/UFBA/2018.1/Compiladores/TrabalhoOficial/git/compilador/testCompiladores/casos/YgWD3wwc.c test passed ------ OK 
 
 
-file: /home/diegoraian/Downloads/testCompiladores/casos//yAoDgv2o.c ------ ERROR 
-
- 0a1 > [program[fun-declaration[void][foo][params[param[void][x]]][compound-stmt]][fun-declaration[void][main][params][compound-stmt]]] \ No newline at end of file 
-
-file: /home/diegoraian/Downloads/testCompiladores/casos//YgWD3wwc.c test passed ------ OK 
-
-
-file: /home/diegoraian/Downloads/testCompiladores/casos//YIwEp9iY.c ------ ERROR 
+file: /home/shay/Documents/UFBA/2018.1/Compiladores/TrabalhoOficial/git/compilador/testCompiladores/casos/YIwEp9iY.c ------ ERROR 
 
  1d0 < [program[fun-declaration[void][main][params][compound-stmt[var-declaration[int][a][10]][var [a][-[0][20]]]]]] 
 
-file: /home/diegoraian/Downloads/testCompiladores/casos//ynDx349E.c test passed ------ OK 
+file: /home/shay/Documents/UFBA/2018.1/Compiladores/TrabalhoOficial/git/compilador/testCompiladores/casos/ynDx349E.c test passed ------ OK 
 
 
-file: /home/diegoraian/Downloads/testCompiladores/casos//yo6a1p0O.c test passed ------ OK 
+file: /home/shay/Documents/UFBA/2018.1/Compiladores/TrabalhoOficial/git/compilador/testCompiladores/casos/yo6a1p0O.c test passed ------ OK 
 
 
-file: /home/diegoraian/Downloads/testCompiladores/casos//ytFw6EyQ.c test passed ------ OK 
+file: /home/shay/Documents/UFBA/2018.1/Compiladores/TrabalhoOficial/git/compilador/testCompiladores/casos/ytFw6EyQ.c ------ ERROR 
 
+ 1d0 < [program[fun-declaration[void][foo][params][compound-stmt]][fun-declaration[void][bar][params][compound-stmt[var-declaration[int][foo]]]][fun-declaration[void][main][params][compound-stmt]]] 
 
-file: /home/diegoraian/Downloads/testCompiladores/casos//YZMBdCyk.c ------ ERROR 
+file: /home/shay/Documents/UFBA/2018.1/Compiladores/TrabalhoOficial/git/compilador/testCompiladores/casos/YZMBdCyk.c ------ ERROR 
 
  1d0 < [program[fun-declaration[void][main][params][compound-stmt[var-declaration[int][x]][var-declaration[int][y]][var-declaration[int][z]][var-declaration[int][w]][var-declaration[int][k]][var-declaration[int][j][20]][-[-[+[+[-[*[var [x]][var [y]]][/[4][var [z]]]][*[var [w]][+[var [k]][2]]]][var [j][10]]][var [j][var [x]]]][var [j][-[var [x]][2]]]]]]] 
 
-file: /home/diegoraian/Downloads/testCompiladores/casos//z3mXRmPr.c ------ ERROR 
+file: /home/shay/Documents/UFBA/2018.1/Compiladores/TrabalhoOficial/git/compilador/testCompiladores/casos/z3mXRmPr.c test passed ------ OK 
 
- 0a1 > [program[fun-declaration[void][foo][params][compound-stmt]][fun-declaration[int][bar][params][compound-stmt[return-stmt[call[foo][args]]]]][fun-declaration[void][main][params][compound-stmt]]] \ No newline at end of file 
 
-file: /home/diegoraian/Downloads/testCompiladores/casos//z8y1YcmK.c ------ ERROR 
+file: /home/shay/Documents/UFBA/2018.1/Compiladores/TrabalhoOficial/git/compilador/testCompiladores/casos/z8y1YcmK.c ------ ERROR 
 
  1d0 < [program[fun-declaration[void][main][params][compound-stmt[var-declaration[int][x][10]][=[var [x][1]][1]]]]] 
 
-file: /home/diegoraian/Downloads/testCompiladores/casos//ZeJTvR0x.c test passed ------ OK 
+file: /home/shay/Documents/UFBA/2018.1/Compiladores/TrabalhoOficial/git/compilador/testCompiladores/casos/ZeJTvR0x.c test passed ------ OK 
 
 
-file: /home/diegoraian/Downloads/testCompiladores/casos//zeQsIG51.c test passed ------ OK 
+file: /home/shay/Documents/UFBA/2018.1/Compiladores/TrabalhoOficial/git/compilador/testCompiladores/casos/zeQsIG51.c test passed ------ OK 
 
 
-file: /home/diegoraian/Downloads/testCompiladores/casos//zJc4nqJd.c test passed ------ OK 
+file: /home/shay/Documents/UFBA/2018.1/Compiladores/TrabalhoOficial/git/compilador/testCompiladores/casos/zJc4nqJd.c test passed ------ OK 
 
 
-file: /home/diegoraian/Downloads/testCompiladores/casos//ZKk78H3M.c ------ ERROR 
+file: /home/shay/Documents/UFBA/2018.1/Compiladores/TrabalhoOficial/git/compilador/testCompiladores/casos/ZKk78H3M.c ------ ERROR 
 
  1d0 < [program[var-declaration[int][x]][var-declaration[int][y]][var-declaration[int][arr][10]][fun-declaration[void][main][params][compound-stmt[=[var [x]][=[var [y]][10]]][=[var [x]][=[var [y]][var [arr][0]]]][=[var [arr][0]][=[var [y]][=[var [x]][*[10][var [x]]]]]]]]] 
 
-file: /home/diegoraian/Downloads/testCompiladores/casos//zMGO2LdP.c ------ ERROR 
+file: /home/shay/Documents/UFBA/2018.1/Compiladores/TrabalhoOficial/git/compilador/testCompiladores/casos/zMGO2LdP.c ------ ERROR 
 
  1d0 < [program[fun-declaration[void][main][params][compound-stmt[var-declaration[int][x]][var-declaration[int][y]][=[var [x]][<[var [y]][2]]]]]] 
 
-file: /home/diegoraian/Downloads/testCompiladores/casos//ZPEFFgKg.c test passed ------ OK 
+file: /home/shay/Documents/UFBA/2018.1/Compiladores/TrabalhoOficial/git/compilador/testCompiladores/casos/ZPEFFgKg.c test passed ------ OK 
 
 
-file: /home/diegoraian/Downloads/testCompiladores/casos//ZSjIbGGW.c test passed ------ OK 
+file: /home/shay/Documents/UFBA/2018.1/Compiladores/TrabalhoOficial/git/compilador/testCompiladores/casos/ZSjIbGGW.c test passed ------ OK 
 
 
-158/248
-64
+191/248
+77

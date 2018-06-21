@@ -99,21 +99,22 @@ declaration       :             var-declaration                           {$$ = 
                   |             fun-declaration                           {$$ = newnode("",$1,NULL,NULL,NULL);} 
                   ; 
  
-var-declaration   :             type-specifier ID END_LINE                                           {  tNode* ideNo = newnode($2,NULL,NULL,NULL,NULL);
-                                                                                                        $$ = newnode("var-declaration",$1,ideNo,NULL,NULL);
-                                                                                                     } 
-                  |             type-specifier ID OPEN_BRACKET DIGIT CLOSE_BRACKET  END_LINE         {
+var-declaration   :             type-specifier ID END_LINE                {  tNode* ideNo = newnode($2,NULL,NULL,NULL,NULL);
+                                                                              $$ = newnode("var-declaration",$1,ideNo,NULL,NULL);
+                                                                          }
+
+                  |             type-specifier ID OPEN_BRACKET DIGIT CLOSE_BRACKET END_LINE         {
                                                                                                       int count = $4;
                                                                                                       char name[20];
                                                                                                       sprintf(name, "%d", count); 
                                                                                                       tNode* nodoDigito = newnode(name,NULL,NULL,NULL,NULL);       
-                                                                                                        tNode* ideNo = newnode($2,NULL,NULL,NULL,NULL);
-                                                                                                        $$ = newnode("var-declaration",$1,ideNo,nodoDigito,NULL);
+                                                                                                      tNode* ideNo = newnode($2,NULL,NULL,NULL,NULL);
+                                                                                                      $$ = newnode("var-declaration",$1,ideNo,nodoDigito,NULL);
                                                                                                      } 
                   ; 
  
-type-specifier    :             INT                                                                  {$$ = newnode("int",NULL,NULL,NULL,NULL);} 
-                  |             VOID                                                                 {$$ = newnode("void",NULL,NULL,NULL,NULL);} 
+type-specifier    :             INT                                       {$$ = newnode("int",NULL,NULL,NULL,NULL);} 
+                  |             VOID                                      {$$ = newnode("void",NULL,NULL,NULL,NULL);} 
                   ; 
  
 fun-declaration   :             type-specifier ID OPEN_PAREN params CLOSE_PAREN compound-stmt        {
@@ -135,7 +136,6 @@ param             :             type-specifier ID                               
                   |             type-specifier ID OPEN_BRACKET CLOSE_BRACKET            {     
                                                                                               tNode* ideNo = newnode($2,NULL,NULL,NULL,NULL);
                                                                                               tNode* noBrackets = newnode("\\[\\]",NULL,NULL,NULL,NULL);
-                                                                                              
                                                                                               $$ = newnode("param",$1,ideNo,noBrackets,NULL);
                                                                                         } 
                   ; 
@@ -271,33 +271,92 @@ int validaMain(tNode* no){
         return 1;
     }
     if(strcmp(no->no,"program") == 0){
-      if(strcmp(no->nodeD->no,"fun-declaration") == 0 && validaTipo(no->nodeD) == 0){
-         return  0;
+      if(no->nodeD != NULL ){
+        if(strcmp(no->nodeD->no,"fun-declaration") == 0 && validaTipo(no->nodeD) == 0){
+          return  0;
+        }
       }
-      if(strcmp(no->nodeC->no,"fun-declaration") == 0 && validaTipo(no->nodeC) == 0){
-         return  0;
+      if(no->nodeC != NULL ){
+        if(strcmp(no->nodeC->no,"fun-declaration") == 0 && validaTipo(no->nodeC) == 0){
+          return  0;
+        }
       }
-      if(strcmp(no->nodeB->no,"fun-declaration") == 0 && validaTipo(no->nodeB) == 0){
-         return  0;
+      if(no->nodeB != NULL ){
+        if(strcmp(no->nodeB->no,"fun-declaration") == 0 && validaTipo(no->nodeB) == 0){
+            return  0;
+        }
       }
-      if(strcmp(no->nodeA->no,"fun-declaration") == 0 && validaTipo(no->nodeA) == 0){
-         return  0;
+      if(no->nodeA != NULL ){
+        if(strcmp(no->nodeA->no,"fun-declaration") == 0 && validaTipo(no->nodeA) == 0){
+          return  0;
+        }
       }
       return 1;
     }
     return 1;
     
 }
+tNode* procuraReturn(tNode *no){
+  if(no == NULL){ 
+      return; 
+  }
+    if(strcmp(no->no,"return-stmt") == 0){
+      return no;
+    }
+      procuraReturn(no->nodeA);
+      procuraReturn(no->nodeB);
+      procuraReturn(no->nodeC);
+      procuraReturn(no->nodeD);
+}
+
+void checkFunDecVoid(tNode *no){
+    if(no == NULL){ 
+        return; 
+    }
+
+    if(strcmp(no->no,"fun-declaration") == 0 && strcmp(no->nodeA->no,"void") == 0 && strcmp(no->nodeD->no,"compound-stm") == 0){
+          tNode *tn = malloc(sizeof(tNode)); 
+          tn = procuraReturn(no->nodeD->nodeD);
+          if(tn->nodeA != NULL){
+            clean(AST);
+            exit(EXIT_FAILURE);
+          }
+    }
+      
+    checkFunDecVoid(no->nodeA);
+    checkFunDecVoid(no->nodeB);
+    checkFunDecVoid(no->nodeC);
+    checkFunDecVoid(no->nodeD);
+}
+
+void percorreArvore(tNode *no){ 
+    if(no == NULL){ 
+        return; 
+    }
+    if(strcmp(no->no,"var-declaration") == 0 && strcmp(no->nodeA->no,"void") == 0){
+      clean(AST);
+      exit(EXIT_FAILURE);
+    }
+    if(strcmp(no->no,"param") == 0 && strcmp(no->nodeA->no,"void") == 0){
+      clean(AST);
+      exit(EXIT_FAILURE);
+    }
+    percorreArvore(no->nodeA);
+    percorreArvore(no->nodeB);
+    percorreArvore(no->nodeC);
+    percorreArvore(no->nodeD);
+} 
 
 void analiseSemantica(tNode* no){
-  
+    if(no == NULL){
+      return;
+    }
     if(validaMain(no) == 1){
       clean(AST);
     }
-
+    percorreArvore(no);
+    checkFunDecVoid(no);
 }
-
-
  
 tNode* newnode(char* no, tNode *nodeA, tNode *nodeB,tNode *nodeC, tNode* nodeD){ 
 
@@ -315,7 +374,7 @@ tNode* newnode(char* no, tNode *nodeA, tNode *nodeB,tNode *nodeC, tNode* nodeD){
     tree->nodeD = nodeD;
     return tree; 
 } 
- 
+
 void imprimirArvore(tNode *no){ 
     if(no == NULL){ 
         return; 
@@ -336,6 +395,7 @@ void imprimirArvore(tNode *no){
 } 
  
 int main( int argc, char *argv[] ) { 
+  
   extern FILE *yyin; 
     raiz = newnode("",NULL,NULL,NULL,NULL); 
   if( argc != 3){ 
@@ -348,7 +408,7 @@ int main( int argc, char *argv[] ) {
   if (yyin == NULL){ 
     printf("Arquivo nao pode ser aberto: %s \n", argv[1]); 
     return 1; 
-  } 
+  };
  
   FILE *fp; 
   fp = fopen(argv[2], "w+"); 
