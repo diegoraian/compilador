@@ -18,7 +18,7 @@ typedef struct node {
 }tNode ; 
  
 tNode* raiz; 
- 
+int temMain = 0;
 //funções para criar os nós da arvore 
 tNode *newnode(char* n, tNode *nodeA, tNode *nodeB,tNode *nodeC, tNode* nodeD); 
  
@@ -120,7 +120,7 @@ type-specifier    :             INT                                       {$$ = 
 fun-declaration   :             type-specifier ID OPEN_PAREN params CLOSE_PAREN compound-stmt        {
                                                                                                         tNode* ideNo = newnode($2,NULL,NULL,NULL,NULL);
                                                                                                         $$ = newnode("fun-declaration",$1,ideNo,$4,$6);
-                                                                                                          
+                                                                                                        checkMain($$);
                                                                                                       } 
                   ;            
  
@@ -256,7 +256,8 @@ empty               :           %empty                                          
 }
 
 void yyerror(const char *s) { 
-  fprintf(stdout, "%s\n", s); 
+  fprintf(stdout, "%s\n", s);
+  exit(0); 
 } 
 
 int validaTipo(tNode* no){
@@ -312,6 +313,7 @@ int validaMain(tNode* no){
     return 1;
     
 }
+
 tNode* procuraReturn(tNode *no){
   if(no == NULL){ 
       return; 
@@ -345,33 +347,57 @@ void checkFunDecVoid(tNode *no){
     checkFunDecVoid(no->nodeD);
 }
 
-void percorreArvore(tNode *no){ 
+void verificaTypeVar(tNode *no){ 
     if(no == NULL){ 
         return; 
     }
     if(strcmp(no->no,"var-declaration") == 0 && strcmp(no->nodeA->no,"void") == 0){
       clean(AST);
-      // exit(EXIT_FAILURE);
     }
     if(strcmp(no->no,"param") == 0 && strcmp(no->nodeA->no,"void") == 0){
       clean(AST);
-      // exit(EXIT_FAILURE);
     }
-    percorreArvore(no->nodeA);
-    percorreArvore(no->nodeB);
-    percorreArvore(no->nodeC);
-    percorreArvore(no->nodeD);
+    verificaTypeVar(no->nodeA);
+    verificaTypeVar(no->nodeB);
+    verificaTypeVar(no->nodeC);
+    verificaTypeVar(no->nodeD);
 } 
+
+void checkMain(tNode* no){
+  if ( !strcmp(no->nodeB->no, "main") ){
+    if(temMain==1){
+      clean(AST);
+      yyerror("has more the one main");
+    }
+    temMain = 1;
+    if ( strcmp(no->nodeA->no, "void") ){
+      clean(AST);
+      yyerror("main has to be type void");
+    }
+    if ( no->nodeC->nodeA != NULL ){
+      clean(AST);
+      yyerror("main cant have params");
+    }
+  }
+  if(!strcmp(no->nodeB->no, "println")){
+    clean(AST);
+    yyerror("cant redefine println");
+  }
+  if(!strcmp(no->nodeB->no, "input")){
+    clean(AST);
+    yyerror("cant redefine input");
+  }
+}
 
 void analiseSemantica(tNode* no){
     if(no == NULL){
       return;
     }
-    if(validaMain(no) == 1){
-      clean(AST);
-      // printf("aqui\n");
-    }
-    // percorreArvore(no);
+    // if(validaMain(no) == 1){
+    //   clean(AST);
+    //   // printf("aqui\n");
+    // }
+    verificaTypeVar(no);
     // checkFunDecVoid(no);
 }
  
@@ -380,8 +406,8 @@ tNode* newnode(char* no, tNode *nodeA, tNode *nodeB,tNode *nodeC, tNode* nodeD){
     tNode *tree = malloc(sizeof(tNode)); 
     if(!tree){ 
         yyerror("vazio"); 
-        exit(0); 
-    } 
+        exit(0);
+    }
      tree->no = malloc(20);
      strcpy(tree->no, no); 
 
@@ -390,7 +416,7 @@ tNode* newnode(char* no, tNode *nodeA, tNode *nodeB,tNode *nodeC, tNode* nodeD){
     tree->nodeC = nodeC; 
     tree->nodeD = nodeD;
     return tree; 
-} 
+}
 
 void imprimirArvore(tNode *no){ 
     if(no == NULL){ 
@@ -408,7 +434,6 @@ void imprimirArvore(tNode *no){
     if(strcmp(no->no,"") != 0){  
         strcat(AST,"]");
     }
-    
 } 
  
 int main( int argc, char *argv[] ) { 
@@ -436,7 +461,7 @@ int main( int argc, char *argv[] ) {
      
   yyparse(); 
   imprimirArvore(raiz); 
-  // analiseSemantica(raiz);
+  analiseSemantica(raiz);
   fprintf(fp, "%s", AST); 
   fclose(yyin); 
   fclose(fp); 
