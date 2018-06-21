@@ -260,8 +260,15 @@ void yyerror(const char *s) {
 } 
 
 int validaTipo(tNode* no){
-  if(strcmp(no->nodeA->no,"int")!=0 &&  strcmp(no->nodeB->no,"main") !=0 && strcmp(no->nodeC->no,"void")!=0){
-    return 0;
+  // printf("validaTipo\n");
+  // printf("%c\n",no->nodeA->no);
+  // printf("%s",no->nodeB->no);
+  // printf("%c",no->nodeC->no);
+  if(no->nodeA!=NULL && no->nodeB!=NULL && no->nodeC!=NULL){
+    
+    if(strcmp(no->nodeA->no,"int")!=0 &&  strcmp(no->nodeB->no,"main") !=0 && strcmp(no->nodeC->no,"void")!=0){
+      return 0;
+    }
   }
   return 1;
 }
@@ -273,25 +280,34 @@ int validaMain(tNode* no){
     if(strcmp(no->no,"program") == 0){
       if(no->nodeD != NULL ){
         if(strcmp(no->nodeD->no,"fun-declaration") == 0 && validaTipo(no->nodeD) == 0){
+          // printf("aqui1\n");
           return  0;
         }
       }
       if(no->nodeC != NULL ){
         if(strcmp(no->nodeC->no,"fun-declaration") == 0 && validaTipo(no->nodeC) == 0){
+          // printf("aqui2\n");
+
           return  0;
         }
       }
       if(no->nodeB != NULL ){
         if(strcmp(no->nodeB->no,"fun-declaration") == 0 && validaTipo(no->nodeB) == 0){
+          // printf("aqui3\n");
+
             return  0;
         }
       }
       if(no->nodeA != NULL ){
-        if(strcmp(no->nodeA->no,"fun-declaration") == 0 && validaTipo(no->nodeA) == 0){
+        // printf("aqui3\n");
+        // int a = validaTipo(no->nodeA);
+        // printf("%d",a);
+        if((no->nodeA->no == "fun-declaration") && (validaTipo(no->nodeA) == 0)){
+          // printf("aqui4\n");
           return  0;
         }
       }
-      return 1;
+      // return 1;
     }
     return 1;
     
@@ -315,12 +331,12 @@ void checkFunDecVoid(tNode *no){
     }
 
     if(strcmp(no->no,"fun-declaration") == 0 && strcmp(no->nodeA->no,"void") == 0 && strcmp(no->nodeD->no,"compound-stm") == 0){
-          tNode *tn = malloc(sizeof(tNode)); 
-          tn = procuraReturn(no->nodeD->nodeD);
-          if(tn->nodeA != NULL){
-            clean(AST);
-            exit(EXIT_FAILURE);
-          }
+      tNode *tn = malloc(sizeof(tNode)); 
+      tn = procuraReturn(no->nodeD->nodeD);
+      if(tn->nodeA != NULL){
+        clean(AST);
+        // exit(EXIT_FAILURE);
+      }
     }
       
     checkFunDecVoid(no->nodeA);
@@ -335,11 +351,11 @@ void percorreArvore(tNode *no){
     }
     if(strcmp(no->no,"var-declaration") == 0 && strcmp(no->nodeA->no,"void") == 0){
       clean(AST);
-      exit(EXIT_FAILURE);
+      // exit(EXIT_FAILURE);
     }
     if(strcmp(no->no,"param") == 0 && strcmp(no->nodeA->no,"void") == 0){
       clean(AST);
-      exit(EXIT_FAILURE);
+      // exit(EXIT_FAILURE);
     }
     percorreArvore(no->nodeA);
     percorreArvore(no->nodeB);
@@ -353,9 +369,10 @@ void analiseSemantica(tNode* no){
     }
     if(validaMain(no) == 1){
       clean(AST);
+      // printf("aqui\n");
     }
-    percorreArvore(no);
-    checkFunDecVoid(no);
+    // percorreArvore(no);
+    // checkFunDecVoid(no);
 }
  
 tNode* newnode(char* no, tNode *nodeA, tNode *nodeB,tNode *nodeC, tNode* nodeD){ 
@@ -379,7 +396,7 @@ void imprimirArvore(tNode *no){
     if(no == NULL){ 
         return; 
     }
-    printf("%s",no->no); 
+    // printf("%s",no->no); 
     if(strcmp(no->no,"") != 0){
       strcat(AST,"[");
       strcat(AST,no->no);
@@ -419,7 +436,7 @@ int main( int argc, char *argv[] ) {
      
   yyparse(); 
   imprimirArvore(raiz); 
-  analiseSemantica(raiz);
+  // analiseSemantica(raiz);
   fprintf(fp, "%s", AST); 
   fclose(yyin); 
   fclose(fp); 
