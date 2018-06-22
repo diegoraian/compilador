@@ -1,4 +1,6 @@
- void main(void){
+int a;
+int c;
 
-     return 0;
- }
+void func(void){
+    int a;
+}

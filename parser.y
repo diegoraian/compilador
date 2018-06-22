@@ -6,7 +6,7 @@
  
 void    yyerror(const char *s); 
 int     yylex(void); 
-char AST[20480]; 
+char AST[20480];
  
 //nó que tem 4 filhos 
 typedef struct node { 
@@ -17,7 +17,18 @@ typedef struct node {
     char* no; 
 }tNode ; 
  
-tNode* raiz; 
+tNode* raiz;
+
+typedef struct nodeList {
+  int val;
+    struct nodeList* next;
+  // struct nodeList* LIST[20480];
+}tNodeList ;
+
+tNodeList* LIST[20480];
+int size = 0;
+
+
 int temMain = 0;
 //funções para criar os nós da arvore 
 tNode *newnode(char* n, tNode *nodeA, tNode *nodeB,tNode *nodeC, tNode* nodeD); 
@@ -28,14 +39,15 @@ tNode *newnode(char* n, tNode *nodeA, tNode *nodeB,tNode *nodeC, tNode* nodeD);
 %union { 
     int    numValue; 
     char  *stringValue; 
-    struct node   *nodeValue; 
+    struct node   *nodeValue;
+    struct nodeList   *nodeValueList; 
 } 
  
 //INÍCIO DA GRAMÁTICA
 %start  program; 
   
 %type <nodeValue> program 
-%type <nodeValue> declaration-list 
+%type <nodeValueList> declaration-list 
 %type <nodeValue> declaration 
 %type <nodeValue> var-declaration 
 %type <nodeValue> type-specifier 
@@ -91,12 +103,15 @@ tNode *newnode(char* n, tNode *nodeA, tNode *nodeB,tNode *nodeC, tNode* nodeD);
 program           :            declaration-list                           {$$ = newnode("program",$1,NULL,NULL,NULL);raiz = $$;} 
                   ; 
  
-declaration-list  :            declaration-list declaration               {$$ = newnode("",$1,$2,NULL,NULL);} 
-                  |            declaration                                {$$ = newnode("",$1,NULL,NULL,NULL);} 
+declaration-list  :            declaration-list declaration               {
+                                                                            //$1->next = push_back($2);
+                                                                            $$ = newnode("",$1,$2,NULL,NULL);
+                                                                          }
+                  |            declaration                                {$$ = $1;}//{$$ = newnode("",$1,NULL,NULL,NULL);} 
                   ; 
  
-declaration       :             var-declaration                           {$$ = newnode("",$1,NULL,NULL,NULL);} 
-                  |             fun-declaration                           {$$ = newnode("",$1,NULL,NULL,NULL);} 
+declaration       :             var-declaration                           {$$ = $1;}//{$$ = newnode("",$1,NULL,NULL,NULL);} 
+                  |             fun-declaration                           {$$ = $1;}//{$$ = newnode("",$1,NULL,NULL,NULL);} 
                   ; 
  
 var-declaration   :             type-specifier ID END_LINE                {  tNode* ideNo = newnode($2,NULL,NULL,NULL,NULL);
@@ -129,7 +144,7 @@ params            :             param-list                                      
                   ; 
  
 param-list        :             param-list COMMA param                                  {$$ = newnode("",$1,$3,NULL,NULL);} 
-                  |             param                                                   {$$ = newnode("",$1,NULL,NULL,NULL);}   
+                  |             param                                                   {$$ = $1;}//{$$ = newnode("",$1,NULL,NULL,NULL);}   
                   ; 
 param             :             type-specifier ID                                       { tNode* ideNo = newnode($2,NULL,NULL,NULL,NULL);
                                                                                           $$ = newnode("param",$1,ideNo,NULL,NULL);} 
@@ -151,15 +166,15 @@ statement-list    :             statement-list statement                        
                   |             empty                                                   {} 
                   ; 
  
-statement         :             expression-stmt                                         {$$ = newnode("",$1,NULL,NULL,NULL);} 
-                  |             compound-stmt                                           {$$ = newnode("",$1,NULL,NULL,NULL);} 
-                  |             selection-stmt                                          {$$ = newnode("",$1,NULL,NULL,NULL);} 
-                  |             iteration-stmt                                          {$$ = newnode("",$1,NULL,NULL,NULL);} 
-                  |             return-stmt                                             {$$ = newnode("",$1,NULL,NULL,NULL);} 
+statement         :             expression-stmt                                         {$$ = $1;}//{$$ = newnode("",$1,NULL,NULL,NULL);} 
+                  |             compound-stmt                                           {$$ = $1;}//{$$ = newnode("",$1,NULL,NULL,NULL);} 
+                  |             selection-stmt                                          {$$ = $1;}//{$$ = newnode("",$1,NULL,NULL,NULL);} 
+                  |             iteration-stmt                                          {$$ = $1;}//{$$ = newnode("",$1,NULL,NULL,NULL);} 
+                  |             return-stmt                                             {$$ = $1;}//{$$ = newnode("",$1,NULL,NULL,NULL);} 
                   ; 
  
 expression-stmt   :             expression  END_LINE                                    { tNode* node = newnode(";",NULL,NULL,NULL,NULL);
-                                                                                          $$ = newnode("",$1,NULL,NULL,NULL);} 
+                                                                                         $$ = newnode("",$1,NULL,NULL,NULL);} 
                   |             END_LINE                                                {$$ = newnode(";",NULL,NULL,NULL,NULL);} 
                   ; 
  
@@ -174,7 +189,7 @@ return-stmt       :             RETURN END_LINE                                 
                   ; 
  
 expression        :             var ATTRIB expression                                  {$$ = newnode("=",$1,$3,NULL,NULL);} 
-                  |             simple-expression                                      {$$ = newnode("",$1,NULL,NULL,NULL);} 
+                  |             simple-expression                                      {$$ = $1;}//{$$ = newnode("",$1,NULL,NULL,NULL);} 
                   ; 
  
 var               :             ID                                                     { 
@@ -187,7 +202,7 @@ var               :             ID                                              
                   ; 
  
 simple-expression :             additive-expression relop additive-expression          {$$ = newnode($2->no,$1,$3,NULL,NULL);} 
-                  |             additive-expression                                    {$$ = newnode("",$1,NULL,NULL,NULL);} 
+                  |             additive-expression                                    {$$ = $1;}//{$$ = newnode("",$1,NULL,NULL,NULL);} 
                   ; 
  
 relop             :             LEQUAL                                                 {$$ = newnode("<=",NULL,NULL,NULL,NULL);} 
@@ -199,7 +214,7 @@ relop             :             LEQUAL                                          
                   ; 
  
 additive-expression :         additive-expression addop term                    {$$ = newnode($2->no,$1,$3,NULL,NULL);} 
-                    |         term                                              {$$ = newnode("",$1,NULL,NULL,NULL);} 
+                    |         term                                              {$$ = $1;}//{$$ = newnode("",$1,NULL,NULL,NULL);} 
                     ; 
  
  
@@ -215,9 +230,9 @@ mulop               :            TIMES                                          
                     |            DIVIDE                                         {$$ = newnode("/",NULL,NULL,NULL,NULL);} 
                     ; 
  
-factor              :            OPEN_PAREN expression CLOSE_PAREN              {$$ = newnode("",$2,NULL,NULL,NULL);} 
-                    |            var                                            {$$ = newnode("",$1,NULL,NULL,NULL);} 
-                    |            call                                           {$$ = newnode("",$1,NULL,NULL,NULL);} 
+factor              :            OPEN_PAREN expression CLOSE_PAREN              {$$ = $2;}//{$$ = newnode("",$2,NULL,NULL,NULL);} 
+                    |            var                                            {$$ = $1;}//{$$ = newnode("",$1,NULL,NULL,NULL);} 
+                    |            call                                           {$$ = $1;}//{$$ = newnode("",$1,NULL,NULL,NULL);} 
                     |            DIGIT                                          { 
                                                                                   int count = $1;
                                                                                   char name[20];
@@ -237,7 +252,7 @@ args                :            arg-list                                       
                     ; 
  
 arg-list            :           arg-list COMMA expression                       {$$ = newnode("",$1,$3,NULL,NULL);}
-                    |           expression                                      {$$ = newnode("",$1,NULL,NULL,NULL);} 
+                    |           expression                                      {$$ = $1;}//{$$ = newnode("",$1,NULL,NULL,NULL);} 
                     ; 
  
 empty               :           %empty                                          {$$ = newnode("",NULL,NULL,NULL,NULL);} 
@@ -327,6 +342,82 @@ tNode* procuraReturn(tNode *no){
       procuraReturn(no->nodeD);
 }
 
+tNodeList* push_back(tNodeList *no){
+  tNodeList *tnl = malloc(sizeof(tNodeList));
+
+  // LIST[size] = no;
+  // size++;
+  return tnl;
+}
+
+void find(tNode *no){
+  if(no == NULL){ 
+      return; 
+  }
+  find(no);
+}
+
+void mainLast(tNode *no){
+  if(no == NULL){ 
+      return; 
+  }
+
+  if(strcmp(no->no,"program") == 0){
+    if(no->nodeD != NULL){
+      printf("%s D\n",no->nodeD->no);
+      if(strcmp(no->nodeD->no,"fun-declaration") == 0){
+        if(strcmp(no->nodeD->nodeB->no,"main")){
+          yyerror("last nodo isnt mainD");
+          clean(AST);
+        }
+      }else{
+        yyerror("has something after main");
+        clean(AST);
+      }
+    }else{
+      if(no->nodeC != NULL){
+        printf("%s C\n",no->nodeC->no);
+        if(strcmp(no->nodeC->no,"fun-declaration") == 0){
+          if(strcmp(no->nodeC->nodeB->no,"main")){
+            yyerror("last nodo isnt mainC");
+            clean(AST);
+          }
+        }else{
+          yyerror("has something after main");
+          clean(AST);
+        }
+      }else{
+        if(no->nodeB != NULL){
+          printf("%s B\n",no->nodeB->no);
+          if(strcmp(no->nodeB->no,"fun-declaration") == 0){
+            if(strcmp(no->nodeB->nodeB->no,"main")){
+              yyerror("last nodo isnt mainB");
+              clean(AST);
+            }
+          }else{
+            yyerror("has something after main");
+            clean(AST);
+          }
+        }else{
+          if(no->nodeA != NULL){
+            printf("%s A\n",no->nodeA->no);
+            printf("%s A\n",no->nodeA->nodeB->no);
+            if(strcmp(no->nodeA->no,"fun-declaration") == 0){
+              if(strcmp(no->nodeA->nodeB->no,"main")){
+                yyerror("last nodo isnt mainA");
+                clean(AST);
+              }
+            }else{
+              yyerror("has something after main");
+              clean(AST);
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
 void checkFunDecVoid(tNode *no){
     if(no == NULL){ 
         return; 
@@ -398,6 +489,7 @@ void analiseSemantica(tNode* no){
     //   // printf("aqui\n");
     // }
     verificaTypeVar(no);
+    // mainLast(no);
     // checkFunDecVoid(no);
 }
  
