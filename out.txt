@@ -1,4 +1,0 @@
-[program[var - declaration[int][a]][var - declaration[int][c]]
- [fun -
-  declaration[void][func][params][compound -
-				  stmt[var - declaration[int][a]]]]]

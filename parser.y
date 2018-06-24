@@ -21,7 +21,7 @@ tNode* raiz;
 
 typedef struct nodeList {
   int val;
-    struct nodeList* next;
+    struct node *next;
   // struct nodeList* LIST[20480];
 }tNodeList ;
 
@@ -47,7 +47,7 @@ tNode *newnode(char* n, tNode *nodeA, tNode *nodeB,tNode *nodeC, tNode* nodeD);
 %start  program; 
   
 %type <nodeValue> program 
-%type <nodeValueList> declaration-list 
+%type <nodeValue> declaration-list 
 %type <nodeValue> declaration 
 %type <nodeValue> var-declaration 
 %type <nodeValue> type-specifier 
@@ -103,11 +103,8 @@ tNode *newnode(char* n, tNode *nodeA, tNode *nodeB,tNode *nodeC, tNode* nodeD);
 program           :            declaration-list                           {$$ = newnode("program",$1,NULL,NULL,NULL);raiz = $$;} 
                   ; 
  
-declaration-list  :            declaration-list declaration               {
-                                                                            //$1->next = push_back($2);
-                                                                            $$ = newnode("",$1,$2,NULL,NULL);
-                                                                          }
-                  |            declaration                                {$$ = $1;}//{$$ = newnode("",$1,NULL,NULL,NULL);} 
+declaration-list  :            declaration-list declaration               {$$ = newnode("",$1,$2,NULL,NULL);}
+                  |            declaration                                {$$ = $1;}
                   ; 
  
 declaration       :             var-declaration                           {$$ = $1;}//{$$ = newnode("",$1,NULL,NULL,NULL);} 
@@ -294,6 +291,7 @@ int validaMain(tNode* no){
         return 1;
     }
     if(strcmp(no->no,"program") == 0){
+      printf("%s\n", no->nodeD->no);
       if(no->nodeD != NULL ){
         if(strcmp(no->nodeD->no,"fun-declaration") == 0 && validaTipo(no->nodeD) == 0){
           // printf("aqui1\n");
@@ -301,6 +299,7 @@ int validaMain(tNode* no){
         }
       }
       if(no->nodeC != NULL ){
+        printf("%s\n", no->nodeC->no);
         if(strcmp(no->nodeC->no,"fun-declaration") == 0 && validaTipo(no->nodeC) == 0){
           // printf("aqui2\n");
 
@@ -308,6 +307,7 @@ int validaMain(tNode* no){
         }
       }
       if(no->nodeB != NULL ){
+        printf("%s\n", no->nodeB->no);
         if(strcmp(no->nodeB->no,"fun-declaration") == 0 && validaTipo(no->nodeB) == 0){
           // printf("aqui3\n");
 
@@ -315,9 +315,7 @@ int validaMain(tNode* no){
         }
       }
       if(no->nodeA != NULL ){
-        // printf("aqui3\n");
-        // int a = validaTipo(no->nodeA);
-        // printf("%d",a);
+        printf("%s\n", no->nodeA->no);
         if((no->nodeA->no == "fun-declaration") && (validaTipo(no->nodeA) == 0)){
           // printf("aqui4\n");
           return  0;
@@ -331,7 +329,7 @@ int validaMain(tNode* no){
 
 tNode* procuraReturn(tNode *no){
   if(no == NULL){ 
-      return; 
+      return;
   }
     if(strcmp(no->no,"return-stmt") == 0){
       return no;
@@ -342,12 +340,12 @@ tNode* procuraReturn(tNode *no){
       procuraReturn(no->nodeD);
 }
 
-tNodeList* push_back(tNodeList *no){
-  tNodeList *tnl = malloc(sizeof(tNodeList));
+tNode* push_back(tNode *no){
+  // tNodeList *tnl = malloc(sizeof(tNodeList));
 
   // LIST[size] = no;
   // size++;
-  return tnl;
+  return no;
 }
 
 void find(tNode *no){
@@ -361,8 +359,10 @@ void mainLast(tNode *no){
   if(no == NULL){ 
       return; 
   }
-
-  if(strcmp(no->no,"program") == 0){
+    if(strcmp(no->nodeA->no,"declist") == 0){
+      mainLast(no->nodeA);
+    }
+  // if(strcmp(no->no,"program") == 0){
     if(no->nodeD != NULL){
       printf("%s D\n",no->nodeD->no);
       if(strcmp(no->nodeD->no,"fun-declaration") == 0){
@@ -401,7 +401,7 @@ void mainLast(tNode *no){
         }else{
           if(no->nodeA != NULL){
             printf("%s A\n",no->nodeA->no);
-            printf("%s A\n",no->nodeA->nodeB->no);
+            // printf("%s A\n",no->nodeA->nodeB->no);
             if(strcmp(no->nodeA->no,"fun-declaration") == 0){
               if(strcmp(no->nodeA->nodeB->no,"main")){
                 yyerror("last nodo isnt mainA");
@@ -414,7 +414,7 @@ void mainLast(tNode *no){
           }
         }
       }
-    }
+    // }
   }
 }
 
@@ -468,6 +468,12 @@ void checkMain(tNode* no){
     if ( no->nodeC->nodeA != NULL ){
       clean(AST);
       yyerror("main cant have params");
+    }
+  }
+  else{
+    if(temMain==1){
+      clean(AST);
+      yyerror("has something after main");
     }
   }
   if(!strcmp(no->nodeB->no, "println")){
