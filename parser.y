@@ -6,7 +6,8 @@
  
 void    yyerror(const char *s); 
 int     yylex(void); 
-char AST[20480];
+char    AST[20480];
+char    ASM[20480];
  
 //nó que tem 4 filhos 
 typedef struct node { 
@@ -14,10 +15,17 @@ typedef struct node {
     struct node *nodeB; 
     struct node *nodeC; 
     struct node *nodeD; 
-    char* no; 
-}tNode ; 
- 
+    char *no; 
+}tNode; 
+
+ typedef struct opera {
+    char *op1;
+    char *op2;
+    char *simbolo;
+}tOperacao;
+
 tNode* raiz;
+tOperacao* operacao;
 
 typedef struct nodeList {
   int val;
@@ -28,12 +36,11 @@ typedef struct nodeList {
 tNodeList* LIST[20480];
 int size = 0;
 
-
 int temMain = 0;
 //funções para criar os nós da arvore 
 tNode *newnode(char* n, tNode *nodeA, tNode *nodeB,tNode *nodeC, tNode* nodeD); 
  
-%} 
+%}
  
 //VARIÁVEIS USADAS NO LÉXICO
 %union { 
@@ -76,8 +83,7 @@ tNode *newnode(char* n, tNode *nodeA, tNode *nodeB,tNode *nodeC, tNode* nodeD);
 %type <nodeValue> args 
 %type <nodeValue> arg-list 
 %type <nodeValue> empty 
- 
- 
+
 //declaração de tokens usados no lexico.l 
 %token  <stringValue>    INT VOID IF WHILE ELSE RETURN 
 %token  <stringValue>    PLUS MINUS TIMES DIVIDE 
@@ -213,7 +219,7 @@ relop             :             LEQUAL                                          
 additive-expression :         additive-expression addop term                    {$$ = newnode($2->no,$1,$3,NULL,NULL);} 
                     |         term                                              {$$ = $1;}//{$$ = newnode("",$1,NULL,NULL,NULL);} 
                     ; 
- 
+
  
 addop               :            PLUS                                           {$$ = newnode("+",NULL,NULL,NULL,NULL);} 
                     |            MINUS                                          {$$ = newnode("-",NULL,NULL,NULL,NULL);} 
@@ -259,115 +265,43 @@ empty               :           %empty                                          
 %% 
 //----------------------------------------------------------------------------- 
  
- void clean(char *var) {
-    int i = 0;
-    while(var[i] != '\0') {
-        var[i] = '\0';
-        i++;
-    }
+void clean(char *var) {
+  int i = 0;
+  while(var[i] != '\0') {
+      var[i] = '\0';
+      i++;
+  }
 }
 
 void yyerror(const char *s) { 
   fprintf(stdout, "%s\n", s);
   exit(0); 
-} 
-
-int validaTipo(tNode* no){
-  // printf("validaTipo\n");
-  // printf("%c\n",no->nodeA->no);
-  // printf("%s",no->nodeB->no);
-  // printf("%c",no->nodeC->no);
-  if(no->nodeA!=NULL && no->nodeB!=NULL && no->nodeC!=NULL){
-    
-    if(strcmp(no->nodeA->no,"int")!=0 &&  strcmp(no->nodeB->no,"main") !=0 && strcmp(no->nodeC->no,"void")!=0){
-      return 0;
-    }
-  }
-  return 1;
-}
-
-int validaMain(tNode* no){
-    if(no == NULL){
-        return 1;
-    }
-    if(strcmp(no->no,"program") == 0){
-      printf("%s\n", no->nodeD->no);
-      if(no->nodeD != NULL ){
-        if(strcmp(no->nodeD->no,"fun-declaration") == 0 && validaTipo(no->nodeD) == 0){
-          // printf("aqui1\n");
-          return  0;
-        }
-      }
-      if(no->nodeC != NULL ){
-        printf("%s\n", no->nodeC->no);
-        if(strcmp(no->nodeC->no,"fun-declaration") == 0 && validaTipo(no->nodeC) == 0){
-          // printf("aqui2\n");
-
-          return  0;
-        }
-      }
-      if(no->nodeB != NULL ){
-        printf("%s\n", no->nodeB->no);
-        if(strcmp(no->nodeB->no,"fun-declaration") == 0 && validaTipo(no->nodeB) == 0){
-          // printf("aqui3\n");
-
-            return  0;
-        }
-      }
-      if(no->nodeA != NULL ){
-        printf("%s\n", no->nodeA->no);
-        if((no->nodeA->no == "fun-declaration") && (validaTipo(no->nodeA) == 0)){
-          // printf("aqui4\n");
-          return  0;
-        }
-      }
-      // return 1;
-    }
-    return 1;
-    
-}
-
-tNode* procuraReturn(tNode *no){
-  if(no == NULL){ 
-      return;
-  }
-    if(strcmp(no->no,"return-stmt") == 0){
-      return no;
-    }
-      procuraReturn(no->nodeA);
-      procuraReturn(no->nodeB);
-      procuraReturn(no->nodeC);
-      procuraReturn(no->nodeD);
-}
-
-tNode* push_back(tNode *no){
-  // tNodeList *tnl = malloc(sizeof(tNodeList));
-
-  // LIST[size] = no;
-  // size++;
-  return no;
-}
-
-void find(tNode *no){
-  if(no == NULL){ 
-      return; 
-  }
-  find(no);
 }
 
 void mainLast(tNode *no){
   if(no == NULL){ 
       return; 
   }
-    if(strcmp(no->nodeA->no,"declist") == 0){
-      mainLast(no->nodeA);
+  if(strcmp(no->nodeA->no,"declist") == 0){
+    mainLast(no->nodeA);
+  }
+  if(no->nodeD != NULL){
+    printf("%s D\n",no->nodeD->no);
+    if(strcmp(no->nodeD->no,"fun-declaration") == 0){
+      if(strcmp(no->nodeD->nodeB->no,"main")){
+        yyerror("last nodo isnt mainD");
+        clean(AST);
+      }
+    }else{
+      yyerror("has something after main");
+      clean(AST);
     }
-  // if(strcmp(no->no,"program") == 0){
-    if(no->nodeD != NULL){
-      printf("%s D\n",no->nodeD->no);
-      if(strcmp(no->nodeD->no,"fun-declaration") == 0){
-        if(strcmp(no->nodeD->nodeB->no,"main")){
-          yyerror("last nodo isnt mainD");
+  }else{
+    if(no->nodeC != NULL){
+      printf("%s C\n",no->nodeC->no);
+      if(strcmp(no->nodeC->no,"fun-declaration") == 0){
+        if(strcmp(no->nodeC->nodeB->no,"main")){
+          yyerror("last nodo isnt mainC");
           clean(AST);
         }
       }else{
@@ -375,11 +309,11 @@ void mainLast(tNode *no){
         clean(AST);
       }
     }else{
-      if(no->nodeC != NULL){
-        printf("%s C\n",no->nodeC->no);
-        if(strcmp(no->nodeC->no,"fun-declaration") == 0){
-          if(strcmp(no->nodeC->nodeB->no,"main")){
-            yyerror("last nodo isnt mainC");
+      if(no->nodeB != NULL){
+        printf("%s B\n",no->nodeB->no);
+        if(strcmp(no->nodeB->no,"fun-declaration") == 0){
+          if(strcmp(no->nodeB->nodeB->no,"main")){
+            yyerror("last nodo isnt mainB");
             clean(AST);
           }
         }else{
@@ -387,72 +321,39 @@ void mainLast(tNode *no){
           clean(AST);
         }
       }else{
-        if(no->nodeB != NULL){
-          printf("%s B\n",no->nodeB->no);
-          if(strcmp(no->nodeB->no,"fun-declaration") == 0){
-            if(strcmp(no->nodeB->nodeB->no,"main")){
-              yyerror("last nodo isnt mainB");
+        if(no->nodeA != NULL){
+          printf("%s A\n",no->nodeA->no);
+          // printf("%s A\n",no->nodeA->nodeB->no);
+          if(strcmp(no->nodeA->no,"fun-declaration") == 0){
+            if(strcmp(no->nodeA->nodeB->no,"main")){
+              yyerror("last nodo isnt mainA");
               clean(AST);
             }
           }else{
             yyerror("has something after main");
             clean(AST);
           }
-        }else{
-          if(no->nodeA != NULL){
-            printf("%s A\n",no->nodeA->no);
-            // printf("%s A\n",no->nodeA->nodeB->no);
-            if(strcmp(no->nodeA->no,"fun-declaration") == 0){
-              if(strcmp(no->nodeA->nodeB->no,"main")){
-                yyerror("last nodo isnt mainA");
-                clean(AST);
-              }
-            }else{
-              yyerror("has something after main");
-              clean(AST);
-            }
-          }
         }
       }
-    // }
+    }
   }
 }
 
-void checkFunDecVoid(tNode *no){
-    if(no == NULL){ 
-        return; 
-    }
-
-    if(strcmp(no->no,"fun-declaration") == 0 && strcmp(no->nodeA->no,"void") == 0 && strcmp(no->nodeD->no,"compound-stm") == 0){
-      tNode *tn = malloc(sizeof(tNode)); 
-      tn = procuraReturn(no->nodeD->nodeD);
-      if(tn->nodeA != NULL){
-        clean(AST);
-        // exit(EXIT_FAILURE);
-      }
-    }
-      
-    checkFunDecVoid(no->nodeA);
-    checkFunDecVoid(no->nodeB);
-    checkFunDecVoid(no->nodeC);
-    checkFunDecVoid(no->nodeD);
-}
-
 void verificaTypeVar(tNode *no){ 
-    if(no == NULL){ 
-        return; 
-    }
-    if(strcmp(no->no,"var-declaration") == 0 && strcmp(no->nodeA->no,"void") == 0){
-      clean(AST);
-    }
-    if(strcmp(no->no,"param") == 0 && strcmp(no->nodeA->no,"void") == 0){
-      clean(AST);
-    }
-    verificaTypeVar(no->nodeA);
-    verificaTypeVar(no->nodeB);
-    verificaTypeVar(no->nodeC);
-    verificaTypeVar(no->nodeD);
-} 
+  if(no == NULL){ 
+    return; 
+  }
+  if(strcmp(no->no,"var-declaration") == 0 && strcmp(no->nodeA->no,"void") == 0){
+    clean(AST);
+  }
+  if(strcmp(no->no,"param") == 0 && strcmp(no->nodeA->no,"void") == 0){
+    clean(AST);
+  }
+  verificaTypeVar(no->nodeA);
+  verificaTypeVar(no->nodeB);
+  verificaTypeVar(no->nodeC);
+  verificaTypeVar(no->nodeD);
+}
 
 void checkMain(tNode* no){
   if ( !strcmp(no->nodeB->no, "main") ){
@@ -486,84 +387,182 @@ void checkMain(tNode* no){
   }
 }
 
-void analiseSemantica(tNode* no){
-    if(no == NULL){
-      return;
-    }
-    // if(validaMain(no) == 1){
-    //   clean(AST);
-    //   // printf("aqui\n");
-    // }
-    verificaTypeVar(no);
-    // mainLast(no);
-    // checkFunDecVoid(no);
+void analiseSemantica(tNode *no){
+  if(no == NULL){
+    return;
+  }
+  verificaTypeVar(no);
+  // mainLast(no);
 }
  
-tNode* newnode(char* no, tNode *nodeA, tNode *nodeB,tNode *nodeC, tNode* nodeD){ 
+tNode* newnode(char* no, tNode *nodeA, tNode *nodeB,tNode *nodeC, tNode *nodeD){ 
 
-    tNode *tree = malloc(sizeof(tNode)); 
-    if(!tree){ 
-        yyerror("vazio"); 
-        exit(0);
-    }
-     tree->no = malloc(20);
-     strcpy(tree->no, no); 
+  tNode *tree = malloc(sizeof(tNode)); 
+  if(!tree){ 
+      yyerror("vazio"); 
+      exit(0);
+  }
+    tree->no = malloc(20);
+    strcpy(tree->no, no); 
 
-    tree->nodeA = nodeA; 
-    tree->nodeB = nodeB; 
-    tree->nodeC = nodeC; 
-    tree->nodeD = nodeD;
-    return tree; 
+  tree->nodeA = nodeA; 
+  tree->nodeB = nodeB; 
+  tree->nodeC = nodeC; 
+  tree->nodeD = nodeD;
+  return tree; 
 }
 
 void imprimirArvore(tNode *no){ 
-    if(no == NULL){ 
-        return; 
+  if(no == NULL){ 
+      return; 
+  }
+  // printf("%s",no->no); 
+  if(strcmp(no->no,"") != 0){
+    strcat(AST,"[");
+    strcat(AST,no->no);
+  }
+  imprimirArvore(no->nodeA); 
+  imprimirArvore(no->nodeB); 
+  imprimirArvore(no->nodeC); 
+  imprimirArvore(no->nodeD); 
+  if(strcmp(no->no,"") != 0){  
+      strcat(AST,"]");
+  }
+}
+
+void opSimples(tNode *no){
+  if(strcmp(no->no,"-")==0){
+    operacao->simbolo = no->no;
+    operacao->op1 = no->nodeA->nodeA->no;
+    operacao->op2 = no->nodeB->nodeA->no;
+  }
+  if(strcmp(no->no,"+")==0){
+    operacao->simbolo = no->no;
+    operacao->op1 = no->nodeA->nodeA->no;
+    operacao->op2 = no->nodeB->nodeA->no;
+  }
+}
+
+void imprimeOpSimples(){
+  //grava o valor do primeiro parametro
+  strcat(ASM,"li $a0, ");
+  strcat(ASM,operacao->op1);
+  //da um push
+  strcat(ASM,"\nsw $a0, 0($sp)\n");
+  strcat(ASM,"addiu $sp, $sp, -4\n");
+  //grava o valor do segundo parametro
+  strcat(ASM,"li $a0, ");
+  strcat(ASM,operacao->op2);
+  //da um pop
+  strcat(ASM,"\nlw $t1, 4($sp)\n");
+  strcat(ASM,"addiu $sp, $sp, 4\n");
+  //realiza a operação
+  if(strcmp(operacao->simbolo,"+") == 0)
+    strcat(ASM,"add $a0, $t1, $a0\n");
+  if(strcmp(operacao->simbolo,"-") == 0)
+    strcat(ASM,"sub $a0, $t1, $a0\n");
+  //da um push com o resultado
+  strcat(ASM,"sw $a0, 0($sp)\n");
+  strcat(ASM,"addiu $sp, $sp, -4\n");
+}
+
+void imprimeFunction(tNode *no){
+  if(strcmp(no->no,"fun-declaration") == 0){
+    strcat(ASM,"_f_");
+    strcat(ASM,no->nodeB->no);
+    strcat(ASM,":\n");
+    if(strcmp(no->nodeB->no, "main") == 0){
+      guardarRetornoMain();
+      if(operacao!=NULL)
+        imprimeOpSimples();
     }
-    // printf("%s",no->no); 
-    if(strcmp(no->no,"") != 0){
-      strcat(AST,"[");
-      strcat(AST,no->no);
-    }
-    imprimirArvore(no->nodeA); 
-    imprimirArvore(no->nodeB); 
-    imprimirArvore(no->nodeC); 
-    imprimirArvore(no->nodeD); 
-    if(strcmp(no->no,"") != 0){  
-        strcat(AST,"]");
-    }
-} 
+  }
+}
+
+void guardarRetornoMain(){
+  //push na pilha com o endereço de retorno
+  strcat(ASM,"sw $ra, 0($sp)\n");
+  strcat(ASM,"addiu $sp, $sp, -4\n");
+}
+
+void imprimePrintln(tNode *no){
+  if(strcmp(no->no,"call") == 0 && strcmp(no->nodeA->no,"println") == 0){
+    strcat(ASM,"_f_");
+    strcat(ASM,no->nodeA->no);
+    strcat(ASM,":\n");
+    codigoPrintln();
+  }
+}
+
+void codigoPrintln(){
+  //eu acho que esse código é default
+  strcat(ASM,"lw $a0, 4($sp)\n");
+  strcat(ASM,"li $v0, 1\n");
+  strcat(ASM,"syscall\n");
+  strcat(ASM,"li $v0, 11\n");
+  strcat(ASM,"li $a0, 0x0a\n");
+  strcat(ASM,"syscall\n");
+  strcat(ASM,"addiu $sp, $sp, 4\n");
+  strcat(ASM,"li $a0, 0\n");
+  strcat(ASM,"j $ra\n");
+}
+
+void imprimirAsm(tNode *no){ 
+  if(no == NULL){ 
+    return; 
+  }
+  if(strcmp(no->no,"") != 0){
+    opSimples(no);
+  }
+  imprimirAsm(no->nodeA); 
+  imprimirAsm(no->nodeB); 
+  imprimirAsm(no->nodeC); 
+  imprimirAsm(no->nodeD);
+
+  if(strcmp(no->no,"") != 0){
+    imprimeFunction(no);
+    imprimePrintln(no);
+  }
+}
  
 int main( int argc, char *argv[] ) { 
-  
   extern FILE *yyin; 
-    raiz = newnode("",NULL,NULL,NULL,NULL); 
+    raiz = newnode("",NULL,NULL,NULL,NULL);
+    operacao = malloc(sizeof(tOperacao)); 
   if( argc != 3){ 
-    printf("Poucos argumentos!\n"); 
-    return 1; 
-  } 
+    printf("Poucos argumentos!\n");
+    return 1;
+  }
  
   yyin = fopen(argv[1], "r"); 
  
-  if (yyin == NULL){ 
-    printf("Arquivo nao pode ser aberto: %s \n", argv[1]); 
-    return 1; 
+  if (yyin == NULL){
+    printf("Arquivo nao pode ser aberto: %s \n", argv[1]);
+    return 1;
   };
  
-  FILE *fp; 
-  fp = fopen(argv[2], "w+"); 
-  if (fp == NULL){ 
-    printf("Arquivo nao pode ser aberto: %s \n", argv[2]); 
-    return 1; 
-  } 
-     
-  yyparse(); 
-  imprimirArvore(raiz); 
+  FILE *fp;
+  fp = fopen(argv[2], "w+");
+  if (fp == NULL){
+    printf("Arquivo nao pode ser aberto: %s \n", argv[2]);
+    return 1;
+  }
+
+  yyparse();
+  imprimirArvore(raiz);
+  strcat(ASM,"\n.data\n.text\n");
+  imprimirAsm(raiz);
+  //chamar a main do programa na main do .asm
+  strcat(ASM,"main:\n");
+  strcat(ASM,"jal _f_main\n");
+  strcat(ASM,"li $v0, 10\n");
+  strcat(ASM,"syscall\n");
   analiseSemantica(raiz);
-  fprintf(fp, "%s", AST); 
-  fclose(yyin); 
-  fclose(fp); 
+  fprintf(fp, "%s", AST);
+  fprintf(fp, "%s", ASM);
+
+  fclose(yyin);
+  fclose(fp);
  
-  return 0; 
- 
-} 
+  return 0;
+}

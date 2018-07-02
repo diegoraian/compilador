@@ -1,9 +1,1 @@
-int a;
-int c;
-
-void main(void){
-    
-}
-void func(void){
-    int a;
-}
+void main(void) { println(2-3+4); }

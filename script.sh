@@ -2,7 +2,7 @@ make;
 make clean;
 #clear
 ./compilador codigo.c out.txt
-indent out.txt -o out.txt
+# indent out.txt -o out.txt
 
 #cp compilador /home/shay/Documents/UFBA/2018.1/Compiladores/TrabalhoOficial/git/compilador/testCompiladores
 
