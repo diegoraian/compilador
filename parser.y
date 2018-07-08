@@ -8,6 +8,7 @@ void    yyerror(const char *s);
 int     yylex(void); 
 char    AST[20480];
 char    ASM[20480];
+tFuncScope* Funcoes[20480];
  
 //nó que tem 4 filhos 
 typedef struct node { 
@@ -18,11 +19,27 @@ typedef struct node {
     char *no; 
 }tNode; 
 
- typedef struct opera {
-    char *op1;
-    char *op2;
-    char *simbolo;
+typedef struct opera {
+  char *op1;
+  char *op2;
+  char *simbolo;
 }tOperacao;
+
+typedef struct infoVar {
+  char tipo;
+  char nome;
+}tInfoVar;
+
+typedef struct infoParam {
+  char tipo;
+  char nome;
+}tInfoParam;
+
+typedef struct funcScope {
+  char *nameFunc;
+  struct infoParam *param[1024];
+  struct infoVar *var[1024];
+}tFuncScope;
 
 tNode* raiz;
 tOperacao* operacao;
@@ -139,7 +156,7 @@ fun-declaration   :             type-specifier ID OPEN_PAREN params CLOSE_PAREN 
                                                                                                         tNode* ideNo = newnode($2,NULL,NULL,NULL,NULL);
                                                                                                         $$ = newnode("fun-declaration",$1,ideNo,$4,$6);
                                                                                                         checkMain($$);
-                                                                                                      } 
+                                                                                                      }
                   ;            
  
 params            :             param-list                                              {$$ = newnode("params",$1,NULL,NULL,NULL);} 
@@ -559,7 +576,7 @@ int main( int argc, char *argv[] ) {
   strcat(ASM,"syscall\n");
   analiseSemantica(raiz);
   fprintf(fp, "%s", AST);
-  fprintf(fp, "%s", ASM);
+  // fprintf(fp, "%s", ASM);
 
   fclose(yyin);
   fclose(fp);
