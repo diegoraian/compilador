@@ -1,1 +1,6 @@
-[program[fun-declaration[void][foo][params[param[int][a]]][compound-stmt]]]
+[program[fun-declaration[void][foo][params[param[int][a]][param[int][b]]]
+            [compound-stmt
+                [local-declarations
+                    [local-declarations
+                        [local-declarations
+                            [var-declaration[int][d]]][var-declaration[int][c]]][var-declaration[int][f][10]]]]]]

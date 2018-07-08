@@ -136,7 +136,7 @@ param             :             type-specifier ID                               
 compound-stmt     :            OPEN_KEY local-declarations statement-list CLOSE_KEY     {$$ = newnode("compound-stmt",$2,$3,NULL,NULL);} 
                   ; 
  
-local-declarations:             local-declarations var-declaration                      {$$ = newnode("",$1,$2,NULL,NULL);} 
+local-declarations:             local-declarations var-declaration                      {$$ = newnode("local-declarations",$1,$2,NULL,NULL);} 
                   |             empty                                                   {} 
                   ; 
  
@@ -330,11 +330,87 @@ void verificaTypeVar(tNode *no){
   verificaTypeVar(no->nodeD);
 }
 
+void findNameFunc(tNode *no){
+  tInfoParam *param = malloc(sizeof(tInfoParam)); 
+  if(strcmp(no->no,"fun-declaration") == 0){
+    scope->nameFunc = no->nodeB->no;
+    printf("%s\n",scope->nameFunc);
+  }
+  if(strcmp(no->no,"var-declaration") == 0){
+  }
+}
+
+int pos = 0;
+void findParams(tNode *no){
+  if(no == NULL){ 
+      return; 
+  }
+  if(strcmp(no->no, "param") == 0){
+    tInfoParam *param = malloc(sizeof(tInfoParam));
+    scope->param[pos] = param;
+    scope->param[pos]->tipo = no->nodeA->no;
+    scope->param[pos]->nome = no->nodeB->no;
+    printf("%s\n",scope->param[pos]->tipo);
+    printf("%s\n",scope->param[pos]->nome);
+    // printf("%d\n", pos);
+    pos++;
+  }
+  findParams(no->nodeA); 
+  findParams(no->nodeB); 
+  findParams(no->nodeC); 
+  findParams(no->nodeD); 
+}
+
+void findVarDeclaration(tNode *no){
+  if(no == NULL){ 
+      return; 
+  }
+  if(strcmp(no->no, "param") == 0){
+    tInfoParam *param = malloc(sizeof(tInfoParam));
+    scope->param[pos] = param;
+    scope->param[pos]->tipo = no->nodeA->no;
+    scope->param[pos]->nome = no->nodeB->no;
+    printf("%s\n",scope->param[pos]->tipo);
+    printf("%s\n",scope->param[pos]->nome);
+    // printf("%d\n", pos);
+    pos++;
+  }
+  findVarDeclaration(no->nodeA); 
+  findVarDeclaration(no->nodeB); 
+  findVarDeclaration(no->nodeC); 
+  findVarDeclaration(no->nodeD); 
+}
+
+void percorreArvore(tNode *no){ 
+  if(no == NULL){ 
+      return; 
+  }
+  if(strcmp(no->no,"") != 0){
+    findNameFunc(no);
+    if((strcmp(no->no, "params") == 0) && (no->nodeA != NULL)){
+      findParams(no);
+      pos=0;
+    }else if((strcmp(no->no, "params") == 0) && (no->nodeA == NULL)){
+      tInfoParam *param = malloc(sizeof(tInfoParam));
+      scope->param[0] = param;
+      scope->param[0]->tipo = "void";
+    }
+    if((strcmp(no->no, "compound-stmt") == 0) && (no->nodeA != NULL)){
+      findVarDeclaration(no);
+    }
+  }
+  percorreArvore(no->nodeA); 
+  percorreArvore(no->nodeB); 
+  percorreArvore(no->nodeC); 
+  percorreArvore(no->nodeD);
+}
+
 void analiseSemantica(tNode *no){
   if(no == NULL){
     return;
   }
   verificaTypeVar(no);
+  percorreArvore(no);
   // mainLast(no);
 }
  
@@ -387,26 +463,6 @@ tNode* newnode(char* no, tNode *nodeA, tNode *nodeB,tNode *nodeC, tNode *nodeD){
   return tree; 
 }
 
-void scopeGenerate(tNode *no){
-  tInfoParam *param = malloc(sizeof(tInfoParam)); 
-  if(strcmp(no->no,"fun-declaration") == 0){
-    scope->nameFunc = no->nodeB->no;
-    printf("%s\n",scope->nameFunc);
-    if(no->nodeC->nodeA != NULL){
-      //caso não tenha mais de um parametro 
-      if(strcmp(no->nodeC->nodeA->no, "param") == 0){
-        scope->param[0] = param;
-        scope->param[0]->tipo = no->nodeC->nodeA->nodeA->no;
-        scope->param[0]->nome = no->nodeC->nodeA->nodeB->no;
-        printf("%s\n",scope->param[0]->tipo);
-        printf("%s\n",scope->param[0]->nome);
-      }
-    }else{
-      //Função sem parametros
-    }
-  }
-}
-
 void imprimirArvore(tNode *no){ 
   if(no == NULL){ 
       return; 
@@ -415,7 +471,6 @@ void imprimirArvore(tNode *no){
   if(strcmp(no->no,"") != 0){
     strcat(AST,"[");
     strcat(AST,no->no);
-    scopeGenerate(no);
   }
   imprimirArvore(no->nodeA); 
   imprimirArvore(no->nodeB); 

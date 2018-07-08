@@ -33,6 +33,7 @@ typedef struct funcScope {
 
 tNode *newnode(char* n, tNode *nodeA, tNode *nodeB,tNode *nodeC, tNode* nodeD); 
 void checkMain(tNode* no); 
-void scopeGenerate(tNode *no);
+void findNameFunc(tNode *no);
+void findParams(tNode *no);
 
 #endif // FUNCOES_H_
