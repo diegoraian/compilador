@@ -334,7 +334,6 @@ void findNameFunc(tNode *no){
   tInfoParam *param = malloc(sizeof(tInfoParam)); 
   if(strcmp(no->no,"fun-declaration") == 0){
     scope->nameFunc = no->nodeB->no;
-    printf("%s\n",scope->nameFunc);
   }
   if(strcmp(no->no,"var-declaration") == 0){
   }
@@ -350,9 +349,6 @@ void findParams(tNode *no){
     scope->param[pos] = param;
     scope->param[pos]->tipo = no->nodeA->no;
     scope->param[pos]->nome = no->nodeB->no;
-    printf("%s\n",scope->param[pos]->tipo);
-    printf("%s\n",scope->param[pos]->nome);
-    // printf("%d\n", pos);
     pos++;
   }
   findParams(no->nodeA); 
@@ -365,14 +361,11 @@ void findVarDeclaration(tNode *no){
   if(no == NULL){ 
       return; 
   }
-  if(strcmp(no->no, "param") == 0){
-    tInfoParam *param = malloc(sizeof(tInfoParam));
-    scope->param[pos] = param;
-    scope->param[pos]->tipo = no->nodeA->no;
-    scope->param[pos]->nome = no->nodeB->no;
-    printf("%s\n",scope->param[pos]->tipo);
-    printf("%s\n",scope->param[pos]->nome);
-    // printf("%d\n", pos);
+  if(strcmp(no->no, "var-declaration") == 0){
+    tInfoVar *var = malloc(sizeof(tInfoVar));
+    scope->var[pos] = var;
+    scope->var[pos]->tipo = no->nodeA->no;
+    scope->var[pos]->nome = no->nodeB->no;
     pos++;
   }
   findVarDeclaration(no->nodeA); 
@@ -395,9 +388,10 @@ void percorreArvore(tNode *no){
       scope->param[0] = param;
       scope->param[0]->tipo = "void";
     }
-    if((strcmp(no->no, "compound-stmt") == 0) && (no->nodeA != NULL)){
+    if(strcmp(no->no, "compound-stmt") == 0){
       findVarDeclaration(no);
     }
+    //push aqui
   }
   percorreArvore(no->nodeA); 
   percorreArvore(no->nodeB); 
@@ -411,6 +405,19 @@ void analiseSemantica(tNode *no){
   }
   verificaTypeVar(no);
   percorreArvore(no);
+  //checar se gravou
+    printf("nome da função:\n");
+    printf("%s\n",scope->nameFunc);
+    printf("parametros:\n");
+    for(int i=0; i<2;i++){
+      printf("%s\n",scope->param[i]->tipo);
+      printf("%s\n",scope->param[i]->nome);
+    }
+    printf("variaveis:\n");
+    for(int i=0; i<3;i++){
+      printf("%s\n",scope->var[i]->tipo);
+      printf("%s\n",scope->var[i]->nome);
+    }
   // mainLast(no);
 }
  
