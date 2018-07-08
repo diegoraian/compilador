@@ -1,9 +1,14 @@
-int a;
-int c;
-
-void main(void){
+int variavel;
+void funcA(void) {
     
 }
-void func(void){
-    int a;
+void funcB(void) {
+    
+}
+void funcC(void) {
+    
+}
+
+void main(void) {
+
 }

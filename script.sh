@@ -3,7 +3,7 @@ make clean;
 #clear
 ./compilador codigo.c out.txt
 indent out.txt -o out.txt
-
+#bash ./testCompiladores/autodiff.sh ./compilador ./testCompiladores/casos/ ./testCompiladores/95/
 #cp compilador /home/shay/Documents/UFBA/2018.1/Compiladores/TrabalhoOficial/git/compilador/testCompiladores
 
 #bash /home/shay/Documents/UFBA/2018.1/Compiladores/TrabalhoOficial/git/compilador/testCompiladores/autodiff.sh /home/shay/Documents/UFBA/2018.1/Compiladores/TrabalhoOficial/git/compilador/testCompiladores/compilador /home/shay/Documents/UFBA/2018.1/Compiladores/TrabalhoOficial/git/compilador/testCompiladores/casos /home/shay/Documents/UFBA/2018.1/Compiladores/TrabalhoOficial/git/compilador/testCompiladores/95

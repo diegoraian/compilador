@@ -7,6 +7,7 @@ BASELINE=$3/
 
 totalfiles=0;
 passed=0;
+
 rm relatorio.txt;
 
 for f in $CASES*.c; do
@@ -23,7 +24,7 @@ for f in $CASES*.c; do
     then
         echo -e "file: $f ------ ERROR \n\n" $DIFF "\n">> relatorio.txt
     else
-        echo -e "file: $f test passed ------ OK \n\n" >> relatorio.txt
+        
         passed=$((passed+1))
     fi
 
@@ -40,3 +41,4 @@ echo $percent >> relatorio.txt
 # executar o script como "bash autodiff.sh ./<caminho-para-compilador> <pasta-contendo-testes-de-caso> <caminho-para-pasta-com-saidas-corretas>"
 # exemplo: $ bash autodiff.sh ./compilador casos 95
 # a saída vai ser gerada na pasta do script como relatorio.txt
+# bash autodiff.sh ./compilador ./casos/ ./95/

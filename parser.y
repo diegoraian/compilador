@@ -3,6 +3,7 @@
 #include <stdlib.h> 
 #include <string.h> 
 #include <stdio.h> 
+#include <limits.h>
  
 void    yyerror(const char *s); 
 int     yylex(void); 
@@ -16,7 +17,28 @@ typedef struct node {
     struct node *nodeD; 
     char* no; 
 }tNode ; 
+
+typedef struct simbolo{
+  tNode* no;
+  int contexto;
+  tSimbolo* proximo;
+} tSimbolo;
+
+
+typedef struct tabelaSimbolos{
+  tSimbolo* atual;
+  tSimbolo* proximo;
+  tSimbolo* anterior;
+} tTabelaSimbolos;
+
+typedef struct stack
+{
+    int top;
+    unsigned capacidade;
+    char** array;
+}tStack;
  
+
 tNode* raiz;
 
 typedef struct nodeList {
@@ -32,7 +54,7 @@ int size = 0;
 int temMain = 0;
 //funções para criar os nós da arvore 
 tNode *newnode(char* n, tNode *nodeA, tNode *nodeB,tNode *nodeC, tNode* nodeD); 
- 
+void checkMain(tNode* no);
 %} 
  
 //VARIÁVEIS USADAS NO LÉXICO
@@ -112,7 +134,7 @@ declaration       :             var-declaration                           {$$ = 
                   ; 
  
 var-declaration   :             type-specifier ID END_LINE                {  tNode* ideNo = newnode($2,NULL,NULL,NULL,NULL);
-                                                                              $$ = newnode("var-declaration",$1,ideNo,NULL,NULL);
+-decla                                                                              $$ = newnode("var-declaration",$1,ideNo,NULL,NULL);
                                                                           }
 
                   |             type-specifier ID OPEN_BRACKET DIGIT CLOSE_BRACKET END_LINE         {
@@ -125,14 +147,14 @@ var-declaration   :             type-specifier ID END_LINE                {  tNo
                                                                                                      } 
                   ; 
  
-type-specifier    :             INT                                       {$$ = newnode("int",NULL,NULL,NULL,NULL);} 
-                  |             VOID                                      {$$ = newnode("void",NULL,NULL,NULL,NULL);} 
+type-specifier    :             INT                                                                  {$$ = newnode("int",NULL,NULL,NULL,NULL);} 
+                  |             VOID                                                                 {$$ = newnode("void",NULL,NULL,NULL,NULL);} 
                   ; 
  
 fun-declaration   :             type-specifier ID OPEN_PAREN params CLOSE_PAREN compound-stmt        {
                                                                                                         tNode* ideNo = newnode($2,NULL,NULL,NULL,NULL);
                                                                                                         $$ = newnode("fun-declaration",$1,ideNo,$4,$6);
-                                                                                                        checkMain($$);
+                                                                                                       checkMain($$);
                                                                                                       } 
                   ;            
  
@@ -272,6 +294,45 @@ void yyerror(const char *s) {
   exit(0); 
 } 
 
+tStack* createStack(unsigned capacidade)
+{
+    tStack* stack = (tStack*) malloc(sizeof(tStack));
+    stack->capacidade = capacidade;
+    stack->top = -1;
+    stack->array = (char**) malloc(stack->capacidade * sizeof(char*));
+    return stack;
+}
+tSimbolo* criarSimbolo(int contexto){
+  tSimbolo* simbolo = (tSimbolo*) malloc(sizeof(tSimbolo));
+  simbolo->contexto = contexto;
+  return simbolo;
+}
+
+tTabelaSimbolos* criarTabelaSimbolos (){
+  tTabelaSimbolos* tabela = (tTabelaSimbolos*) malloc(sizeof(tTabelaSimbolos));
+  tabela->proximo = NULL;
+  tabela->anterior = NULL;
+  tabela->atual = NULL;
+  return tabela;
+}
+
+// Stack is full when top is equal to the last index
+int isFull(tStack* stack)
+{   return stack->top == stack->capacidade - 1; }
+ 
+// Stack is empty when top is equal to -1
+int isEmpty(tStack* stack)
+{   return stack->top == -1;  }
+ 
+// Function to add an item to stack.  It increases top by 1
+void push(tStack** stack, char* item)
+{
+    if (isFull(*stack))
+        return;
+    (*stack)->array[++((*stack)->top)] = item;
+    printf("%s pushed to stack\n", item);
+}
+
 int validaTipo(tNode* no){
   // printf("validaTipo\n");
   // printf("%c\n",no->nodeA->no);
@@ -328,16 +389,29 @@ int validaMain(tNode* no){
 }
 
 tNode* procuraReturn(tNode *no){
-  if(no == NULL){ 
-      return;
+  tNode* retorno = NULL;
+  if( no == NULL ){ 
+      return retorno;
   }
-    if(strcmp(no->no,"return-stmt") == 0){
-      return no;
-    }
-      procuraReturn(no->nodeA);
-      procuraReturn(no->nodeB);
-      procuraReturn(no->nodeC);
-      procuraReturn(no->nodeD);
+  if( strcmp(no->no,"return-stmt") == 0 ){
+    return no;
+  }
+  retorno = procuraReturn(no->nodeA);
+  if(retorno != NULL){
+    return retorno;
+  }
+  retorno = procuraReturn(no->nodeB);
+   if(retorno != NULL){
+    return retorno;
+  }
+  retorno = procuraReturn(no->nodeC);
+   if(retorno != NULL){
+    return retorno;
+  }
+  retorno = procuraReturn(no->nodeD);
+   if(retorno != NULL){
+    return retorno;
+  }
 }
 
 tNode* push_back(tNode *no){
@@ -364,52 +438,55 @@ void mainLast(tNode *no){
     }
   // if(strcmp(no->no,"program") == 0){
     if(no->nodeD != NULL){
-      printf("%s D\n",no->nodeD->no);
+      yyerror(no->nodeD->nodeB->nodeB->no); 
       if(strcmp(no->nodeD->no,"fun-declaration") == 0){
-        if(strcmp(no->nodeD->nodeB->no,"main")){
-          yyerror("last nodo isnt mainD");
-          clean(AST);
+        if(strcmp(no->nodeD->nodeB->no,"main") == 0 ){
+          //yyerror("last nodo isnt mainD");
+          //clean(AST);
         }
       }else{
-        yyerror("has something after main");
-        clean(AST);
+        //yyerror("has something after main 1");
+        //clean(AST);
       }
     }else{
       if(no->nodeC != NULL){
-        printf("%s C\n",no->nodeC->no);
+        yyerror(no->nodeC->nodeB->nodeB->no); 
         if(strcmp(no->nodeC->no,"fun-declaration") == 0){
-          if(strcmp(no->nodeC->nodeB->no,"main")){
-            yyerror("last nodo isnt mainC");
-            clean(AST);
+          if(strcmp(no->nodeC->nodeB->no,"main") == 0){
+            //yyerror("last nodo isnt mainC");
+            //clean(AST);
           }
         }else{
-          yyerror("has something after main");
-          clean(AST);
+          //yyerror("has something after main 2");
+          //clean(AST);
         }
       }else{
         if(no->nodeB != NULL){
-          printf("%s B\n",no->nodeB->no);
+          yyerror(no->nodeB->nodeB->nodeB->no); 
           if(strcmp(no->nodeB->no,"fun-declaration") == 0){
-            if(strcmp(no->nodeB->nodeB->no,"main")){
+            if(strcmp(no->nodeB->nodeB->no,"main")== 0 ){
               yyerror("last nodo isnt mainB");
               clean(AST);
             }
           }else{
-            yyerror("has something after main");
-            clean(AST);
+            //yyerror("has something after main 3");
+            //clean(AST);
           }
         }else{
           if(no->nodeA != NULL){
-            printf("%s A\n",no->nodeA->no);
+            //strcpy(AST, no->nodeA->no); 
+            //yyerror(no->nodeA->nodeB->nodeB->no); 
             // printf("%s A\n",no->nodeA->nodeB->no);
             if(strcmp(no->nodeA->no,"fun-declaration") == 0){
-              if(strcmp(no->nodeA->nodeB->no,"main")){
-                yyerror("last nodo isnt mainA");
-                clean(AST);
+              if(strcmp(no->nodeA->nodeB->nodeB->no,"main") == 0){
+                
+                //yyerror("last nodo isnt mainA");
+                //clean(AST);
               }
             }else{
-              yyerror("has something after main");
-              clean(AST);
+              //yyerror(no->nodeA->nodeB->nodeB->no);
+              //yyerror("has something after main 4");
+              //clean(AST);
             }
           }
         }
@@ -418,24 +495,60 @@ void mainLast(tNode *no){
   }
 }
 
+void checkAllFunDeclarations(tStack** pilha, tNode* no){
+
+  if(no == NULL){
+    return;
+  }
+  if(strcmp(no->no,"fun-declaration") == 0 && no->nodeB != NULL){
+    char* saida= "dahushdasd";
+    push(pilha,no->nodeB->no);
+    
+    printf("%s\n",no->nodeB->no);
+  }
+  checkAllFunDeclarations(pilha,no->nodeA);
+  checkAllFunDeclarations(pilha,no->nodeB);
+  checkAllFunDeclarations(pilha,no->nodeC);
+  checkAllFunDeclarations(pilha,no->nodeD);
+}
+
 void checkFunDecVoid(tNode *no){
     if(no == NULL){ 
         return; 
     }
+    //yyerror(no->no);
+    //no->nodeA->no
+    //no->nodeD->no
+    if(strcmp(no->no,"fun-declaration") == 0 && strcmp(no->nodeA->no,"void") == 0  && strcmp(no->nodeD->no,"compound-stmt") == 0){
 
-    if(strcmp(no->no,"fun-declaration") == 0 && strcmp(no->nodeA->no,"void") == 0 && strcmp(no->nodeD->no,"compound-stm") == 0){
       tNode *tn = malloc(sizeof(tNode)); 
-      tn = procuraReturn(no->nodeD->nodeD);
+      tn = procuraReturn(no->nodeD->nodeB);
+    
+      if(tn == NULL){
+        yyerror("");
+      }
       if(tn->nodeA != NULL){
-        clean(AST);
-        // exit(EXIT_FAILURE);
+        yyerror("era esperado um retorno vazio para o retorno da função");
+        //clean(AST);
       }
     }
+
+    if(strcmp(no->no,"fun-declaration") == 0 && strcmp(no->nodeA->no,"int") == 0  && strcmp(no->nodeD->no,"compound-stmt") == 0){
+      tNode *tn = malloc(sizeof(tNode)); 
+      tn = procuraReturn(no->nodeD->nodeB);
       
+      if (tn == NULL) {
+        yyerror("");
+      }
+      if (tn->nodeA == NULL) {
+        yyerror("foi declarada uma função inteira com retorno vazio");
+      }
+    }
     checkFunDecVoid(no->nodeA);
     checkFunDecVoid(no->nodeB);
     checkFunDecVoid(no->nodeC);
     checkFunDecVoid(no->nodeD);
+        
 }
 
 void verificaTypeVar(tNode *no){ 
@@ -486,17 +599,38 @@ void checkMain(tNode* no){
   }
 }
 
+
+
+// Function to remove an item from stack.  It decreases top by 1
+char* pop(tStack* stack)
+{
+    if (isEmpty(stack))
+        return "Está vazio";
+    return stack->array[stack->top--];
+}
+
 void analiseSemantica(tNode* no){
     if(no == NULL){
       return;
     }
-    // if(validaMain(no) == 1){
-    //   clean(AST);
-    //   // printf("aqui\n");
-    // }
+
+    criarTabelaSimbolos();
+    /*
+     if(validaMain(no) == 1){
+       clean(AST);
+        printf("aqui\n");
+     }
+     */
+    tStack* pilha = createStack(10);
+    checkAllFunDeclarations(&pilha,no);
+    char* ultimaFuncao = pop(pilha);
+    if(strcmp(ultimaFuncao,"main")!=0){
+      printf("%s\n",ultimaFuncao);
+    }
+    
     verificaTypeVar(no);
-    // mainLast(no);
-    // checkFunDecVoid(no);
+    //mainLast(no);
+    //checkFunDecVoid(no);
 }
  
 tNode* newnode(char* no, tNode *nodeA, tNode *nodeB,tNode *nodeC, tNode* nodeD){ 
