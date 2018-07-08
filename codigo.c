@@ -1,4 +1,4 @@
-void foo(int a, int b) { 
+void foo(int a, int b[]) { 
 
     int d;
     int c;

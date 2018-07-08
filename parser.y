@@ -3,6 +3,7 @@
 #include <stdlib.h> 
 #include <string.h> 
 #include <stdio.h> 
+#include <stdbool.h>
 #include "funcoes.h"
  
 void    yyerror(const char *s); 
@@ -349,6 +350,11 @@ void findParams(tNode *no){
     scope->param[pos] = param;
     scope->param[pos]->tipo = no->nodeA->no;
     scope->param[pos]->nome = no->nodeB->no;
+    if(no->nodeC != NULL){
+      scope->param[pos]->isVector = true;
+    }else{
+      scope->param[pos]->isVector = false;
+    }
     pos++;
   }
   findParams(no->nodeA); 
@@ -366,6 +372,11 @@ void findVarDeclaration(tNode *no){
     scope->var[pos] = var;
     scope->var[pos]->tipo = no->nodeA->no;
     scope->var[pos]->nome = no->nodeB->no;
+    if(no->nodeC != NULL){
+      scope->var[pos]->tamanVetor = no->nodeC->no;
+    }else{
+      scope->var[pos]->tamanVetor = NULL;
+    }
     pos++;
   }
   findVarDeclaration(no->nodeA); 
@@ -412,11 +423,14 @@ void analiseSemantica(tNode *no){
     for(int i=0; i<2;i++){
       printf("%s\n",scope->param[i]->tipo);
       printf("%s\n",scope->param[i]->nome);
+      printf("%d\n",scope->param[i]->isVector);
     }
     printf("variaveis:\n");
     for(int i=0; i<3;i++){
       printf("%s\n",scope->var[i]->tipo);
       printf("%s\n",scope->var[i]->nome);
+      if(scope->var[i]->tamanVetor != NULL) 
+        printf("%s\n",scope->var[i]->tamanVetor);
     }
   // mainLast(no);
 }

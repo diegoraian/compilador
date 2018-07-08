@@ -1,3 +1,4 @@
+#include <stdbool.h>
 #ifndef FUNCOES_H_ 
 #define FUNCOES_H_
 
@@ -18,11 +19,13 @@ typedef struct opera {
 typedef struct infoVar {
   char *tipo;
   char *nome;
+  char *tamanVetor;
 }tInfoVar;
 
 typedef struct infoParam {
   char *tipo;
   char *nome;
+  bool isVector;
 }tInfoParam;
 
 typedef struct funcScope {
