@@ -1,1 +1,1 @@
-void main(void) { println(2-3+4); }
+void foo(int a) {  }

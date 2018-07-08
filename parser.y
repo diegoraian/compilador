@@ -3,60 +3,19 @@
 #include <stdlib.h> 
 #include <string.h> 
 #include <stdio.h> 
+#include "funcoes.h"
  
 void    yyerror(const char *s); 
 int     yylex(void); 
 char    AST[20480];
 char    ASM[20480];
-tFuncScope* Funcoes[20480];
- 
-//nó que tem 4 filhos 
-typedef struct node { 
-    struct node *nodeA; 
-    struct node *nodeB; 
-    struct node *nodeC; 
-    struct node *nodeD; 
-    char *no; 
-}tNode; 
-
-typedef struct opera {
-  char *op1;
-  char *op2;
-  char *simbolo;
-}tOperacao;
-
-typedef struct infoVar {
-  char tipo;
-  char nome;
-}tInfoVar;
-
-typedef struct infoParam {
-  char tipo;
-  char nome;
-}tInfoParam;
-
-typedef struct funcScope {
-  char *nameFunc;
-  struct infoParam *param[1024];
-  struct infoVar *var[1024];
-}tFuncScope;
 
 tNode* raiz;
+tFuncScope* scope;
 tOperacao* operacao;
-
-typedef struct nodeList {
-  int val;
-    struct node *next;
-  // struct nodeList* LIST[20480];
-}tNodeList ;
-
-tNodeList* LIST[20480];
-int size = 0;
+tFuncScope* Funcoes[20480];
 
 int temMain = 0;
-//funções para criar os nós da arvore 
-tNode *newnode(char* n, tNode *nodeA, tNode *nodeB,tNode *nodeC, tNode* nodeD); 
- 
 %}
  
 //VARIÁVEIS USADAS NO LÉXICO
@@ -117,8 +76,7 @@ tNode *newnode(char* n, tNode *nodeA, tNode *nodeB,tNode *nodeC, tNode* nodeD);
 %left LEQUAL 
 %left BEQUAL 
 %left MINNOR_THEN MAJOR_THEN 
- 
- 
+  
 //----------------------------------------------------------------------------- 
 %%  
 //----------------------------------------------------------------------------- 
@@ -372,7 +330,15 @@ void verificaTypeVar(tNode *no){
   verificaTypeVar(no->nodeD);
 }
 
-void checkMain(tNode* no){
+void analiseSemantica(tNode *no){
+  if(no == NULL){
+    return;
+  }
+  verificaTypeVar(no);
+  // mainLast(no);
+}
+ 
+ void checkMain(tNode* no){
   if ( !strcmp(no->nodeB->no, "main") ){
     if(temMain==1){
       clean(AST);
@@ -404,14 +370,6 @@ void checkMain(tNode* no){
   }
 }
 
-void analiseSemantica(tNode *no){
-  if(no == NULL){
-    return;
-  }
-  verificaTypeVar(no);
-  // mainLast(no);
-}
- 
 tNode* newnode(char* no, tNode *nodeA, tNode *nodeB,tNode *nodeC, tNode *nodeD){ 
 
   tNode *tree = malloc(sizeof(tNode)); 
@@ -429,6 +387,26 @@ tNode* newnode(char* no, tNode *nodeA, tNode *nodeB,tNode *nodeC, tNode *nodeD){
   return tree; 
 }
 
+void scopeGenerate(tNode *no){
+  tInfoParam *param = malloc(sizeof(tInfoParam)); 
+  if(strcmp(no->no,"fun-declaration") == 0){
+    scope->nameFunc = no->nodeB->no;
+    printf("%s\n",scope->nameFunc);
+    if(no->nodeC->nodeA != NULL){
+      //caso não tenha mais de um parametro 
+      if(strcmp(no->nodeC->nodeA->no, "param") == 0){
+        scope->param[0] = param;
+        scope->param[0]->tipo = no->nodeC->nodeA->nodeA->no;
+        scope->param[0]->nome = no->nodeC->nodeA->nodeB->no;
+        printf("%s\n",scope->param[0]->tipo);
+        printf("%s\n",scope->param[0]->nome);
+      }
+    }else{
+      //Função sem parametros
+    }
+  }
+}
+
 void imprimirArvore(tNode *no){ 
   if(no == NULL){ 
       return; 
@@ -437,6 +415,7 @@ void imprimirArvore(tNode *no){
   if(strcmp(no->no,"") != 0){
     strcat(AST,"[");
     strcat(AST,no->no);
+    scopeGenerate(no);
   }
   imprimirArvore(no->nodeA); 
   imprimirArvore(no->nodeB); 
@@ -483,6 +462,12 @@ void imprimeOpSimples(){
   strcat(ASM,"addiu $sp, $sp, -4\n");
 }
 
+void guardarRetornoMain(){
+  //push na pilha com o endereço de retorno
+  strcat(ASM,"sw $ra, 0($sp)\n");
+  strcat(ASM,"addiu $sp, $sp, -4\n");
+}
+
 void imprimeFunction(tNode *no){
   if(strcmp(no->no,"fun-declaration") == 0){
     strcat(ASM,"_f_");
@@ -493,21 +478,6 @@ void imprimeFunction(tNode *no){
       if(operacao!=NULL)
         imprimeOpSimples();
     }
-  }
-}
-
-void guardarRetornoMain(){
-  //push na pilha com o endereço de retorno
-  strcat(ASM,"sw $ra, 0($sp)\n");
-  strcat(ASM,"addiu $sp, $sp, -4\n");
-}
-
-void imprimePrintln(tNode *no){
-  if(strcmp(no->no,"call") == 0 && strcmp(no->nodeA->no,"println") == 0){
-    strcat(ASM,"_f_");
-    strcat(ASM,no->nodeA->no);
-    strcat(ASM,":\n");
-    codigoPrintln();
   }
 }
 
@@ -522,6 +492,15 @@ void codigoPrintln(){
   strcat(ASM,"addiu $sp, $sp, 4\n");
   strcat(ASM,"li $a0, 0\n");
   strcat(ASM,"j $ra\n");
+}
+
+void imprimePrintln(tNode *no){
+  if(strcmp(no->no,"call") == 0 && strcmp(no->nodeA->no,"println") == 0){
+    strcat(ASM,"_f_");
+    strcat(ASM,no->nodeA->no);
+    strcat(ASM,":\n");
+    codigoPrintln();
+  }
 }
 
 void imprimirAsm(tNode *no){ 
@@ -546,6 +525,8 @@ int main( int argc, char *argv[] ) {
   extern FILE *yyin; 
     raiz = newnode("",NULL,NULL,NULL,NULL);
     operacao = malloc(sizeof(tOperacao)); 
+    scope = malloc(sizeof(tFuncScope)); 
+
   if( argc != 3){ 
     printf("Poucos argumentos!\n");
     return 1;
@@ -568,7 +549,7 @@ int main( int argc, char *argv[] ) {
   yyparse();
   imprimirArvore(raiz);
   strcat(ASM,"\n.data\n.text\n");
-  imprimirAsm(raiz);
+  // imprimirAsm(raiz);
   //chamar a main do programa na main do .asm
   strcat(ASM,"main:\n");
   strcat(ASM,"jal _f_main\n");
