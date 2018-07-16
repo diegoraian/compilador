@@ -4,10 +4,15 @@
 #include <stdio.h> 
 #include <stdbool.h>
 #include "funcoes.h"
+
 tNode* raiz;
 tOperacao* operacao;
-tFuncScope* scope;
-tFuncScope* Funcoes[20480];
+tFuncScope* scope;          //escopo temporário
+tFuncScope* funcoes;        //vetor de escopos
+
+tInfoVar* var;              //escopo temporário
+tInfoVar* varGlobais;       //vetor com variáveis globais
+
 char    AST[20480];
 char    ASM[20480];
 
@@ -29,4 +34,7 @@ void guardarRetornoMain();
 void imprimeFunction(tNode *no);
 void codigoPrintln();
 void imprimePrintln(tNode *no);
-void imprimirAsm(tNode *no); 
+void imprimirAsm(tNode *no);
+int calcSizeVector(tFuncScope *vector);
+int calcSizeVectorParam(tInfoParam *vector);
+int calcSizeVectorVar(tInfoVar *vector);

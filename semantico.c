@@ -6,11 +6,60 @@
 #include <stdio.h> 
 #include <stdbool.h>
 
-
-
 int temMain = 0;
+int size=0;
+int sizeVar=0;
 
+void push_back(tFuncScope *no){
+  funcoes[size] = *no;
+  size++;
+}
 
+void push_backVar(tInfoVar *no){
+  varGlobais[sizeVar] = *no;
+  sizeVar++;
+}
+
+int calcSizeVector(tFuncScope *vector){
+  int size=0;
+  while((&vector[size])->nameFunc != NULL){
+    size++;
+  }
+  return size;
+}
+
+int calcSizeVectorParam(tInfoParam *vector){
+  int size=0;
+  while((&vector[size])->tipo != NULL){
+    size++;
+  }
+  return size;
+}
+
+int calcSizeVectorVar(tInfoVar *vector){
+  int size=0;
+  while((&vector[size])->tipo != NULL){
+    size++;
+  }
+  return size;
+}
+
+void clearStruct(tFuncScope *no){
+  if(no != NULL){
+    no->nameFunc = NULL;
+    for(int i=0; i<2; i++){
+      no->param[i]->nome = NULL;
+      no->param[i]->tipo = NULL;
+      no->param[i]->isVector = NULL;
+    }
+    for(int i=0; i<3; i++){
+      no->var[i]->nome = NULL;
+      no->var[i]->tipo = NULL;
+      no->var[i]->tamanVetor = NULL;
+    }
+      scope = malloc(sizeof(tFuncScope)); 
+  }
+}
 
 void clean(char *var) {
   int i = 0;
@@ -103,7 +152,6 @@ void verificaTypeVar(tNode *no){
 }
             
 void findNameFunc(tNode *no){
-
   if(strcmp(no->no,"var-declaration") == 0){
   }
 }
@@ -130,22 +178,23 @@ void findParams(tNode *no){
   findParams(no->nodeC); 
   findParams(no->nodeD); 
 }
-    
+
+int posVar = 0;
 void findVarDeclaration(tNode *no){
   if(no == NULL){ 
       return; 
   }
   if(strcmp(no->no, "var-declaration") == 0){
     tInfoVar *var = malloc(sizeof(tInfoVar));
-    scope->var[pos] = var;
-    scope->var[pos]->tipo = no->nodeA->no;
-    scope->var[pos]->nome = no->nodeB->no;
+    scope->var[posVar] = var;
+    scope->var[posVar]->tipo = no->nodeA->no;
+    scope->var[posVar]->nome = no->nodeB->no;
     if(no->nodeC != NULL){
-      scope->var[pos]->tamanVetor = no->nodeC->no;
+      scope->var[posVar]->tamanVetor = no->nodeC->no;
     }else{
-      scope->var[pos]->tamanVetor = NULL;
+      scope->var[posVar]->tamanVetor = NULL;
     }
-    pos++;
+    posVar++;
   }
   findVarDeclaration(no->nodeA); 
   findVarDeclaration(no->nodeB); 
@@ -159,12 +208,18 @@ void percorreArvore(tNode *no){
   }
   if(strcmp(no->no,"") != 0){
 
+    if(strcmp(no->no,"var-declaration") == 0){
+      var->tipo = no->nodeA->no;
+      var->nome = no->nodeB->no;
+      printf("%s\n",var->tipo);
+      printf("%s\n",var->nome);
+    }
+
     if(strcmp(no->no,"fun-declaration") == 0){
       scope->nameFunc = no->nodeB->no;
     }
     if((strcmp(no->no, "params") == 0) && (no->nodeA != NULL)){
       findParams(no);
-      pos=0;
     }else if((strcmp(no->no, "params") == 0) && (no->nodeA == NULL)){
       tInfoParam *param = malloc(sizeof(tInfoParam));
       scope->param[0] = param;
@@ -172,8 +227,12 @@ void percorreArvore(tNode *no){
     }
     if(strcmp(no->no, "compound-stmt") == 0){
       findVarDeclaration(no);
+      push_back(scope);
+      free(scope);
+      scope = malloc(sizeof(tFuncScope));
+      pos=0;
+      posVar=0;
     }
-    //push aqui
   }
   percorreArvore(no->nodeA); 
   percorreArvore(no->nodeB); 
@@ -188,22 +247,6 @@ void analiseSemantica(tNode *no){
   }
   verificaTypeVar(no);
   percorreArvore(no);
-  //checar se gravou
-    printf("nome da função:\n");
-    printf("%s\n",scope->nameFunc);
-    printf("parametros:\n");
-    for(int i=0; i<2;i++){
-      printf("%s\n",scope->param[i]->tipo);
-      printf("%s\n",scope->param[i]->nome);
-      printf("%d\n",scope->param[i]->isVector);
-    }
-    printf("variaveis:\n");
-    for(int i=0; i<3;i++){
-      printf("%s\n",scope->var[i]->tipo);
-      printf("%s\n",scope->var[i]->nome);
-      if(scope->var[i]->tamanVetor != NULL) 
-        printf("%s\n",scope->var[i]->tamanVetor);
-    }
   // mainLast(no);
 }
  

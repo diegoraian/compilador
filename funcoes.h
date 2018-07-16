@@ -3,11 +3,11 @@
 #define FUNCOES_H_
 
 typedef struct node { 
-    struct node *nodeA; 
-    struct node *nodeB; 
-    struct node *nodeC; 
-    struct node *nodeD; 
-    char *no; 
+  struct node *nodeA; 
+  struct node *nodeB; 
+  struct node *nodeC; 
+  struct node *nodeD; 
+  char *no; 
 }tNode; 
 
 typedef struct opera {
@@ -34,8 +34,8 @@ typedef struct funcScope {
   struct infoVar *var[1024];
 }tFuncScope;
 
-tNode *newnode(char* n, tNode *nodeA, tNode *nodeB,tNode *nodeC, tNode* nodeD); 
-void checkMain(tNode* no); 
+tNode *newnode(char* n, tNode *nodeA, tNode *nodeB,tNode *nodeC, tNode* nodeD);
+void checkMain(tNode* no);
 void findNameFunc(tNode *no);
 void findParams(tNode *no);
 

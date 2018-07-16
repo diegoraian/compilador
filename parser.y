@@ -1,7 +1,5 @@
 %{ 
 #include "semantico.h"
-
- 
 %}
  
 //VARIÁVEIS USADAS NO LÉXICO
@@ -78,8 +76,9 @@ declaration       :             var-declaration                           {$$ = 
                   |             fun-declaration                           {$$ = $1;}//{$$ = newnode("",$1,NULL,NULL,NULL);} 
                   ; 
  
-var-declaration   :             type-specifier ID END_LINE                {  tNode* ideNo = newnode($2,NULL,NULL,NULL,NULL);
-                                                                              $$ = newnode("var-declaration",$1,ideNo,NULL,NULL);
+var-declaration   :             type-specifier ID END_LINE                { 
+                                                                            tNode* ideNo = newnode($2,NULL,NULL,NULL,NULL);
+                                                                            $$ = newnode("var-declaration",$1,ideNo,NULL,NULL);
                                                                           }
 
                   |             type-specifier ID OPEN_BRACKET DIGIT CLOSE_BRACKET END_LINE         {
@@ -89,7 +88,7 @@ var-declaration   :             type-specifier ID END_LINE                {  tNo
                                                                                                       tNode* nodoDigito = newnode(name,NULL,NULL,NULL,NULL);       
                                                                                                       tNode* ideNo = newnode($2,NULL,NULL,NULL,NULL);
                                                                                                       $$ = newnode("var-declaration",$1,ideNo,nodoDigito,NULL);
-                                                                                                     } 
+                                                                                                    }
                   ; 
  
 type-specifier    :             INT                                       {$$ = newnode("int",NULL,NULL,NULL,NULL);} 
@@ -122,7 +121,7 @@ param             :             type-specifier ID                               
 compound-stmt     :            OPEN_KEY local-declarations statement-list CLOSE_KEY     {$$ = newnode("compound-stmt",$2,$3,NULL,NULL);} 
                   ; 
  
-local-declarations:             local-declarations var-declaration                      {$$ = newnode("local-declarations",$1,$2,NULL,NULL);} 
+local-declarations:             local-declarations var-declaration                      {$$ = newnode("",$1,$2,NULL,NULL);} 
                   |             empty                                                   {} 
                   ; 
  
@@ -224,16 +223,18 @@ empty               :           %empty                                          
  
 //----------------------------------------------------------------------------- 
 %% 
-//----------------------------------------------------------------------------- 
- 
-
-
+//-----------------------------------------------------------------------------
 
 int main( int argc, char *argv[] ) { 
   extern FILE *yyin; 
     raiz = newnode("",NULL,NULL,NULL,NULL);
-    operacao = malloc(sizeof(tOperacao)); 
-    scope = malloc(sizeof(tFuncScope)); 
+    operacao = malloc(sizeof(tOperacao));
+
+    scope = malloc(sizeof(tFuncScope));
+    funcoes = malloc(1024*sizeof(tFuncScope));
+
+    var = malloc(sizeof(tInfoVar));
+    varGlobais = malloc(sizeof(tInfoVar));
 
   if( argc != 3){ 
     printf("Poucos argumentos!\n");
@@ -266,6 +267,35 @@ int main( int argc, char *argv[] ) {
   analiseSemantica(raiz);
   fprintf(fp, "%s", AST);
   // fprintf(fp, "%s", ASM);
+
+  int tam = calcSizeVector(funcoes);
+  printf("Quantidade de funções: %d\n",tam);
+
+  //saber se o resultado da função de scopo ta certa
+  for(int i=0; i<tam;i++){
+
+    printf("nome da função %d\n", i);
+    printf("%s\n",(&funcoes[i])->nameFunc);
+
+    printf("parametros:\n");
+    // int tamParam = calcSizeVectorParam((&funcoes[i])->param);
+    // printf("%d  ", tamParam);
+    for(int j=0; j<2;j++){
+      printf("%s ",(&funcoes[i])->param[j]->tipo);
+      printf("%s ",(&funcoes[i])->param[j]->nome);
+      printf("%d\n",(&funcoes[i])->param[j]->isVector);
+    }
+
+    printf("variaveis:\n");
+    // int tamVar = calcSizeVectorVar(funcoes[i]->var);
+    for(int k=0; k<3;k++){
+      printf("%s ",(&funcoes[i])->var[k]->tipo);
+      printf("%s ",(&funcoes[i])->var[k]->nome);
+      if((&funcoes[i])->var[k]->tamanVetor != NULL) 
+        printf("%s\n",(&funcoes[i])->var[k]->tamanVetor);
+      else printf("\n");
+    }
+  }
 
   fclose(yyin);
   fclose(fp);
