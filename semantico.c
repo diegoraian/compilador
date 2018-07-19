@@ -202,17 +202,38 @@ void findVarDeclaration(tNode *no){
   findVarDeclaration(no->nodeD); 
 }
 
+void findVarDeclarationGlobal(tNode *no){
+  if(no == NULL){ 
+      return; 
+  }
+  if(strcmp(no->no, "var-declaration") == 0){
+    tInfoVar *variavel = malloc(sizeof(tInfoVar));
+    var->nome = variavel;
+    var->tipo = no->nodeA->no;
+    if(no->nodeC != NULL){
+      var->tamanVetor = no->nodeC->no;
+    }else{
+      var->tamanVetor = NULL;
+    }
+  }
+  findVarDeclarationGlobal(no->nodeA); 
+  findVarDeclarationGlobal(no->nodeB); 
+  findVarDeclarationGlobal(no->nodeC); 
+  findVarDeclarationGlobal(no->nodeD); 
+}
+
 void percorreArvore(tNode *no){ 
   if(no == NULL){ 
       return; 
   }
   if(strcmp(no->no,"") != 0){
-
-    if(strcmp(no->no,"var-declaration") == 0){
-      var->tipo = no->nodeA->no;
-      var->nome = no->nodeB->no;
-      printf("%s\n",var->tipo);
-      printf("%s\n",var->nome);
+    //strcmp(no->no,"var-declaration")
+    if(strcmp(no->no,"declaration-list") == 0){
+      findVarDeclarationGlobal(no);
+      // var->tipo = no->nodeA->no;
+      // var->nome = no->nodeB->no;
+      // printf("%s\n",var->tipo);
+      // printf("%s\n",var->nome);
     }
 
     if(strcmp(no->no,"fun-declaration") == 0){
@@ -303,8 +324,8 @@ void imprimirArvore(tNode *no){
   if(no == NULL){ 
       return; 
   }
-  // printf("%s",no->no); 
-  if(strcmp(no->no,"") != 0){
+  if((strcmp(no->no,"") != 0) || (strcmp(no->no,"declaration-list") != 0)){
+    // printf("%s",no->no); 
     strcat(AST,"[");
     strcat(AST,no->no);
   }
@@ -312,11 +333,10 @@ void imprimirArvore(tNode *no){
   imprimirArvore(no->nodeB); 
   imprimirArvore(no->nodeC); 
   imprimirArvore(no->nodeD); 
-  if(strcmp(no->no,"") != 0){  
+  if((strcmp(no->no,"") != 0) || (strcmp(no->no,"declaration-list") != 0)){  
       strcat(AST,"]");
   }
 }
-
 
 void opSimples(tNode *no){
   if(strcmp(no->no,"-")==0){

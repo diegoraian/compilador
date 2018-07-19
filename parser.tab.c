@@ -1318,7 +1318,7 @@ yyreduce:
 
   case 3:
 #line 71 "parser.y" /* yacc.c:1646  */
-    {(yyval.nodeValue) = newnode("",(yyvsp[-1].nodeValue),(yyvsp[0].nodeValue),NULL,NULL);}
+    {(yyval.nodeValue) = newnode("declaration-list",(yyvsp[-1].nodeValue),(yyvsp[0].nodeValue),NULL,NULL);}
 #line 1323 "parser.tab.c" /* yacc.c:1646  */
     break;
 

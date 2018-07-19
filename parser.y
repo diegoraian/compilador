@@ -68,7 +68,7 @@
 program           :            declaration-list                           {$$ = newnode("program",$1,NULL,NULL,NULL);raiz = $$;} 
                   ; 
  
-declaration-list  :            declaration-list declaration               {$$ = newnode("",$1,$2,NULL,NULL);}
+declaration-list  :            declaration-list declaration               {$$ = newnode("declaration-list",$1,$2,NULL,NULL);}
                   |            declaration                                {$$ = $1;}
                   ; 
  

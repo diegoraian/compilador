@@ -23,6 +23,7 @@ void verificaTypeVar(tNode *no);
 void findNameFunc(tNode *no);
 void findParams(tNode *no);
 void findVarDeclaration(tNode *no);
+void findVarDeclarationGlobal(tNode *no);
 void percorreArvore(tNode *no);
 void analiseSemantica(tNode *no);
 void checkMain(tNode* no);
