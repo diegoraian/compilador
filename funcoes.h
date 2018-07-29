@@ -10,6 +10,17 @@ typedef struct node {
   char *no; 
 }tNode; 
 
+typedef struct callFun {
+  //char *tipo;
+  char *nome;
+  struct infoExpression *expre[512];
+}tCallFun;
+
+typedef struct infoExpression {
+  struct opera *op;
+  char *varName;
+}tInfoExpression;
+
 typedef struct opera {
   char *op1;
   char *op2;
@@ -30,8 +41,9 @@ typedef struct infoParam {
 
 typedef struct funcScope {
   char *nameFunc;
-  struct infoParam *param[1024];
-  struct infoVar *var[1024];
+  struct infoParam *param[512];
+  struct infoVar *var[512];
+  struct callFun *call[512];
 }tFuncScope;
 
 tNode *newnode(char* n, tNode *nodeA, tNode *nodeB,tNode *nodeC, tNode* nodeD);

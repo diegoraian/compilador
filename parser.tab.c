@@ -1330,7 +1330,7 @@ yyreduce:
 
   case 5:
 #line 75 "parser.y" /* yacc.c:1646  */
-    {(yyval.nodeValue) = (yyvsp[0].nodeValue);}
+    {(yyval.nodeValue) = newnode("declaration",(yyvsp[0].nodeValue),NULL,NULL,NULL);}
 #line 1335 "parser.tab.c" /* yacc.c:1646  */
     break;
 
@@ -1962,8 +1962,8 @@ int main( int argc, char *argv[] ) {
     scope = malloc(sizeof(tFuncScope));
     funcoes = malloc(1024*sizeof(tFuncScope));
 
-    var = malloc(sizeof(tInfoVar));
-    varGlobais = malloc(sizeof(tInfoVar));
+    // var = malloc(sizeof(tInfoVar));
+    varGlobais = malloc(50*sizeof(tInfoVar));
 
   if( argc != 3){ 
     printf("Poucos argumentos!\n");
@@ -1996,13 +1996,23 @@ int main( int argc, char *argv[] ) {
   analiseSemantica(raiz);
   fprintf(fp, "%s", AST);
   // fprintf(fp, "%s", ASM);
+  
+//------------------------------------------------------------------------------------
+  //saber se o resultado da função de scopo ta certa
 
+  int tamVarG = calcSizeVectorVar(varGlobais);
+  printf("Variaveis Globais: %d\n",tamVarG);
+  for(int k=0; k<tamVarG;k++){
+    printf("%s ",(&varGlobais[k])->tipo);
+    printf("%s ",(&varGlobais[k])->nome);
+  if((&varGlobais[k])->tamanVetor != NULL) 
+    printf("%s\n",(&varGlobais[k])->tamanVetor);
+  else printf("\n");
+  }
+  printf("\n");
   int tam = calcSizeVector(funcoes);
   printf("Quantidade de funções: %d\n",tam);
-
-  //saber se o resultado da função de scopo ta certa
   for(int i=0; i<tam;i++){
-
     printf("nome da função %d\n", i);
     printf("%s\n",(&funcoes[i])->nameFunc);
 
@@ -2015,6 +2025,13 @@ int main( int argc, char *argv[] ) {
       printf("%d\n",(&funcoes[i])->param[j]->isVector);
     }
 
+    printf("fun call:\n");
+    for(int j=0; j<1;j++){
+      printf("%s\n",(&funcoes[i])->call[j]->nome);
+      // printf("%s ",(&funcoes[i])->call[j]->expre[0]->op->simbolo);
+      // printf("%d\n",(&funcoes[i])->param[j]->isVector);
+    }
+
     printf("variaveis:\n");
     // int tamVar = calcSizeVectorVar(funcoes[i]->var);
     for(int k=0; k<3;k++){
@@ -2025,6 +2042,7 @@ int main( int argc, char *argv[] ) {
       else printf("\n");
     }
   }
+  //------------------------------------------------------------------------------------
 
   fclose(yyin);
   fclose(fp);

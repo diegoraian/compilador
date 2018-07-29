@@ -10,8 +10,10 @@ tOperacao* operacao;
 tFuncScope* scope;          //escopo temporário
 tFuncScope* funcoes;        //vetor de escopos
 
-tInfoVar* var;              //escopo temporário
+tInfoVar* var;              //var global temporária
 tInfoVar* varGlobais;       //vetor com variáveis globais
+
+tCallFun* call;
 
 char    AST[20480];
 char    ASM[20480];
@@ -20,7 +22,6 @@ void yyerror(const char *s);
 int  yylex(void); 
 void mainLast(tNode *no);
 void verificaTypeVar(tNode *no);
-void findNameFunc(tNode *no);
 void findParams(tNode *no);
 void findVarDeclaration(tNode *no);
 void percorreArvore(tNode *no);
@@ -38,3 +39,5 @@ void imprimirAsm(tNode *no);
 int calcSizeVector(tFuncScope *vector);
 int calcSizeVectorParam(tInfoParam *vector);
 int calcSizeVectorVar(tInfoVar *vector);
+void findGlobalDeclaration(tNode *no);
+void findCalls(tNode *no);

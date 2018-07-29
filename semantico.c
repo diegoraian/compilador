@@ -150,11 +150,6 @@ void verificaTypeVar(tNode *no){
   verificaTypeVar(no->nodeC);
   verificaTypeVar(no->nodeD);
 }
-            
-void findNameFunc(tNode *no){
-  if(strcmp(no->no,"var-declaration") == 0){
-  }
-}
 
 int pos = 0;
 void findParams(tNode *no){
@@ -196,10 +191,105 @@ void findVarDeclaration(tNode *no){
     }
     posVar++;
   }
+  findCalls(no);
+
   findVarDeclaration(no->nodeA); 
   findVarDeclaration(no->nodeB); 
   findVarDeclaration(no->nodeC); 
   findVarDeclaration(no->nodeD); 
+}
+
+void findGlobalDeclaration(tNode *no){
+  if(no == NULL){
+      return;
+  }
+  if(strcmp(no->no, "var-declaration") == 0){
+    tInfoVar *varialvel = malloc(sizeof(tInfoVar));
+    var = varialvel;
+    var->tipo = no->nodeA->no;
+    var->nome = no->nodeB->no;
+    if(no->nodeC != NULL){
+      var->tamanVetor = no->nodeC->no;
+    }else{
+      var->tamanVetor = NULL;
+    }
+    push_backVar(var);
+    free(var);
+  }
+  findGlobalDeclaration(no->nodeA);
+  findGlobalDeclaration(no->nodeB);
+  findGlobalDeclaration(no->nodeC);
+  findGlobalDeclaration(no->nodeD);
+}
+
+int contCall=0;
+void findCalls(tNode *no){
+  if(no == NULL){ 
+      return; 
+  }
+  if(strcmp(no->no,"call") == 0){
+    call = malloc(sizeof(tCallFun));
+    scope->call[contCall] = call;
+    scope->call[contCall]->nome = no->nodeA->no;
+    // printf("%s\n",scope->call[contCall]->nome);
+    //procurando se o parametro da função chamada tem paramatro
+    //se n for nulo ele estara em expression ou arg-list na arvore
+    // if(no->nodeA->nodeA->nodeA != NULL){
+      //se for pra expression
+      // if(strcmp(no->nodeA->nodeA->no,"=") == 0){
+
+      //se for pra simple-expression -> relop
+      //se for pra simple-expression -> addop no->nodeA->nodeA->no + -
+      //se for pra simple-expression -> mulop no->nodeA->nodeA->no * /
+      // }else {
+        // char vartemp = *(no->nodeA->nodeA->no);
+        // switch(vartemp){
+        //   case '=' :{
+        //     // tInfoExpression *expre = malloc(sizeof(tInfoExpression));
+        //     // scope->call[contCall]->expre[0] = expre;
+        //     // scope->call[contCall]->expre[0]->op->simbolo = &vartemp;
+        //     break;
+        //   }
+        //   case '<=' :{
+        //     break;
+        //   }
+        //   case '<' :{
+        //     break; 
+        //   }
+        //   case '>' :{
+        //     break; 
+        //   }
+        //   case '>=' :{
+        //     break; 
+        //   }
+        //   case '==' :{
+        //     break; 
+        //   }
+        //   case '!=' :{
+        //     break; 
+        //   }
+        //   case '+' :{
+        //     break; 
+        //   }
+        //   case '-' :{
+        //     break; 
+        //   }
+        //   case '*' :{
+        //     break; 
+        //   }
+        //   case '/' :{
+        //     break; 
+        //   }
+        //   default :
+        //     break;
+        // }
+      //se for pra simple-expression -> factor no->nodeA->nodeA->nodeA->no DIGITO
+      // }
+      
+    // }
+    contCall++;
+    // free(call);
+  }
 }
 
 void percorreArvore(tNode *no){ 
@@ -207,14 +297,9 @@ void percorreArvore(tNode *no){
       return; 
   }
   if(strcmp(no->no,"") != 0){
-
-    if(strcmp(no->no,"var-declaration") == 0){
-      var->tipo = no->nodeA->no;
-      var->nome = no->nodeB->no;
-      printf("%s\n",var->tipo);
-      printf("%s\n",var->nome);
+    if(strcmp(no->no,"declaration") == 0){
+      findGlobalDeclaration(no);
     }
-
     if(strcmp(no->no,"fun-declaration") == 0){
       scope->nameFunc = no->nodeB->no;
     }
@@ -227,6 +312,7 @@ void percorreArvore(tNode *no){
     }
     if(strcmp(no->no, "compound-stmt") == 0){
       findVarDeclaration(no);
+      contCall=0;
       push_back(scope);
       free(scope);
       scope = malloc(sizeof(tFuncScope));
@@ -239,7 +325,6 @@ void percorreArvore(tNode *no){
   percorreArvore(no->nodeC); 
   percorreArvore(no->nodeD);
 }
-
 
 void analiseSemantica(tNode *no){
   if(no == NULL){
@@ -303,20 +388,19 @@ void imprimirArvore(tNode *no){
   if(no == NULL){ 
       return; 
   }
-  // printf("%s",no->no); 
-  if(strcmp(no->no,"") != 0){
+  if((strcmp(no->no,"") != 0) || (strcmp(no->no,"declaration") != 0)){  
     strcat(AST,"[");
     strcat(AST,no->no);
   }
+
   imprimirArvore(no->nodeA); 
   imprimirArvore(no->nodeB); 
   imprimirArvore(no->nodeC); 
-  imprimirArvore(no->nodeD); 
-  if(strcmp(no->no,"") != 0){  
+  imprimirArvore(no->nodeD); //|| (strcmp(no->no,"declaration") != 0)
+  if((strcmp(no->no,"") != 0) || (strcmp(no->no,"declaration") != 0)){  
       strcat(AST,"]");
   }
 }
-
 
 void opSimples(tNode *no){
   if(strcmp(no->no,"-")==0){
