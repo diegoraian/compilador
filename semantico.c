@@ -403,6 +403,10 @@ void imprimirArvore(tNode *no){
 }
 
 void opSimples(tNode *no){
+
+  if(strcmp(no->no,"call")==0){
+    operacao->nome = no->nodeA->no;
+  }
   if(strcmp(no->no,"-")==0){
     operacao->simbolo = no->no;
     operacao->op1 = no->nodeA->nodeA->no;
@@ -444,6 +448,14 @@ void guardarRetornoMain(){
   strcat(ASM,"addiu $sp, $sp, -4\n");
 }
 
+void jumpFuncao(){
+  strcat(ASM,"jal _f_");
+  strcat(ASM,operacao->nome);
+  strcat(ASM,"\nlw $ra, 4($sp)");
+  strcat(ASM,"\naddiu $sp, $sp, 4\n");
+  strcat(ASM,"j $ra\n");
+}
+
 void imprimeFunction(tNode *no){
   if(strcmp(no->no,"fun-declaration") == 0){
     strcat(ASM,"_f_");
@@ -451,8 +463,10 @@ void imprimeFunction(tNode *no){
     strcat(ASM,":\n");
     if(strcmp(no->nodeB->no, "main") == 0){
       guardarRetornoMain();
-      if(operacao!=NULL)
+      if(operacao!=NULL){
         imprimeOpSimples();
+        jumpFuncao();
+      }
     }
   }
 }
@@ -484,6 +498,7 @@ void imprimirAsm(tNode *no){
     return; 
   }
   if(strcmp(no->no,"") != 0){
+    // printf("%s\n",  no->no);
     opSimples(no);
   }
   imprimirAsm(no->nodeA); 

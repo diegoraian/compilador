@@ -1,1 +1,33 @@
-[program[[[[declaration[var-declaration[int][varivelGlobal]]][declaration[var-declaration[int][varivelGlobal2]]]][fun-declaration[void][foo2][params[[param[int][a]][param[int][b][\[\]]]]][compound-stmt[[[[][var-declaration[int][d]]][var-declaration[int][c]]][var-declaration[int][f][10]]][[][[[call[foo][args[=[var[h]][[1]]]]]]]]]]][fun-declaration[void][foo][params[[param[int][s]][param[int][g][\[\]]]]][compound-stmt[[[[][var-declaration[int][h]]][var-declaration[int][n]]][var-declaration[int][m][10]]][[][[[call[foo2][args[=[var[h]][[1]]]]]]]]]]]]
+
+.data
+.text
+_f_println:
+lw $a0, 4($sp)
+li $v0, 1
+syscall
+li $v0, 11
+li $a0, 0x0a
+syscall
+addiu $sp, $sp, 4
+li $a0, 0
+j $ra
+_f_main:
+sw $ra, 0($sp)
+addiu $sp, $sp, -4
+li $a0, 4
+sw $a0, 0($sp)
+addiu $sp, $sp, -4
+li $a0, 5
+lw $t1, 4($sp)
+addiu $sp, $sp, 4
+add $a0, $t1, $a0
+sw $a0, 0($sp)
+addiu $sp, $sp, -4
+jal _f_println
+lw $ra, 4($sp)
+addiu $sp, $sp, 4
+j $ra
+main:
+jal _f_main
+li $v0, 10
+syscall

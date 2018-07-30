@@ -22,6 +22,7 @@ typedef struct infoExpression {
 }tInfoExpression;
 
 typedef struct opera {
+  char *nome;
   char *op1;
   char *op2;
   char *simbolo;

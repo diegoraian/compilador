@@ -1987,61 +1987,61 @@ int main( int argc, char *argv[] ) {
   yyparse();
   imprimirArvore(raiz);
   strcat(ASM,"\n.data\n.text\n");
-  // imprimirAsm(raiz);
+  imprimirAsm(raiz);
   //chamar a main do programa na main do .asm
   strcat(ASM,"main:\n");
   strcat(ASM,"jal _f_main\n");
   strcat(ASM,"li $v0, 10\n");
   strcat(ASM,"syscall\n");
   analiseSemantica(raiz);
-  fprintf(fp, "%s", AST);
-  // fprintf(fp, "%s", ASM);
+  // fprintf(fp, "%s", AST);
+  fprintf(fp, "%s", ASM);
   
 //------------------------------------------------------------------------------------
   //saber se o resultado da função de scopo ta certa
 
-  int tamVarG = calcSizeVectorVar(varGlobais);
-  printf("Variaveis Globais: %d\n",tamVarG);
-  for(int k=0; k<tamVarG;k++){
-    printf("%s ",(&varGlobais[k])->tipo);
-    printf("%s ",(&varGlobais[k])->nome);
-  if((&varGlobais[k])->tamanVetor != NULL) 
-    printf("%s\n",(&varGlobais[k])->tamanVetor);
-  else printf("\n");
-  }
-  printf("\n");
-  int tam = calcSizeVector(funcoes);
-  printf("Quantidade de funções: %d\n",tam);
-  for(int i=0; i<tam;i++){
-    printf("nome da função %d\n", i);
-    printf("%s\n",(&funcoes[i])->nameFunc);
+  // int tamVarG = calcSizeVectorVar(varGlobais);
+  // printf("Variaveis Globais: %d\n",tamVarG);
+  // for(int k=0; k<tamVarG;k++){
+  //   printf("%s ",(&varGlobais[k])->tipo);
+  //   printf("%s ",(&varGlobais[k])->nome);
+  // if((&varGlobais[k])->tamanVetor != NULL) 
+  //   printf("%s\n",(&varGlobais[k])->tamanVetor);
+  // else printf("\n");
+  // }
+  // printf("\n");
+  // int tam = calcSizeVector(funcoes);
+  // printf("Quantidade de funções: %d\n",tam);
+  // for(int i=0; i<tam;i++){
+  //   printf("nome da função %d\n", i);
+  //   printf("%s\n",(&funcoes[i])->nameFunc);
 
-    printf("parametros:\n");
-    // int tamParam = calcSizeVectorParam((&funcoes[i])->param);
-    // printf("%d  ", tamParam);
-    for(int j=0; j<2;j++){
-      printf("%s ",(&funcoes[i])->param[j]->tipo);
-      printf("%s ",(&funcoes[i])->param[j]->nome);
-      printf("%d\n",(&funcoes[i])->param[j]->isVector);
-    }
+  //   printf("parametros:\n");
+  //   // int tamParam = calcSizeVectorParam((&funcoes[i])->param);
+  //   // printf("%d  ", tamParam);
+  //   for(int j=0; j<2;j++){
+  //     printf("%s ",(&funcoes[i])->param[j]->tipo);
+  //     printf("%s ",(&funcoes[i])->param[j]->nome);
+  //     printf("%d\n",(&funcoes[i])->param[j]->isVector);
+  //   }
 
-    printf("fun call:\n");
-    for(int j=0; j<1;j++){
-      printf("%s\n",(&funcoes[i])->call[j]->nome);
-      // printf("%s ",(&funcoes[i])->call[j]->expre[0]->op->simbolo);
-      // printf("%d\n",(&funcoes[i])->param[j]->isVector);
-    }
+  //   printf("fun call:\n");
+  //   for(int j=0; j<1;j++){
+  //     printf("%s\n",(&funcoes[i])->call[j]->nome);
+  //     // printf("%s ",(&funcoes[i])->call[j]->expre[0]->op->simbolo);
+  //     // printf("%d\n",(&funcoes[i])->param[j]->isVector);
+  //   }
 
-    printf("variaveis:\n");
-    // int tamVar = calcSizeVectorVar(funcoes[i]->var);
-    for(int k=0; k<3;k++){
-      printf("%s ",(&funcoes[i])->var[k]->tipo);
-      printf("%s ",(&funcoes[i])->var[k]->nome);
-      if((&funcoes[i])->var[k]->tamanVetor != NULL) 
-        printf("%s\n",(&funcoes[i])->var[k]->tamanVetor);
-      else printf("\n");
-    }
-  }
+  //   printf("variaveis:\n");
+  //   // int tamVar = calcSizeVectorVar(funcoes[i]->var);
+  //   for(int k=0; k<3;k++){
+  //     printf("%s ",(&funcoes[i])->var[k]->tipo);
+  //     printf("%s ",(&funcoes[i])->var[k]->nome);
+  //     if((&funcoes[i])->var[k]->tamanVetor != NULL) 
+  //       printf("%s\n",(&funcoes[i])->var[k]->tamanVetor);
+  //     else printf("\n");
+  //   }
+  // }
   //------------------------------------------------------------------------------------
 
   fclose(yyin);
