@@ -13,6 +13,8 @@ tFuncScope* funcoes;        //vetor de escopos
 tInfoVar* var;              //var global temporária
 tInfoVar* varGlobais;       //vetor com variáveis globais
 
+tExpression* expression;    //cada expressão
+
 tCallFun* call;
 
 char    AST[20480];

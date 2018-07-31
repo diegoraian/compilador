@@ -47,6 +47,12 @@ typedef struct funcScope {
   struct callFun *call[512];
 }tFuncScope;
 
+typedef struct expression {
+  char *simbolo;
+  struct node *lEsquerdo;
+  struct node *lDireito;
+}tExpression;
+
 tNode *newnode(char* n, tNode *nodeA, tNode *nodeB,tNode *nodeC, tNode* nodeD);
 void checkMain(tNode* no);
 void findNameFunc(tNode *no);

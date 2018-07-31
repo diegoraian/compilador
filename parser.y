@@ -236,6 +236,8 @@ int main( int argc, char *argv[] ) {
     // var = malloc(sizeof(tInfoVar));
     varGlobais = malloc(50*sizeof(tInfoVar));
 
+    expression = malloc(sizeof(tExpression));
+
   if( argc != 3){ 
     printf("Poucos argumentos!\n");
     return 1;

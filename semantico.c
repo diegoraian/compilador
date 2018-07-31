@@ -231,65 +231,24 @@ void findCalls(tNode *no){
     call = malloc(sizeof(tCallFun));
     scope->call[contCall] = call;
     scope->call[contCall]->nome = no->nodeA->no;
-    // printf("%s\n",scope->call[contCall]->nome);
-    //procurando se o parametro da função chamada tem paramatro
-    //se n for nulo ele estara em expression ou arg-list na arvore
-    // if(no->nodeA->nodeA->nodeA != NULL){
-      //se for pra expression
-      // if(strcmp(no->nodeA->nodeA->no,"=") == 0){
-
-      //se for pra simple-expression -> relop
-      //se for pra simple-expression -> addop no->nodeA->nodeA->no + -
-      //se for pra simple-expression -> mulop no->nodeA->nodeA->no * /
-      // }else {
-        // char vartemp = *(no->nodeA->nodeA->no);
-        // switch(vartemp){
-        //   case '=' :{
-        //     // tInfoExpression *expre = malloc(sizeof(tInfoExpression));
-        //     // scope->call[contCall]->expre[0] = expre;
-        //     // scope->call[contCall]->expre[0]->op->simbolo = &vartemp;
-        //     break;
-        //   }
-        //   case '<=' :{
-        //     break;
-        //   }
-        //   case '<' :{
-        //     break; 
-        //   }
-        //   case '>' :{
-        //     break; 
-        //   }
-        //   case '>=' :{
-        //     break; 
-        //   }
-        //   case '==' :{
-        //     break; 
-        //   }
-        //   case '!=' :{
-        //     break; 
-        //   }
-        //   case '+' :{
-        //     break; 
-        //   }
-        //   case '-' :{
-        //     break; 
-        //   }
-        //   case '*' :{
-        //     break; 
-        //   }
-        //   case '/' :{
-        //     break; 
-        //   }
-        //   default :
-        //     break;
-        // }
-      //se for pra simple-expression -> factor no->nodeA->nodeA->nodeA->no DIGITO
-      // }
-      
-    // }
     contCall++;
     // free(call);
   }
+}
+
+void findExpression(tNode *no){
+  if(no == NULL){ 
+    return; 
+  }
+  char *vartemp = no->no;
+  if((strcmp(no->no,"=") == 0)||(strcmp(no->no,"<=") == 0)||(strcmp(no->no,"<") == 0)||(strcmp(no->no,">") == 0)
+      ||(strcmp(no->no,">=") == 0)||(strcmp(no->no,"==") == 0)||(strcmp(no->no,"!=") == 0)||(strcmp(no->no,"+") == 0)
+      ||(strcmp(no->no,"-") == 0)||(strcmp(no->no,"*") == 0)||(strcmp(no->no,"/") == 0)){
+    expression->simbolo = vartemp;
+    expression->lEsquerdo = no->nodeA;
+    expression->lDireito = no->nodeB;
+  }
+  //se for pra simple-expression -> factor no->nodeA->nodeA->nodeA->no DIGITO
 }
 
 void percorreArvore(tNode *no){ 
@@ -297,6 +256,7 @@ void percorreArvore(tNode *no){
       return; 
   }
   if(strcmp(no->no,"") != 0){
+    findExpression(no);
     if(strcmp(no->no,"declaration") == 0){
       findGlobalDeclaration(no);
     }
@@ -401,6 +361,8 @@ void imprimirArvore(tNode *no){
       strcat(AST,"]");
   }
 }
+
+//----------------INICIO DO CODEGEN-------------------------------
 
 void opSimples(tNode *no){
 
