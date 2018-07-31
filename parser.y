@@ -141,8 +141,8 @@ expression-stmt   :             expression  END_LINE                            
                   |             END_LINE                                                {$$ = newnode(";",NULL,NULL,NULL,NULL);} 
                   ; 
  
-selection-stmt    :             IF OPEN_PAREN expression CLOSE_PAREN statement                     {$$ = newnode("selection-stmt ",$3,$5,NULL,NULL);} 
-                  |             IF OPEN_PAREN expression CLOSE_PAREN statement ELSE statement      {$$ = newnode("selection-stmt ",$3,$5,$7,NULL);} 
+selection-stmt    :             IF OPEN_PAREN expression CLOSE_PAREN statement                     {$$ = newnode("selection-stmt",$3,$5,NULL,NULL);} 
+                  |             IF OPEN_PAREN expression CLOSE_PAREN statement ELSE statement      {$$ = newnode("selection-stmt",$3,$5,$7,NULL);} 
                   ; 
 iteration-stmt    :             WHILE OPEN_PAREN expression CLOSE_PAREN statement                  {$$ = newnode("iteration-stmt",$3,$5,NULL,NULL);} 
                   ; 

@@ -262,6 +262,7 @@ void percorreArvore(tNode *no){
     }
     if(strcmp(no->no,"fun-declaration") == 0){
       scope->nameFunc = no->nodeB->no;
+      scope->no = no;
     }
     if((strcmp(no->no, "params") == 0) && (no->nodeA != NULL)){
       findParams(no);
@@ -418,21 +419,60 @@ void jumpFuncao(){
   strcat(ASM,"j $ra\n");
 }
 
+void empilhaFP(){
+    strcat(ASM,"sw $fp 0($sp) ");
+    strcat(ASM,"addiu $sp $sp -4");
+}
+
+void imprimirStatements(tNode *node){
+
+  if (node == NULL) { 
+    return; 
+  }
+  if (strcmp(node->no,";") == 0 || strcmp(node->no,"selection-stmt") == 0 ||
+     strcmp(node->no,"return-stmt") == 0 || strcmp(node->no,"iteration-stmt") == 0 || strcmp(node->no,"compound-stmt") == 0){
+   
+    printf("%s \n",node->no);
+  }
+  if(strcmp(node->no,"return-stmt") == 0){
+    
+  }
+  imprimirStatements(node->nodeA);
+  imprimirStatements(node->nodeB);
+  imprimirStatements(node->nodeC);
+  imprimirStatements(node->nodeD);
+
+}
 void imprimeFunction(tNode *no){
-  if(strcmp(no->no,"fun-declaration") == 0){
+  //cgen F-entry
     strcat(ASM,"_f_");
     strcat(ASM,no->nodeB->no);
     strcat(ASM,":\n");
-    if(strcmp(no->nodeB->no, "main") == 0){
-      guardarRetornoMain();
-      if(operacao!=NULL){
-        imprimeOpSimples();
-        jumpFuncao();
-      }
-    }
-  }
-}
+    strcat(ASM,"");
+    strcat(ASM,"move $fp $sp \n") ;
+    strcat(ASM,"sw $ra 0($sp) \n");
+    strcat(ASM,"addiu $sp $sp -4  \n");
+    int  z = 4;
+    imprimirStatements(no->nodeD);
+    strcat(ASM,"lw $ra 4($sp) \n");
+    strcat(ASM,"addiu $sp $sp ");
+    strcat(ASM,"z");
+    strcat(ASM,"\n");
+    strcat(ASM,"lw $fp  0($sp) \n");
+    strcat(ASM,"jr $ra \n");
 
+
+
+//}
+
+    strcat(ASM,"addiu 4($sp)");
+    //if(strcmp(no->nodeB->no, "main") == 0){
+   //   guardarRetornoMain();
+     // if(operacao!=NULL){
+      //  imprimeOpSimples();
+      //  jumpFuncao();
+     // }
+    }
 void codigoPrintln(){
   //eu acho que esse código é default
   strcat(ASM,"lw $a0, 4($sp)\n");
@@ -469,8 +509,10 @@ void imprimirAsm(tNode *no){
   imprimirAsm(no->nodeD);
 
   if(strcmp(no->no,"") != 0){
-    imprimeFunction(no);
-    imprimePrintln(no);
+    if(strcmp(no->no,"fun-declaration") == 0){
+      imprimeFunction(no);
+   }
+   // imprimePrintln(no);
   }
 }
  

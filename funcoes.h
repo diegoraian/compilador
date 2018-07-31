@@ -45,6 +45,7 @@ typedef struct funcScope {
   struct infoParam *param[512];
   struct infoVar *var[512];
   struct callFun *call[512];
+  tNode *no;
 }tFuncScope;
 
 typedef struct expression {
