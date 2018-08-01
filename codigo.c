@@ -1,15 +1,8 @@
+void funcIF(void){
+    if (3 == 10) 4; else 5;
+}
+
 void main(void) { 
-
-
-    int a;
-    int b;
-    a =a+b;
-    if (a == 10){
-        b = 20;    
-    }else{
-        a = 10;
-    }
-
+    funcIF();
     return 0;
-
  }

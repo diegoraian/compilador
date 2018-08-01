@@ -1,15 +1,29 @@
 
 .data
 .text
-_f_main:
-move $fp $sp 
-sw $ra 0($sp) 
-addiu $sp $sp -4  
-lw $ra 4($sp) 
+_f_funcIF:
+move $fp $sp
+sw $ra 0($sp)
+addiu $sp $sp -4
+li $a0 3
+li $t1 10
+beq $a0 $t1 true1
+false1:
+li $a0 5
+b endif1
+true1:
+li $a0 4
+endif1:
+lw $ra 4($sp)
 addiu $sp $sp z
-lw $fp  0($sp) 
+lw $fp 0($sp)
 jr $ra 
-addiu 4($sp)main:
+_f_main:
+sw $ra, 0($sp)
+addiu $sp, $sp, -4
+jal mainaddiu $sp, $sp, 4
+jr $ra 
+main:
 jal _f_main
 li $v0, 10
 syscall

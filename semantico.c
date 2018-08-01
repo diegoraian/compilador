@@ -420,59 +420,130 @@ void jumpFuncao(){
 }
 
 void empilhaFP(){
-    strcat(ASM,"sw $fp 0($sp) ");
-    strcat(ASM,"addiu $sp $sp -4");
+  strcat(ASM,"sw $fp 0($sp) ");
+  strcat(ASM,"addiu $sp $sp -4");
 }
 
-void imprimirStatements(tNode *node){
+void branchFalse(tNode *node){
+  strcat(ASM,"false1:\n");
+  gerarStatements(node);
+  strcat(ASM,"b endif1\n");
+}
+
+void branchTrue(tNode *node){
+  strcat(ASM,"true1:\n");
+  gerarStatements(node);
+}
+
+void branchEndIf(){
+  strcat(ASM,"endif1:\n");
+
+}
+
+void gerarCondicional(tNode *node){
+  //assumindo que vamos comparar aprenas inteiros
+  strcat(ASM,"li $a0 ");
+  strcat(ASM,node->nodeA->nodeA->no);
+  strcat(ASM,"\n");
+  strcat(ASM,"li $t1 ");
+  strcat(ASM,node->nodeA->nodeB->no);
+  strcat(ASM,"\n");
+  if(strcmp(node->nodeA->no,"==") == 0){
+    strcat(ASM,"beq $a0 $t1 true1\n");
+  }
+  if(strcmp(node->nodeA->no,"<=") == 0){
+    strcat(ASM,"bge $a0 $t1 true1\n");
+  }
+  if(strcmp(node->nodeA->no,"<") == 0){
+    strcat(ASM,"blt $a0 $t1 true1\n");
+  }
+  if(strcmp(node->nodeA->no,">") == 0){
+    strcat(ASM,"bgt $a0 $t1 true1\n");
+  }
+  if(strcmp(node->nodeA->no,">=") == 0){
+    strcat(ASM,"ble $a0 $t1 true1\n");
+  }
+  if(strcmp(node->nodeA->no,"!=") == 0){
+    strcat(ASM,"bnq $a0 $t1 true1\n");
+  }
+    if(node->nodeC != NULL)
+      branchFalse(node->nodeC);
+  branchTrue(node->nodeB);
+  branchEndIf();
+
+}
+
+void gerarExpression(tNode *node){
+  //se for apenas um digito
+  if(strcmp(node->no,"=") == 0){
+  }else{
+    strcat(ASM,"li $a0 ");
+    strcat(ASM,node->no);
+    strcat(ASM,"\n");
+  }
+}
+
+void gerarStatements(tNode *node){
 
   if (node == NULL) { 
     return; 
   }
-  if (strcmp(node->no,";") == 0 || strcmp(node->no,"selection-stmt") == 0 ||
-     strcmp(node->no,"return-stmt") == 0 || strcmp(node->no,"iteration-stmt") == 0 || strcmp(node->no,"compound-stmt") == 0){
+  if (strcmp(node->no,"expression-stmt") == 0 || strcmp(node->no,"selection-stmt") == 0 || strcmp(node->no,"return-stmt") == 0
+    || strcmp(node->no,"iteration-stmt") == 0 || strcmp(node->no,"compound-stmt") == 0){
    
     printf("%s \n",node->no);
   }
-  if(strcmp(node->no,"return-stmt") == 0){
-    
+  if(strcmp(node->no,"selection-stmt") == 0){
+    //assumindo que no if vai ter apenas expressões boleanas simples (3>4)
+    gerarCondicional(node);
+    return;
   }
-  imprimirStatements(node->nodeA);
-  imprimirStatements(node->nodeB);
-  imprimirStatements(node->nodeC);
-  imprimirStatements(node->nodeD);
+  if(strcmp(node->no,"expression-stmt") == 0){
+    gerarExpression(node->nodeA);
+    return;
+  }
+  gerarStatements(node->nodeA);
+  gerarStatements(node->nodeB);
+  gerarStatements(node->nodeC);
+  gerarStatements(node->nodeD);
 
 }
+
 void imprimeFunction(tNode *no){
   //cgen F-entry
     strcat(ASM,"_f_");
     strcat(ASM,no->nodeB->no);
     strcat(ASM,":\n");
     strcat(ASM,"");
-    strcat(ASM,"move $fp $sp \n") ;
-    strcat(ASM,"sw $ra 0($sp) \n");
-    strcat(ASM,"addiu $sp $sp -4  \n");
+  if(strcmp(no->nodeB->no, "main") != 0){
+    strcat(ASM,"move $fp $sp\n") ;
+    strcat(ASM,"sw $ra 0($sp)\n");
+    strcat(ASM,"addiu $sp $sp -4\n");
     int  z = 4;
-    imprimirStatements(no->nodeD);
-    strcat(ASM,"lw $ra 4($sp) \n");
+    gerarStatements(no->nodeD);
+    strcat(ASM,"lw $ra 4($sp)\n");
     strcat(ASM,"addiu $sp $sp ");
     strcat(ASM,"z");
     strcat(ASM,"\n");
-    strcat(ASM,"lw $fp  0($sp) \n");
+    strcat(ASM,"lw $fp 0($sp)\n");
     strcat(ASM,"jr $ra \n");
+  }else{
+    guardarRetornoMain();
+    //empilhar parametros
+    strcat(ASM,"jal ");
+    strcat(ASM,no->nodeB->no);
+    strcat(ASM,"addiu $sp, $sp, 4\n");
+    strcat(ASM,"jr $ra \n");
+  }
 
-
-
-//}
-
-    strcat(ASM,"addiu 4($sp)");
-    //if(strcmp(no->nodeB->no, "main") == 0){
+    // strcat(ASM,"addiu 4($sp)");
    //   guardarRetornoMain();
      // if(operacao!=NULL){
       //  imprimeOpSimples();
       //  jumpFuncao();
      // }
-    }
+}
+
 void codigoPrintln(){
   //eu acho que esse código é default
   strcat(ASM,"lw $a0, 4($sp)\n");

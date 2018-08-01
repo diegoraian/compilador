@@ -137,7 +137,7 @@ statement         :             expression-stmt                                 
                   ; 
  
 expression-stmt   :             expression  END_LINE                                    { tNode* node = newnode(";",NULL,NULL,NULL,NULL);
-                                                                                         $$ = newnode("",$1,NULL,NULL,NULL);} 
+                                                                                         $$ = newnode("expression-stmt",$1,NULL,NULL,NULL);} 
                   |             END_LINE                                                {$$ = newnode(";",NULL,NULL,NULL,NULL);} 
                   ; 
  
@@ -186,7 +186,7 @@ addop               :            PLUS                                           
                     ; 
  
 term                :            term mulop factor                              {$$ = newnode($2->no,$1,$3,NULL,NULL);} 
-                    |            factor                                         {$$ = newnode("",$1,NULL,NULL,NULL);} 
+                    |            factor                                         {$$ = $1;}//{$$ = newnode("",$1,NULL,NULL,NULL);} 
                     ; 
  
 mulop               :            TIMES                                          {$$ = newnode("*",NULL,NULL,NULL,NULL);} 
