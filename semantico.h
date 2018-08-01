@@ -44,3 +44,5 @@ int calcSizeVectorVar(tInfoVar *vector);
 void findGlobalDeclaration(tNode *no);
 void findCalls(tNode *no);
 void gerarStatements(tNode *node);
+void finishCallFunction(tNode *node);
+void startCallFunction();

@@ -18,11 +18,14 @@ lw $ra 4($sp)
 addiu $sp $sp z
 lw $fp 0($sp)
 jr $ra 
+
 _f_main:
 sw $ra, 0($sp)
 addiu $sp, $sp, -4
-jal mainaddiu $sp, $sp, 4
+jal funcIF
+addiu $sp, $sp, 4
 jr $ra 
+
 main:
 jal _f_main
 li $v0, 10

@@ -405,12 +405,6 @@ void imprimeOpSimples(){
   strcat(ASM,"addiu $sp, $sp, -4\n");
 }
 
-void guardarRetornoMain(){
-  //push na pilha com o endereço de retorno
-  strcat(ASM,"sw $ra, 0($sp)\n");
-  strcat(ASM,"addiu $sp, $sp, -4\n");
-}
-
 void jumpFuncao(){
   strcat(ASM,"jal _f_");
   strcat(ASM,operacao->nome);
@@ -477,9 +471,15 @@ void gerarExpression(tNode *node){
   //se for apenas um digito
   if(strcmp(node->no,"=") == 0){
   }else{
-    strcat(ASM,"li $a0 ");
-    strcat(ASM,node->no);
-    strcat(ASM,"\n");
+    if(strcmp(node->no,"call") != 0){
+      strcat(ASM,"li $a0 ");
+      strcat(ASM,node->no);
+      strcat(ASM,"\n");
+    }
+    else{
+      startCallFunction(node);
+      finishCallFunction(node);
+    }
   }
 }
 
@@ -488,6 +488,8 @@ void gerarStatements(tNode *node){
   if (node == NULL) { 
     return; 
   }
+
+
   if (strcmp(node->no,"expression-stmt") == 0 || strcmp(node->no,"selection-stmt") == 0 || strcmp(node->no,"return-stmt") == 0
     || strcmp(node->no,"iteration-stmt") == 0 || strcmp(node->no,"compound-stmt") == 0){
    
@@ -498,15 +500,32 @@ void gerarStatements(tNode *node){
     gerarCondicional(node);
     return;
   }
+
   if(strcmp(node->no,"expression-stmt") == 0){
     gerarExpression(node->nodeA);
     return;
   }
+
   gerarStatements(node->nodeA);
   gerarStatements(node->nodeB);
   gerarStatements(node->nodeC);
   gerarStatements(node->nodeD);
 
+}
+
+void startCallFunction(tNode *node){
+  //push na pilha com o endereço de retorno
+  strcat(ASM,"sw $ra, 0($sp)\n");
+  strcat(ASM,"addiu $sp, $sp, -4\n");
+  //empilhar os parametros
+  
+}
+
+void finishCallFunction(tNode *node){
+  strcat(ASM,"jal ");
+  strcat(ASM,node->nodeA->no);
+  strcat(ASM,"\naddiu $sp, $sp, 4\n");
+  strcat(ASM,"jr $ra \n");
 }
 
 void imprimeFunction(tNode *no){
@@ -528,12 +547,8 @@ void imprimeFunction(tNode *no){
     strcat(ASM,"lw $fp 0($sp)\n");
     strcat(ASM,"jr $ra \n");
   }else{
-    guardarRetornoMain();
+    gerarStatements(no->nodeD);
     //empilhar parametros
-    strcat(ASM,"jal ");
-    strcat(ASM,no->nodeB->no);
-    strcat(ASM,"addiu $sp, $sp, 4\n");
-    strcat(ASM,"jr $ra \n");
   }
 
     // strcat(ASM,"addiu 4($sp)");
