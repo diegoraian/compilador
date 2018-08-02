@@ -18,6 +18,7 @@ _f_main:
 	addiu $sp $sp -4
 	addiu $sp, $sp, -4
 	addiu $sp, $sp, -4
+	addiu $sp, $sp, -4
 	
 	#INICIO chamada de input
 	li $v0, 5
@@ -34,6 +35,14 @@ _f_main:
 	#FIM chamada de input
 
 	sw $a0, -8($fp)
+	
+	#INICIO chamada de input
+	li $v0, 5
+	syscall
+	move $a0, $v0
+	#FIM chamada de input
+
+	sw $a0, -12($fp)
 	#INICIO CONDICIONAL
 	
 	lw $a0, -4($fp)
@@ -142,9 +151,9 @@ end_if4:
 	sw $a0, 0($sp)
 	addiu $sp, $sp, -4
 	jal _f_println
-addiu $sp $sp 	8
+addiu $sp $sp 	12
 	lw $ra 4($sp)
-addiu $sp $sp 	8
+addiu $sp $sp 	12
 	lw $fp 0($sp)
 	jr $ra 
 main:

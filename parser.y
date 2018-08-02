@@ -301,7 +301,7 @@ int main( int argc, char *argv[] ) {
   out("jal _f_main");
   out("li $v0, 10");
   out("syscall");
-  printDadosFuncoes();
+  //printDadosFuncoes();
   
   // fprintf(fp, "%s", AST);
   fprintf(fp, "%s", ASM);
@@ -355,6 +355,6 @@ int main( int argc, char *argv[] ) {
 
   fclose(yyin);
   fclose(fp);
- 
+  printf("ARQUIVO COMPILADO\n");
   return 0;
 }

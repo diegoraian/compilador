@@ -42,16 +42,15 @@ int findVarOffSetOfFunction(char* funcao){
       
       if(strcmp(funcao,(&funcoes[i])->nameFunc)==0){
         //printf("%s\n",(&funcoes[i])->nameFunc );
-        //for(int k=0; k<tamVar;k++) {
-          //if(strcmp(nomeVariavel,(&funcoes[i])->var[k]->nome)==0){
+        
+        
             if(tamVar > 0){
 
-            printf("nome: %s \n",(&funcoes[i])->var[tamVar-1]->nome);
-            printf("OFFSET: %s \n",(&funcoes[i])->var[tamVar-1]->nome);
+           // printf("nome: %s \n",(&funcoes[i])->var[tamVar-1]->nome);
+           // printf("OFFSET: %s \n",(&funcoes[i])->var[tamVar-1]->nome);
             retorno = -((&funcoes[i])->var[tamVar-1]->offset);
             }
-          //}
-        //}
+        
       }
   }
   return retorno;
@@ -526,10 +525,8 @@ void gerarCondicional(tNode *node){
   out("#INICIO CONDICIONAL");
   if(node->nodeA->nodeA->nodeA != NULL ){
     //caso o parametro seja uma variável
-    printf("PARAMETRO COMPARADOR 1 1 a %s\n",node->nodeA->nodeA->nodeA->no);
-    //strcat(ASM,node->nodeA->nodeA->nodeA->no)
-    //printf("aushduahsudauishdiuahsidhashiduashids\n");
-    //printf("encontrou %s\n", intToString(findOffSetOfVar(nomeFuncao,node->nodeA->nodeA->nodeA->no)));
+    //printf("PARAMETRO COMPARADOR 1 1 a %s\n",node->nodeA->nodeA->nodeA->no);
+  
     out("");
     strcat(ASM,"\tlw $a0, ");
     strcat(ASM,intToString(findOffSetOfVar(nomeFuncao,node->nodeA->nodeA->nodeA->no)));
@@ -539,13 +536,14 @@ void gerarCondicional(tNode *node){
     out("");
   } else {
     //caso o parametro seja uma constante
-    printf("PARAMETRO COMPARADOR 1 2 a %s\n",node->nodeA->nodeA->no);
-    
+    //printf("PARAMETRO COMPARADOR 1 2 a %s\n",node->nodeA->nodeA->no);
+        strcat(ASM,"\tl1 $a0, ");
+    strcat(ASM,intToString(findOffSetOfVar(nomeFuncao,node->nodeA->nodeA->nodeA->no)));
   }
 
   if(node->nodeA->nodeB->nodeA != NULL ){
     //caso o parametro seja uma variável
-    printf("PARAMETRO COMPARADOR 2 1 b %s\n",node->nodeA->nodeB->nodeA->no);
+    //printf("PARAMETRO COMPARADOR 2 1 b %s\n",node->nodeA->nodeB->nodeA->no);
     out("");
     strcat(ASM,"\tlw $a0, ");
     strcat(ASM,intToString(findOffSetOfVar(nomeFuncao,node->nodeA->nodeB->nodeA->no)));
@@ -555,7 +553,9 @@ void gerarCondicional(tNode *node){
     out("");
   }else{
     //caso o parametro seja uma constante
-   printf("PARAMETRO COMPARADOR 2 2 b %s\n",node->nodeA->nodeB->no);
+   //printf("PARAMETRO COMPARADOR 2 2 b %s\n",node->nodeA->nodeB->no);
+    strcat(ASM,"\tli $t1, ");
+    strcat(ASM,intToString(findOffSetOfVar(nomeFuncao,node->nodeA->nodeB->nodeA->no)));
   }
   
   contadorIF++;
@@ -607,7 +607,7 @@ void gerarExpression(tNode *node){
   if(strcmp(node->no,"call") == 0){
       //printf("%s",node->nodeB->nodeA->no);
       
-      printf("CHAMADA DE FUNCAO:  %s\n",node->nodeA->no);
+      //printf("CHAMADA DE FUNCAO:  %s\n",node->nodeA->no);
       if(strcmp(node->nodeA->no,"input")==0) {
         out("\n\t#INICIO chamada de input");
         	out("li $v0, 5");
@@ -669,12 +669,12 @@ void gerarExpression(tNode *node){
       
     } else if (strcmp(node->no,"=") == 0){
       //printf("%s/n"node->no);
-        printf("\n==============");
+     //   printf("\n==============");
       gerarExpression(node->nodeB);
-      printf("%s\n",node->no);
-      printf("VARIAVEL %s\n",node->nodeA->nodeA->no);//parâmetro
-      printf("OFFSET %d\n",findOffSetOfVar(nomeFuncao,node->nodeA->nodeA->no));
-      printf("============== "); 
+     // printf("%s\n",node->no);
+      //printf("VARIAVEL %s\n",node->nodeA->nodeA->no);//parâmetro
+      //printf("OFFSET %d\n",findOffSetOfVar(nomeFuncao,node->nodeA->nodeA->no));
+      //printf("============== "); 
       //intToString
       strcat(ASM,"\tsw $a0, ");
       strcat(ASM,intToString(findOffSetOfVar(nomeFuncao,node->nodeA->nodeA->no)));
@@ -703,7 +703,7 @@ void gerarStatements(tNode *node){
   }
 
   if(strcmp(node->no,"var-declaration") == 0){
-    printf("#declarou %s\n",node->nodeB->no);
+    //printf("#declarou %s\n",node->nodeB->no);
     out("addiu $sp, $sp, -4");
     return;
   }
