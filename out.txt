@@ -1,32 +1,168 @@
-
 .data
 .text
-_f_funcIF:
-move $fp $sp
-sw $ra 0($sp)
-addiu $sp $sp -4
-li $a0 3
-li $t1 10
-beq $a0 $t1 true1
-false1:
-li $a0 5
-b endif1
-true1:
-li $a0 4
-endif1:
-lw $ra 4($sp)
-addiu $sp $sp z
-lw $fp 0($sp)
-jr $ra 
-
+_f_println:
+	lw $a0, 4($sp)
+	li $v0, 1
+	syscall
+	li $v0, 11
+	li $a0, 0x0a
+	syscall
+	addiu $sp, $sp, 4
+	li $a0, 0
+	j $ra
+_f_input:
+	li $v0, 5
+	syscall
+	move $a0 $v0
+	addiu $sp, $sp, 4
+	li $a0, 0
+	j $ra
 _f_main:
-sw $ra, 0($sp)
-addiu $sp, $sp, -4
-jal funcIF
-addiu $sp, $sp, 4
-jr $ra 
-
+	sw $ra, 0($sp)
+	addiu $sp, $sp, -4
+li $a0 
+	sw  $a0  0($sp)
+	addiu  $sp  $sp  -4 
+	sw $a0 0($sp)
+	addiu $sp $sp -4
+	jal input
+	addiu $sp, $sp, 4
+	jr $ra
+	sw $ra, 0($sp)
+	addiu $sp, $sp, -4
+li $a0 
+	sw  $a0  0($sp)
+	addiu  $sp  $sp  -4 
+	sw $a0 0($sp)
+	addiu $sp $sp -4
+	jal input
+	addiu $sp, $sp, 4
+	jr $ra
+	li $a0 	var
+	li $t1 	var
+	beq $a0 $t1 true1
+false1:
+	sw $ra, 0($sp)
+	addiu $sp, $sp, -4
+li $a0 2
+	sw  $a0  0($sp)
+	addiu  $sp  $sp  -4 
+	sw $a0 0($sp)
+	addiu $sp $sp -4
+	jal println
+	addiu $sp, $sp, 4
+	jr $ra
+	b end_if1
+true1:
+	sw $ra, 0($sp)
+	addiu $sp, $sp, -4
+li $a0 1
+	sw  $a0  0($sp)
+	addiu  $sp  $sp  -4 
+	sw $a0 0($sp)
+	addiu $sp $sp -4
+	jal println
+	addiu $sp, $sp, 4
+	jr $ra
+end_if1:
+	sw $ra, 0($sp)
+	addiu $sp, $sp, -4
+li $a0 3
+	sw  $a0  0($sp)
+	addiu  $sp  $sp  -4 
+	sw $a0 0($sp)
+	addiu $sp $sp -4
+	jal println
+	addiu $sp, $sp, 4
+	jr $ra
+	li $a0 	var
+	li $t1 	var
+	bnq $a0 $t1 true2
+false2:
+	sw $ra, 0($sp)
+	addiu $sp, $sp, -4
+li $a0 5
+	sw  $a0  0($sp)
+	addiu  $sp  $sp  -4 
+	sw $a0 0($sp)
+	addiu $sp $sp -4
+	jal println
+	addiu $sp, $sp, 4
+	jr $ra
+	b end_if2
+true2:
+	sw $ra, 0($sp)
+	addiu $sp, $sp, -4
+li $a0 4
+	sw  $a0  0($sp)
+	addiu  $sp  $sp  -4 
+	sw $a0 0($sp)
+	addiu $sp $sp -4
+	jal println
+	addiu $sp, $sp, 4
+	jr $ra
+end_if2:
+	sw $ra, 0($sp)
+	addiu $sp, $sp, -4
+li $a0 6
+	sw  $a0  0($sp)
+	addiu  $sp  $sp  -4 
+	sw $a0 0($sp)
+	addiu $sp $sp -4
+	jal println
+	addiu $sp, $sp, 4
+	jr $ra
+	li $a0 	var
+	li $t1 	var
+	beq $a0 $t1 true3
+true3:
+	sw $ra, 0($sp)
+	addiu $sp, $sp, -4
+li $a0 7
+	sw  $a0  0($sp)
+	addiu  $sp  $sp  -4 
+	sw $a0 0($sp)
+	addiu $sp $sp -4
+	jal println
+	addiu $sp, $sp, 4
+	jr $ra
+end_if3:
+	sw $ra, 0($sp)
+	addiu $sp, $sp, -4
+li $a0 8
+	sw  $a0  0($sp)
+	addiu  $sp  $sp  -4 
+	sw $a0 0($sp)
+	addiu $sp $sp -4
+	jal println
+	addiu $sp, $sp, 4
+	jr $ra
+	li $a0 	var
+	li $t1 	var
+	bnq $a0 $t1 true4
+true4:
+	sw $ra, 0($sp)
+	addiu $sp, $sp, -4
+li $a0 9
+	sw  $a0  0($sp)
+	addiu  $sp  $sp  -4 
+	sw $a0 0($sp)
+	addiu $sp $sp -4
+	jal println
+	addiu $sp, $sp, 4
+	jr $ra
+end_if4:
+	sw $ra, 0($sp)
+	addiu $sp, $sp, -4
+li $a0 10
+	sw  $a0  0($sp)
+	addiu  $sp  $sp  -4 
+	sw $a0 0($sp)
+	addiu $sp $sp -4
+	jal println
+	addiu $sp, $sp, 4
+	jr $ra
 main:
-jal _f_main
-li $v0, 10
-syscall
+	jal _f_main
+	li $v0, 10
+	syscall

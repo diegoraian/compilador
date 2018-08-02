@@ -3,6 +3,8 @@
         "initializer_list": "cpp",
         "vector": "cpp",
         "array": "c",
-        "utility": "c"
+        "utility": "c",
+        "stdlib.h": "c",
+        "stdio.h": "c"
     }
 }

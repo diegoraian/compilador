@@ -10,6 +10,24 @@ int temMain = 0;
 int size=0;
 int sizeVar=0;
 
+int contadorIF= 0;
+void outEntry(char* texto){
+  strcat(ASM,texto);
+  strcat(ASM,"\n");
+}
+
+char* intToString(int dado){
+  char* name = malloc(20);
+  sprintf(name, "%d", dado);
+  return name;
+}
+
+void out(char* texto){
+  strcat(ASM,"\t");
+  strcat(ASM,texto);
+  strcat(ASM,"\n");
+}
+
 void push_back(tFuncScope *no){
   funcoes[size] = *no;
   size++;
@@ -250,6 +268,32 @@ void findExpression(tNode *no){
   }
   //se for pra simple-expression -> factor no->nodeA->nodeA->nodeA->no DIGITO
 }
+// Encontra a posição de uma determinada variável na pilha local
+// int findOffsetVariavel(char* variavel){
+//   for(int i = 0; i <= size ; i++){
+//     if(funcoes[i].alocacoes != NULL){
+//       for(int j = 0; j <= size ; j++){
+//         if (strcmp(funcoes[i]->alocacoesi[j].variavel,variavel ) != 0 ){
+//             return funcoes[i]->alocacoes[j]->offset;
+//         }
+//       }
+//     }
+//   }
+// }
+
+
+// int registraOffsetVariavel(char* variavel){
+//   for(int i = 0; i <= size ; i++){
+//     if(funcoes[i].alocacoes != NULL){
+//       if (strcmp(funcoes[i].alocacoes->variavel,variavel ) != 0 ){
+//           //funcoes[i].alocacoes->offset =;
+//       }
+//     }
+//   }
+// }
+
+
+
 
 void percorreArvore(tNode *no){ 
   if(no == NULL){ 
@@ -342,6 +386,7 @@ tNode* newnode(char* no, tNode *nodeA, tNode *nodeB,tNode *nodeC, tNode *nodeD){
   tree->nodeB = nodeB; 
   tree->nodeC = nodeC; 
   tree->nodeD = nodeD;
+
   return tree; 
 }
 
@@ -382,106 +427,229 @@ void opSimples(tNode *no){
   }
 }
 
-void imprimeOpSimples(){
-  //grava o valor do primeiro parametro
-  strcat(ASM,"li $a0, ");
-  strcat(ASM,operacao->op1);
-  //da um push
-  strcat(ASM,"\nsw $a0, 0($sp)\n");
-  strcat(ASM,"addiu $sp, $sp, -4\n");
-  //grava o valor do segundo parametro
-  strcat(ASM,"li $a0, ");
-  strcat(ASM,operacao->op2);
-  //da um pop
-  strcat(ASM,"\nlw $t1, 4($sp)\n");
-  strcat(ASM,"addiu $sp, $sp, 4\n");
-  //realiza a operação
-  if(strcmp(operacao->simbolo,"+") == 0)
-    strcat(ASM,"add $a0, $t1, $a0\n");
-  if(strcmp(operacao->simbolo,"-") == 0)
-    strcat(ASM,"sub $a0, $t1, $a0\n");
-  //da um push com o resultado
-  strcat(ASM,"sw $a0, 0($sp)\n");
-  strcat(ASM,"addiu $sp, $sp, -4\n");
-}
+// void imprimeOpSimples(){
+//   //grava o valor do primeiro parametro
+//   out("li $a0,");
+//   out("operacao->op1);
+//   //da um push
+//   out("\nsw $a0, 0($sp)\n");
+//   out("addiu $sp, $sp, -4\n");
+//   //grava o valor do segundo parametro
+//   out("li $a0, ");
+//   out("operacao->op2);
+//   //da um pop
+//   out("\nlw $t1, 4($sp)\n");
+//   out("addiu $sp, $sp, 4\n");
+//   //realiza a operação
+//   if(strcmp(operacao->simbolo,"+") == 0)
+//     out("add $a0, $t1, $a0\n");
+//   if(strcmp(operacao->simbolo,"-") == 0)
+//     out("sub $a0, $t1, $a0\n");
+//   //da um push com o resultado
+//   out("sw $a0, 0($sp)\n");
+//   out("addiu $sp, $sp, -4\n");
+// }
 
 void jumpFuncao(){
-  strcat(ASM,"jal _f_");
-  strcat(ASM,operacao->nome);
-  strcat(ASM,"\nlw $ra, 4($sp)");
-  strcat(ASM,"\naddiu $sp, $sp, 4\n");
-  strcat(ASM,"j $ra\n");
+  out("jal _f_");
+  out(operacao->nome);
+  out("lw $ra, 4($sp)");
+  out("addiu $sp, $sp, 4");
+  out("j $ra");
 }
 
 void empilhaFP(){
-  strcat(ASM,"sw $fp 0($sp) ");
-  strcat(ASM,"addiu $sp $sp -4");
+  out("sw $fp 0($sp) ");
+  out("addiu $sp $sp -4");
 }
 
 void branchFalse(tNode *node){
-  strcat(ASM,"false1:\n");
+  strcat(ASM,"false");
+  //printf("saida %s\n",intToString(contadorIF));
+  strcat(ASM,intToString(contadorIF));
+  strcat(ASM,":\n");
   gerarStatements(node);
-  strcat(ASM,"b endif1\n");
+  strcat(ASM,"\tb end_if");
+  strcat(ASM,intToString(contadorIF));
+  strcat(ASM,"\n");
 }
 
 void branchTrue(tNode *node){
-  strcat(ASM,"true1:\n");
+  strcat(ASM,"true");
+  strcat(ASM,intToString(contadorIF));
+  strcat(ASM,":\n");
   gerarStatements(node);
 }
 
 void branchEndIf(){
-  strcat(ASM,"endif1:\n");
+  strcat(ASM,"end_if");
+  strcat(ASM,intToString(contadorIF));
+  strcat(ASM,":\n");
 
 }
 
+// tNode* findArgList(tNode *node){
+
+//   if(node == NULL){
+//     return NULL ;
+//   }
+
+//   if(strcmp(node->no,"args")== 0){
+
+//   }
+
+//   findArgList(node->nodeA);
+//   findArgList(node->nodeB);
+//   findArgList(node->nodeC);
+//   findArgList(node->nodeD);
+// }
+
+// void findTermsOfExpression(tNode* node){
+//   if(node == NULL){
+//     return;
+//   }
+
+//   findTermsOfExpression(node->nodeA);
+//   findTermsOfExpression(node->nodeB);
+//   findTermsOfExpression(node->nodeC);
+//   findTermsOfExpression(node->nodeD);
+
+// }
+
+
+// void buscaQuantidadeTermosDaExpressao(tNode* node){
+//   if(node == NULL){
+//     return;
+//   }
+//   if(node)
+//   findTermsOfExpression(node->nodeA);
+//   findTermsOfExpression(node->nodeB);
+//   findTermsOfExpression(node->nodeC);
+//   findTermsOfExpression(node->nodeD);
+
+// }
+
 void gerarCondicional(tNode *node){
   //assumindo que vamos comparar aprenas inteiros
-  strcat(ASM,"li $a0 ");
-  strcat(ASM,node->nodeA->nodeA->no);
-  strcat(ASM,"\n");
-  strcat(ASM,"li $t1 ");
-  strcat(ASM,node->nodeA->nodeB->no);
-  strcat(ASM,"\n");
+  strcat(ASM,"\tli $a0 "); out(node->nodeA->nodeA->no);
+  strcat(ASM,"\tli $t1 "); out(node->nodeA->nodeB->no);
+  contadorIF++;
   if(strcmp(node->nodeA->no,"==") == 0){
-    strcat(ASM,"beq $a0 $t1 true1\n");
+    strcat(ASM,"\tbeq $a0 $t1 ");
   }
   if(strcmp(node->nodeA->no,"<=") == 0){
-    strcat(ASM,"bge $a0 $t1 true1\n");
+    strcat(ASM,"\tbge $a0 $t1 ");
   }
   if(strcmp(node->nodeA->no,"<") == 0){
-    strcat(ASM,"blt $a0 $t1 true1\n");
+    strcat(ASM,"\tblt $a0 $t1 ");
   }
   if(strcmp(node->nodeA->no,">") == 0){
-    strcat(ASM,"bgt $a0 $t1 true1\n");
+    strcat(ASM,"\tbgt $a0 $t1 ");
   }
   if(strcmp(node->nodeA->no,">=") == 0){
-    strcat(ASM,"ble $a0 $t1 true1\n");
+    strcat(ASM,"\tble $a0 $t1 ");
   }
   if(strcmp(node->nodeA->no,"!=") == 0){
-    strcat(ASM,"bnq $a0 $t1 true1\n");
+    strcat(ASM,"\tbnq $a0 $t1 ");
   }
-    if(node->nodeC != NULL)
-      branchFalse(node->nodeC);
+  strcat(ASM,"true");
+  strcat(ASM,intToString(contadorIF));
+  strcat(ASM,"\n");
+
+  if(node->nodeC != NULL)
+    branchFalse(node->nodeC);
+
   branchTrue(node->nodeB);
   branchEndIf();
 
 }
 
-void gerarExpression(tNode *node){
-  //se for apenas um digito
-  if(strcmp(node->no,"=") == 0){
-  }else{
-    if(strcmp(node->no,"call") != 0){
-      strcat(ASM,"li $a0 ");
-      strcat(ASM,node->no);
-      strcat(ASM,"\n");
-    }
-    else{
-      startCallFunction(node);
-      finishCallFunction(node);
+
+void geraOperacaoMatematica(char *texto){
+  if(texto != NULL){
+    if(strcmp("+",texto) == 0){
+        out("add  $a0,  $t1,  $a0  ");
+    }else if(strcmp("-",texto) == 0){
+        out("sub  $sp  $sp  -4 ");
     }
   }
+
 }
+void gerarExpression(tNode *node){
+  //se for apenas um digito
+
+  
+  if(strcmp(node->no,"=") == 0){
+      //gerarExpression(node->nodeA);
+      
+      gerarExpression(node->nodeB);
+      return;
+  }else if(strcmp(node->no,"call") == 0){
+      //printf("%s",node->nodeB->nodeA->no);
+      startCallFunction(node);
+      
+      if(node->nodeA != NULL && node->nodeB != NULL) {
+        
+        if( (strcmp(node->nodeB->nodeA->no,"+" ) == 0) || (strcmp(node->nodeB->nodeA->no,"-" ) == 0)){
+            printf("%s",node->nodeB->nodeA->nodeA->no); //operador 1
+            //empilha parametros da soma
+            strcat(ASM,"\tli $a0, ");
+            out(node->nodeB->nodeA->nodeA->no);
+            out("sw  $a0,  0($sp)");
+            out("addiu  $sp,  $sp  -4 ");
+            strcat(ASM,"\tli, $a0 ");
+            out(node->nodeB->nodeA->nodeB->no);
+            out("lw  $t1,  4($sp) ");    
+            geraOperacaoMatematica(node->nodeB->nodeA->no);
+            out("addiu  $sp,  $sp,  4 ");
+            out("sw  $a0  0($sp)"); 
+            out("addiu  $sp,  $sp,  -4 ");
+            
+            
+            
+          }else{
+          
+            //printf("%s",(node->nodeB->nodeA->nodeA->no);
+            
+              if(strcmp(node->no,"call") == 0 && node->nodeB->nodeA->no != NULL ){
+                strcat(ASM,"li $a0 ");
+                // if(node->nodeB->nodeA->nodeA != NULL){
+                //   out(node->nodeB->nodeA->nodeA->no);
+                //   }else{
+                //   out(node->nodeB->nodeA->no);
+                // }
+
+              if(node->nodeB->nodeA->no!= NULL){
+                strcat(ASM,node->nodeB->nodeA->no);
+                strcat(ASM,"\n");
+              }else if(node->nodeB->nodeA->nodeA->no != NULL){
+                strcat(ASM,node->nodeB->nodeA->nodeA->no);  
+                strcat(ASM,"\n");
+              }
+               // out(node->nodeB->nodeA->nodeA->no);
+                out("sw  $a0  0($sp)");
+                out("addiu  $sp  $sp  -4 ");
+                //printf("%s",node->nodeB->nodeA->no);
+              }
+              
+              
+          }
+          
+      }
+      out("sw $a0 0($sp)");
+      out("addiu $sp $sp -4");
+      finishCallFunction(node);
+      return;
+      
+    } else if(strcmp(node->no,"=") == 0){
+     
+    }
+  
+}
+
+
+
+
 
 void gerarStatements(tNode *node){
 
@@ -493,7 +661,7 @@ void gerarStatements(tNode *node){
   if (strcmp(node->no,"expression-stmt") == 0 || strcmp(node->no,"selection-stmt") == 0 || strcmp(node->no,"return-stmt") == 0
     || strcmp(node->no,"iteration-stmt") == 0 || strcmp(node->no,"compound-stmt") == 0){
    
-    printf("%s \n",node->no);
+    //printf("%s \n",node->no);
   }
   if(strcmp(node->no,"selection-stmt") == 0){
     //assumindo que no if vai ter apenas expressões boleanas simples (3>4)
@@ -515,90 +683,65 @@ void gerarStatements(tNode *node){
 
 void startCallFunction(tNode *node){
   //push na pilha com o endereço de retorno
-  strcat(ASM,"sw $ra, 0($sp)\n");
-  strcat(ASM,"addiu $sp, $sp, -4\n");
+  out("sw $ra, 0($sp)");
+  out("addiu $sp, $sp, -4");
   //empilhar os parametros
   
 }
 
 void finishCallFunction(tNode *node){
-  strcat(ASM,"jal ");
+  strcat(ASM,"\tjal ");
   strcat(ASM,node->nodeA->no);
-  strcat(ASM,"\naddiu $sp, $sp, 4\n");
-  strcat(ASM,"jr $ra \n");
+  strcat(ASM,"\n");
+  out("addiu $sp, $sp, 4");
+  out("jr $ra");
 }
 
 void imprimeFunction(tNode *no){
   //cgen F-entry
-    strcat(ASM,"_f_");
-    strcat(ASM,no->nodeB->no);
-    strcat(ASM,":\n");
-    strcat(ASM,"");
   if(strcmp(no->nodeB->no, "main") != 0){
-    strcat(ASM,"move $fp $sp\n") ;
-    strcat(ASM,"sw $ra 0($sp)\n");
-    strcat(ASM,"addiu $sp $sp -4\n");
+    out("move $fp $sp") ;
+    out("sw $ra 0($sp)");
+    out("addiu $sp $sp -4");
     int  z = 4;
     gerarStatements(no->nodeD);
-    strcat(ASM,"lw $ra 4($sp)\n");
-    strcat(ASM,"addiu $sp $sp ");
-    strcat(ASM,"z");
-    strcat(ASM,"\n");
-    strcat(ASM,"lw $fp 0($sp)\n");
-    strcat(ASM,"jr $ra \n");
+    out("lw $ra 4($sp)");
+    out("addiu $sp $sp 4"); // onde tem o z
+    out("lw $fp 0($sp)");
+    out("jr $ra ");
   }else{
+     if(strcmp(no->nodeB->no, "main") == 0){
+      strcat(ASM,"_f_");
+      strcat(ASM,no->nodeB->no);
+      strcat(ASM,":\n");
+     }
     gerarStatements(no->nodeD);
-    //empilhar parametros
-  }
-
-    // strcat(ASM,"addiu 4($sp)");
-   //   guardarRetornoMain();
-     // if(operacao!=NULL){
-      //  imprimeOpSimples();
-      //  jumpFuncao();
-     // }
-}
-
-void codigoPrintln(){
-  //eu acho que esse código é default
-  strcat(ASM,"lw $a0, 4($sp)\n");
-  strcat(ASM,"li $v0, 1\n");
-  strcat(ASM,"syscall\n");
-  strcat(ASM,"li $v0, 11\n");
-  strcat(ASM,"li $a0, 0x0a\n");
-  strcat(ASM,"syscall\n");
-  strcat(ASM,"addiu $sp, $sp, 4\n");
-  strcat(ASM,"li $a0, 0\n");
-  strcat(ASM,"j $ra\n");
-}
-
-void imprimePrintln(tNode *no){
-  if(strcmp(no->no,"call") == 0 && strcmp(no->nodeA->no,"println") == 0){
-    strcat(ASM,"_f_");
-    strcat(ASM,no->nodeA->no);
-    strcat(ASM,":\n");
-    codigoPrintln();
   }
 }
+
+// void imprimePrintln(tNode *no){
+//   if(strcmp(no->no,"call") == 0 && strcmp(no->nodeA->no,"println") == 0){
+//     strcat(ASM,"_f_");
+//     strcat(ASM,no->nodeA->no);
+//     out(":");
+//     codigoPrintln();
+//   }
+// }
 
 void imprimirAsm(tNode *no){ 
   if(no == NULL){ 
     return; 
   }
   if(strcmp(no->no,"") != 0){
-    // printf("%s\n",  no->no);
-    opSimples(no);
+    if(strcmp(no->no,"fun-declaration") == 0){
+      imprimeFunction(no);
+   }
   }
   imprimirAsm(no->nodeA); 
   imprimirAsm(no->nodeB); 
   imprimirAsm(no->nodeC); 
   imprimirAsm(no->nodeD);
 
-  if(strcmp(no->no,"") != 0){
-    if(strcmp(no->no,"fun-declaration") == 0){
-      imprimeFunction(no);
-   }
-   // imprimePrintln(no);
-  }
+
 }
  

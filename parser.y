@@ -214,7 +214,7 @@ args                :            arg-list                                       
                     |            empty                                          {$$ = newnode("args",$1,NULL,NULL,NULL);} 
                     ; 
  
-arg-list            :           arg-list COMMA expression                       {$$ = newnode("",$1,$3,NULL,NULL);}
+arg-list            :           arg-list COMMA expression                       {$$ = newnode("arg-list",$1,$3,NULL,NULL);}
                     |           expression                                      {$$ = $1;}//{$$ = newnode("",$1,NULL,NULL,NULL);} 
                     ; 
  
@@ -225,6 +225,35 @@ empty               :           %empty                                          
 %% 
 //-----------------------------------------------------------------------------
 
+
+
+void codigoInput(){
+  //eu acho que esse código é default
+  outEntry("_f_input:");
+  out("li $v0, 5");
+  out("syscall");
+  out("move $a0 $v0");
+  out("addiu $sp, $sp, 4");
+  out("li $a0, 0");
+  out("j $ra");
+}
+
+void codigoPrintln(){
+  //eu acho que esse código é default
+  outEntry(".data");
+  outEntry(".text");
+  outEntry("_f_println:");
+  out("lw $a0, 4($sp)");
+  out("li $v0, 1");
+  out("syscall");
+  out("li $v0, 11");
+  out("li $a0, 0x0a");
+  out("syscall");
+  out("addiu $sp, $sp, 4");
+  out("li $a0, 0");
+  out("j $ra");
+}
+
 int main( int argc, char *argv[] ) { 
   extern FILE *yyin; 
     raiz = newnode("",NULL,NULL,NULL,NULL);
@@ -233,10 +262,10 @@ int main( int argc, char *argv[] ) {
     scope = malloc(sizeof(tFuncScope));
     funcoes = malloc(1024*sizeof(tFuncScope));
 
-    // var = malloc(sizeof(tInfoVar));
     varGlobais = malloc(50*sizeof(tInfoVar));
 
     expression = malloc(sizeof(tExpression));
+  contadorFuncoes = 0;
 
   if( argc != 3){ 
     printf("Poucos argumentos!\n");
@@ -259,13 +288,15 @@ int main( int argc, char *argv[] ) {
 
   yyparse();
   imprimirArvore(raiz);
-  strcat(ASM,"\n.data\n.text\n");
+  
+  codigoPrintln();
+  codigoInput();
   imprimirAsm(raiz);
   //chamar a main do programa na main do .asm
-  strcat(ASM,"main:\n");
-  strcat(ASM,"jal _f_main\n");
-  strcat(ASM,"li $v0, 10\n");
-  strcat(ASM,"syscall\n");
+  outEntry("main:");
+  out("jal _f_main");
+  out("li $v0, 10");
+  out("syscall");
   analiseSemantica(raiz);
   // fprintf(fp, "%s", AST);
   fprintf(fp, "%s", ASM);

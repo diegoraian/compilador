@@ -19,6 +19,7 @@ tCallFun* call;
 
 char    AST[20480];
 char    ASM[20480];
+int contadorFuncoes;
 
 void yyerror(const char *s); 
 int  yylex(void); 
@@ -46,3 +47,5 @@ void findCalls(tNode *no);
 void gerarStatements(tNode *node);
 void finishCallFunction(tNode *node);
 void startCallFunction();
+void out(char* texto);
+void outEntry(char* texto);

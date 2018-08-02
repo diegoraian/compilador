@@ -40,11 +40,17 @@ typedef struct infoParam {
   bool isVector;
 }tInfoParam;
 
+typedef struct alocacaoVariavek{
+  char* variavel;
+  int offset;
+} tAlocacao;
+
 typedef struct funcScope {
   char *nameFunc;
   struct infoParam *param[512];
   struct infoVar *var[512];
   struct callFun *call[512];
+  tAlocacao *alocacoes[512];
   tNode *no;
 }tFuncScope;
 
@@ -53,6 +59,9 @@ typedef struct expression {
   struct node *lEsquerdo;
   struct node *lDireito;
 }tExpression;
+
+
+
 
 tNode *newnode(char* n, tNode *nodeA, tNode *nodeB,tNode *nodeC, tNode* nodeD);
 void checkMain(tNode* no);
