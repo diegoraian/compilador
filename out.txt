@@ -1,5 +1,7 @@
 .data
+
 .text
+
 _f_println:
 	lw $a0, 4($sp)
 	li $v0, 1
@@ -10,158 +12,139 @@ _f_println:
 	addiu $sp, $sp, 4
 	li $a0, 0
 	j $ra
-_f_input:
+	move $fp $sp
+	sw $ra 0($sp)
+	addiu $sp $sp -4
+	lw $ra 4($sp)
+	addiu $sp $sp 4
+	lw $fp 0($sp)
+	jr $ra 
+_f_main:
+	move $fp $sp
+	sw $ra 0($sp)
+	addiu $sp $sp -4
+	addiu $sp, $sp, -4
+	addiu $sp, $sp, -4
+	
+	#INICIO chamada de input
 	li $v0, 5
 	syscall
-	move $a0 $v0
-	addiu $sp, $sp, 4
-	li $a0, 0
-	j $ra
-_f_main:
-	sw $ra, 0($sp)
+	move $a0, $v0
+	#FIM chamada de input
+
+	sw $a0, -4($fp)
+	
+	#INICIO chamada de input
+	li $v0, 5
+	syscall
+	move $a0, $v0
+	#FIM chamada de input
+
+	sw $a0, -8($fp)
+	#INICIO CONDICIONAL
+	
+	lw $a0, -4($fp)
+	sw $a0, 0($sp)
 	addiu $sp, $sp, -4
-li $a0 
-	sw  $a0  0($sp)
-	addiu  $sp  $sp  -4 
-	sw $a0 0($sp)
-	addiu $sp $sp -4
-	jal input
+	
+	
+	lw $a0, -8($fp)
+	lw $t1 4($sp)
 	addiu $sp, $sp, 4
-	jr $ra
-	sw $ra, 0($sp)
-	addiu $sp, $sp, -4
-li $a0 
-	sw  $a0  0($sp)
-	addiu  $sp  $sp  -4 
-	sw $a0 0($sp)
-	addiu $sp $sp -4
-	jal input
-	addiu $sp, $sp, 4
-	jr $ra
-	li $a0 	var
-	li $t1 	var
+	
 	beq $a0 $t1 true1
+	#FIM CONDICIONAL
 false1:
-	sw $ra, 0($sp)
+	li $a0 2
+	sw $a0, 0($sp)
 	addiu $sp, $sp, -4
-li $a0 2
-	sw  $a0  0($sp)
-	addiu  $sp  $sp  -4 
-	sw $a0 0($sp)
-	addiu $sp $sp -4
-	jal println
-	addiu $sp, $sp, 4
-	jr $ra
+	jal _f_println
 	b end_if1
 true1:
-	sw $ra, 0($sp)
+	li $a0 1
+	sw $a0, 0($sp)
 	addiu $sp, $sp, -4
-li $a0 1
-	sw  $a0  0($sp)
-	addiu  $sp  $sp  -4 
-	sw $a0 0($sp)
-	addiu $sp $sp -4
-	jal println
-	addiu $sp, $sp, 4
-	jr $ra
+	jal _f_println
 end_if1:
-	sw $ra, 0($sp)
+	li $a0 3
+	sw $a0, 0($sp)
 	addiu $sp, $sp, -4
-li $a0 3
-	sw  $a0  0($sp)
-	addiu  $sp  $sp  -4 
-	sw $a0 0($sp)
-	addiu $sp $sp -4
-	jal println
+	jal _f_println
+	#INICIO CONDICIONAL
+	
+	lw $a0, -4($fp)
+	sw $a0, 0($sp)
+	addiu $sp, $sp, -4
+	
+	
+	lw $a0, -8($fp)
+	lw $t1 4($sp)
 	addiu $sp, $sp, 4
-	jr $ra
-	li $a0 	var
-	li $t1 	var
-	bnq $a0 $t1 true2
+	
+	bne $a0 $t1 true2
+	#FIM CONDICIONAL
 false2:
-	sw $ra, 0($sp)
+	li $a0 5
+	sw $a0, 0($sp)
 	addiu $sp, $sp, -4
-li $a0 5
-	sw  $a0  0($sp)
-	addiu  $sp  $sp  -4 
-	sw $a0 0($sp)
-	addiu $sp $sp -4
-	jal println
-	addiu $sp, $sp, 4
-	jr $ra
+	jal _f_println
 	b end_if2
 true2:
-	sw $ra, 0($sp)
+	li $a0 4
+	sw $a0, 0($sp)
 	addiu $sp, $sp, -4
-li $a0 4
-	sw  $a0  0($sp)
-	addiu  $sp  $sp  -4 
-	sw $a0 0($sp)
-	addiu $sp $sp -4
-	jal println
-	addiu $sp, $sp, 4
-	jr $ra
+	jal _f_println
 end_if2:
-	sw $ra, 0($sp)
+	li $a0 6
+	sw $a0, 0($sp)
 	addiu $sp, $sp, -4
-li $a0 6
-	sw  $a0  0($sp)
-	addiu  $sp  $sp  -4 
-	sw $a0 0($sp)
-	addiu $sp $sp -4
-	jal println
+	jal _f_println
+	#INICIO CONDICIONAL
+	
+	lw $a0, -4($fp)
+	sw $a0, 0($sp)
+	addiu $sp, $sp, -4
+	
+	
+	lw $a0, -8($fp)
+	lw $t1 4($sp)
 	addiu $sp, $sp, 4
-	jr $ra
-	li $a0 	var
-	li $t1 	var
+	
 	beq $a0 $t1 true3
+	#FIM CONDICIONAL
 true3:
-	sw $ra, 0($sp)
+	li $a0 7
+	sw $a0, 0($sp)
 	addiu $sp, $sp, -4
-li $a0 7
-	sw  $a0  0($sp)
-	addiu  $sp  $sp  -4 
-	sw $a0 0($sp)
-	addiu $sp $sp -4
-	jal println
-	addiu $sp, $sp, 4
-	jr $ra
+	jal _f_println
 end_if3:
-	sw $ra, 0($sp)
+	li $a0 8
+	sw $a0, 0($sp)
 	addiu $sp, $sp, -4
-li $a0 8
-	sw  $a0  0($sp)
-	addiu  $sp  $sp  -4 
-	sw $a0 0($sp)
-	addiu $sp $sp -4
-	jal println
+	jal _f_println
+	#INICIO CONDICIONAL
+	
+	lw $a0, -4($fp)
+	sw $a0, 0($sp)
+	addiu $sp, $sp, -4
+	
+	
+	lw $a0, -8($fp)
+	lw $t1 4($sp)
 	addiu $sp, $sp, 4
-	jr $ra
-	li $a0 	var
-	li $t1 	var
-	bnq $a0 $t1 true4
+	
+	bne $a0 $t1 true4
+	#FIM CONDICIONAL
 true4:
-	sw $ra, 0($sp)
+	li $a0 9
+	sw $a0, 0($sp)
 	addiu $sp, $sp, -4
-li $a0 9
-	sw  $a0  0($sp)
-	addiu  $sp  $sp  -4 
-	sw $a0 0($sp)
-	addiu $sp $sp -4
-	jal println
-	addiu $sp, $sp, 4
-	jr $ra
+	jal _f_println
 end_if4:
-	sw $ra, 0($sp)
+	li $a0 10
+	sw $a0, 0($sp)
 	addiu $sp, $sp, -4
-li $a0 10
-	sw  $a0  0($sp)
-	addiu  $sp  $sp  -4 
-	sw $a0 0($sp)
-	addiu $sp $sp -4
-	jal println
-	addiu $sp, $sp, 4
-	jr $ra
+	jal _f_println
 main:
 	jal _f_main
 	li $v0, 10

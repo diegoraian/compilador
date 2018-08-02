@@ -237,11 +237,13 @@ void codigoInput(){
   out("li $a0, 0");
   out("j $ra");
 }
-
+void codigoCabecalho(){
+  outEntry(".data\n");
+  outEntry(".text\n");
+}
 void codigoPrintln(){
   //eu acho que esse código é default
-  outEntry(".data");
-  outEntry(".text");
+
   outEntry("_f_println:");
   out("lw $a0, 4($sp)");
   out("li $v0, 1");
@@ -288,16 +290,19 @@ int main( int argc, char *argv[] ) {
 
   yyparse();
   imprimirArvore(raiz);
-  
+  analiseSemantica(raiz);
+
+  codigoCabecalho();
   codigoPrintln();
-  codigoInput();
+  //codigoInput();
   imprimirAsm(raiz);
   //chamar a main do programa na main do .asm
   outEntry("main:");
   out("jal _f_main");
   out("li $v0, 10");
   out("syscall");
-  analiseSemantica(raiz);
+  printDadosFuncoes();
+  
   // fprintf(fp, "%s", AST);
   fprintf(fp, "%s", ASM);
   

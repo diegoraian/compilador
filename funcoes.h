@@ -32,6 +32,7 @@ typedef struct infoVar {
   char *tipo;
   char *nome;
   char *tamanVetor;
+  int offset;
 }tInfoVar;
 
 typedef struct infoParam {
@@ -47,6 +48,7 @@ typedef struct alocacaoVariavek{
 
 typedef struct funcScope {
   char *nameFunc;
+  int qtdVariaveis;
   struct infoParam *param[512];
   struct infoVar *var[512];
   struct callFun *call[512];

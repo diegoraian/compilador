@@ -49,3 +49,4 @@ void finishCallFunction(tNode *node);
 void startCallFunction();
 void out(char* texto);
 void outEntry(char* texto);
+void printDadosFuncoes();
