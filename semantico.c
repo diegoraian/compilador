@@ -30,6 +30,33 @@ int findOffSetOfVar(char* funcao, char* nomeVariavel){
   }
   return -1;
 }
+
+
+int findVarOffSetOfFunction(char* funcao){
+// printf("=======FIND OFFSET OF VAR=======\n");
+// printf("FUNCAO: %s\n",  funcao);
+// printf("NOME_VARIAVEL: %s\n",  nomeVariavel);
+ int retorno = 0;
+ for(int i = 0; i < size; i++){
+      int tamVar = funcoes[i].qtdVariaveis;
+      
+      if(strcmp(funcao,(&funcoes[i])->nameFunc)==0){
+        //printf("%s\n",(&funcoes[i])->nameFunc );
+        //for(int k=0; k<tamVar;k++) {
+          //if(strcmp(nomeVariavel,(&funcoes[i])->var[k]->nome)==0){
+            if(tamVar > 0){
+
+            printf("nome: %s \n",(&funcoes[i])->var[tamVar-1]->nome);
+            printf("OFFSET: %s \n",(&funcoes[i])->var[tamVar-1]->nome);
+            retorno = -((&funcoes[i])->var[tamVar-1]->offset);
+            }
+          //}
+        //}
+      }
+  }
+  return retorno;
+}
+
 void printDadosFuncoes(){
   // for(int i = 0 ; i <=;)
   printf("======DADOS-FUNCAO==========");
@@ -469,7 +496,8 @@ void branchFalse(tNode *node){
   //printf("saida %s\n",intToString(contadorIF));
   strcat(ASM,intToString(contadorIF));
   strcat(ASM,":\n");
-  gerarStatements(node);
+  if(node->nodeC != NULL)
+    gerarStatements(node->nodeC);
   strcat(ASM,"\tb end_if");
   strcat(ASM,intToString(contadorIF));
   strcat(ASM,"\n");
@@ -553,8 +581,8 @@ void gerarCondicional(tNode *node){
   strcat(ASM,intToString(contadorIF));
   strcat(ASM,"\n");
   out("#FIM CONDICIONAL");
-  if(node->nodeC != NULL)
-    branchFalse(node->nodeC);
+  
+  branchFalse(node);
 
   branchTrue(node->nodeB);
   branchEndIf();
@@ -631,8 +659,6 @@ void gerarExpression(tNode *node){
                startCallFunction(node);
                 //printf("%s",node->nodeB->nodeA->no);
               }
-              
-              
           }
           }
            
@@ -721,15 +747,18 @@ void imprimeFunction(tNode *no){
   nomeFuncao = no->nodeB->no;
   if(strcmp(no->nodeB->no, "main") != 0){
     
-    out("move $fp $sp") ;
+    //out("move $fp $sp") ;
     out("sw $ra 0($sp)");
     out("addiu $sp $sp -4");
     int  z = 4;
     gerarStatements(no->nodeD);
     out("lw $ra 4($sp)");
-    out("addiu $sp $sp 4"); // onde tem o z
+
+      strcat(ASM,"addiu $sp $sp ");
+      out(intToString(findVarOffSetOfFunction((no->nodeB->no)))); // onde tem o z
     out("lw $fp 0($sp)");
     out("jr $ra ");
+    //gerarStatements(no->nodeD);
   }else{
      if(strcmp(no->nodeB->no, "main") == 0){
       strcat(ASM,"_f_");
@@ -738,8 +767,16 @@ void imprimeFunction(tNode *no){
       out("move $fp $sp") ;
       out("sw $ra 0($sp)");
       out("addiu $sp $sp -4");
+      gerarStatements(no->nodeD);
+      strcat(ASM,"addiu $sp $sp ");
+      out(intToString(findVarOffSetOfFunction((no->nodeB->no))));
+      out("lw $ra 4($sp)");
+      strcat(ASM,"addiu $sp $sp ");
+      out(intToString(findVarOffSetOfFunction((no->nodeB->no))));
+      out("lw $fp 0($sp)");
+      out("jr $ra ");
      }
-    gerarStatements(no->nodeD);
+    
   }
 }
 
